@@ -1,0 +1,18 @@
+- Vorhersage für Benzinpreise je Tankstelle
+  - 1 Monat Vorausschau
+  - gegebene Uhrzeit
+  - Clustering
+    - Autobahn?
+    - Berufsverkehr?
+    - Pampa?
+- Tankstrategie
+  - Fixed-Path-Gas-Station-Problem
+  - leerer Tank an gegebener Tkst
+  - pro Tkst auf Route:
+    - berechne getankte Menge pro Tkst --> minimiere Kosten
+- Deadline Impl: Ende Nov
+- 2 Services: Vorhersage, Routing
+
+* TODOS
+** TODO Paper lesen
+** TODO Data Exploration
