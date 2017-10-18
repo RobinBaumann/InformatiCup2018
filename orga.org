@@ -16,3 +16,42 @@
 * TODOS
 ** TODO Paper lesen
 ** TODO Data Exploration
+* Database
+- install postgresql
+[[https://wiki.archlinux.org/index.php/PostgreSQL]]
+#+begin_src sh
+pacman -Syu postgresql
+systemctl start postgresql
+sudo -u postgres -i
+initdb --locale $LANG -E UTF8 -D '/var/lib/postgres/data'
+#+end_src
+- create db
+#+begin_src sh
+sudo -u postgres -i
+createdb infocup
+#+end_src
+- connect to db and create tables
+#+begin_src sh
+pgcli -d infocup
+#+end_src
+#+begin_src sql
+create table stations (
+  id integer primary key,
+  station_name varchar(255),
+  brand varchar(255),
+  street varchar(255),
+  house_number varchar(255),
+  zip_code varchar(5),
+  city varchar(255),
+  lat float,
+  lon float);
+create table prices (
+  id serial primary key,
+  time_stamp timestamp,
+  price integer,
+  station_id integer references stations);
+#+end_src
+- import data
+#+begin_src sh
+python database.py
+#+end_src
