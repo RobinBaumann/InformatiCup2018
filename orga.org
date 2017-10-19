@@ -55,3 +55,42 @@ create table prices (
 #+begin_src sh
 python database.py
 #+end_src
+** Autobahn
+- download germany-latest.osm.pbf von [[http://download.geofabrik.de/europe/germany.html]] hier verwendet: Stand 18.10.2017 14:14
+- mv =germany-latest.osm.pbf= nach =WeitereDaten=
+- install osmfilter, osmconvert und osmosis
+#+begin_src sh
+pacaur -S osmfilter osmconvert osmosis
+#+end_src
+- convert pbf nach o5m für schnellere bearbeitung
+#+begin_src sh
+osmconvert germany-latest.osm.pbf -o=germany.o5m
+#+end_src
+- filter autobahn
+#+begin_src sh
+osmfilter germany.o5m --keep= --keep-relations="network=BAB" > autobahn.osm
+#+end_src
+- install postgis extension, create schema
+#+begin_src sh
+pacman -Syu postgis
+pgcli -d infocup
+#+end_src
+#+begin_src sql
+create extension postgis;
+create extension hstore;
+#+end_src
+#+begin_src sh
+psql -d infocup -f /usr/share/osmosis/script/pgsnapshot_schema_0.6.sql
+psql -d infocup -f /usr/share/osmosis/script/pgsnapshot_schema_0.6_linestring.sql 
+#+end_src
+- read o5m, write postgis
+#+begin_src sh
+osmosis --truncate-pgsql database=infocup
+osmosis --read-xml autobahn.osm --log-progress --write-pgsql database=infocup
+#+end_src
+*** Notes
+- The data in Open Street Map database is stored in a gcs with units decimal degrees & datum of wgs84. (EPSG: 4326)
+- The Open Street Map tiles and the WMS webservice, are in the projected coordinate system that is based on the wgs84 datum. (EPSG 3857)
+- table relations enthält die relationen wie zb A 81
+  - table relations_members mapt ways und nodes auf relations (bei Autobahnen nur ways)
+  - ways haben eine linestring column mit der die geometrie angezeigt werden kann [[http://arthur-e.github.io/Wicket/sandbox-gmaps3.html]]
