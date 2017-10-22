@@ -88,6 +88,12 @@ psql -d infocup -f /usr/share/osmosis/script/pgsnapshot_schema_0.6_linestring.sq
 osmosis --truncate-pgsql database=infocup
 osmosis --read-xml autobahn.osm --log-progress --write-pgsql database=infocup
 #+end_src
+- add ref col to ways for better grouping
+#+begin_src sql
+alter table ways add ref varchar(255);
+update ways set ref = tags -> 'ref';
+#+end_src
+
 *** Notes
 - The data in Open Street Map database is stored in a gcs with units decimal degrees & datum of wgs84. (EPSG: 4326)
 - The Open Street Map tiles and the WMS webservice, are in the projected coordinate system that is based on the wgs84 datum. (EPSG 3857)
