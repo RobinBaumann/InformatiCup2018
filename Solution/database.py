@@ -42,10 +42,11 @@ def import_input():
 
 
 def import_vacations():
-    vacations = vacation_and_holidays.get_vacations()
+    vacs = vacation_and_holidays.get_vacations()
+    vacs.extend(vacation_and_holidays.scrape_2013_14())
     con = create_connection()
     cursor = con.cursor()
-    for v in vacations:
+    for v in vacs:
         cursor.execute('insert into vacations (state, type, start_date, end_date) values (%s, %s, %s, %s)',
                        (v.state, v.vac_type, v.start_dt, v.end_dt))
     con.commit()
@@ -72,7 +73,7 @@ def get_highways():
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        import_input()
+        #import_input()
         import_vacations()
     elif len(sys.argv) == 2:
         if sys.argv[1] == 'input':
