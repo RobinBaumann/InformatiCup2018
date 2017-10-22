@@ -100,3 +100,17 @@ update ways set ref = tags -> 'ref';
 - table relations enthält die relationen wie zb A 81
   - table relations_members mapt ways und nodes auf relations (bei Autobahnen nur ways)
   - ways haben eine linestring column mit der die geometrie angezeigt werden kann [[http://arthur-e.github.io/Wicket/sandbox-gmaps3.html]]
+** Vacations
+- create table
+#+begin_src sql
+create table vacations (
+  id serial primary key,
+  state varchar(30) not null,
+  type varchar(20) not null,
+  start_date date not null,
+  end_date date not null);
+#+end_src
+- import data
+#+begin_src sh
+python database.py vacations
+#+end_src

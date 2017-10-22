@@ -28,9 +28,14 @@ def split_summary(summary):
     return state, vac_type
 
 
+def get_vacations():
+    vacations = []
+    for f in files:
+        file_vac = create_py_objects(f)
+        for v in file_vac:
+            vacations.append(v)
+    return vacations
 
 
 if __name__ == "__main__":
-    vacations = []
-    for f in files:
-        vacations.append(create_py_objects(f))
+    get_vacations()

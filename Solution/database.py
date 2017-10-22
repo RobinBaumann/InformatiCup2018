@@ -2,6 +2,8 @@ import psycopg2
 import glob
 import os
 import pandas as pd
+import sys
+import vacation_and_holidays
 from io import StringIO
 from postgis.psycopg import register
 
@@ -39,6 +41,18 @@ def import_input():
     print('done')
 
 
+def import_vacations():
+    vacations = vacation_and_holidays.get_vacations()
+    con = create_connection()
+    cursor = con.cursor()
+    for v in vacations:
+        cursor.execute('insert into vacations (state, type, start_date, end_date) values (%s, %s, %s, %s)',
+                       (v.state, v.vac_type, v.start_dt, v.end_dt))
+    con.commit()
+    cursor.close()
+    con.close()
+
+
 def get_highways():
     con = create_connection()
     register(con)
@@ -57,5 +71,12 @@ def get_highways():
 
 
 if __name__ == '__main__':
-    # import_input()
-    get_highways()
+    if len(sys.argv) == 1:
+        import_input()
+        import_vacations()
+    elif len(sys.argv) == 2:
+        if sys.argv[1] == 'input':
+            import_input()
+        elif sys.argv[1] == 'vacations':
+            import_vacations()
+
