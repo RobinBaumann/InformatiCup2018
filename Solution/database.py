@@ -6,8 +6,14 @@ from io import StringIO
 from postgis.psycopg import register
 
 
+def create_connection():
+    host = os.environ['INFOCUP_PGHOST']
+    port = os.environ['INFOCUP_PGPORT']
+    return psycopg2.connect(f"host='{host}' port='{port}' dbname='infocup' user='infocup'")
+
+
 def import_input():
-    con = psycopg2.connect("host='localhost' port='5432' dbname='infocup'")
+    con = create_connection()
     cursor = con.cursor()
     cursor.execute('truncate table stations cascade;')
     f = open(r'../Eingabedaten/Tankstellen.csv', 'r')
@@ -34,10 +40,9 @@ def import_input():
 
 
 def get_highways():
-    con = psycopg2.connect("host='localhost' port='5432' dbname='infocup'")
+    con = create_connection()
     register(con)
     cursor = con.cursor()
-
     cursor.execute("""select row_to_json(fc)::text
     from (select 'FeatureCollection' as type, array_to_json(array_agg(f)) as features
     from  
