@@ -55,17 +55,80 @@ def import_vacations():
 
 
 def get_highways():
-    con = create_connection()
-    register(con)
-    cursor = con.cursor()
-    cursor.execute("""select row_to_json(fc)::text
+    return query("""select row_to_json(fc)::text
     from (select 'FeatureCollection' as type, array_to_json(array_agg(f)) as features
     from  
     (select 'Feature' as type, 
     (select l from (select ref as name) as l) as properties, 
     st_asgeojson(st_collect(linestring))::json as geometry 
     from ways where tags -> 'highway' = 'motorway' group by ref) as f) as fc;""")
-    result = cursor.fetchone()
+
+
+def get_bundeslaender():
+    return query("""
+        select row_to_json(fc)::text
+        from (select 'FeatureCollection' as type,
+                  array_to_json(array_agg(f)) as features
+              from (select 'Feature' as type,
+                       (select l from (select r.tags -> 'name' as name) as l) as properties,
+                       st_asgeojson(st_collect(w.linestring))::json as geometry
+                   from relations as r
+                       inner join relation_members as m on r.id = m.relation_id
+                       inner join ways as w on m.member_id = w.id
+                   where r.tags -> 'boundary' = 'administrative' and r.tags -> 'admin_level' = '4'
+                   group by r.id) as f) as fc;
+        """)
+
+
+def get_kreise():
+    return query("""
+        select row_to_json(fc)::text
+        from (select 'FeatureCollection' as type,
+                  array_to_json(array_agg(f)) as features
+              from (select 'Feature' as type,
+                       (select l from (select r.tags -> 'name' as name) as l) as properties,
+                       st_asgeojson(st_collect(w.linestring))::json as geometry
+                   from relations as r
+                       inner join relation_members as m on r.id = m.relation_id
+                       inner join ways as w on m.member_id = w.id
+                   where r.tags -> 'boundary' = 'administrative' and r.tags -> 'admin_level' = '6'
+                   group by r.id) as f) as fc;
+        """)
+
+
+def get_bundesstrassen():
+    return query("""select row_to_json(fc)::text
+    from (select 'FeatureCollection' as type, array_to_json(array_agg(f)) as features
+    from  
+    (select 'Feature' as type, 
+    st_asgeojson(linestring)::json as geometry 
+    from ways where tags -> 'highway' = 'primary') as f) as fc;""")
+
+
+def get_schnellstrassen():
+    return query("""select row_to_json(fc)::text
+    from (select 'FeatureCollection' as type, array_to_json(array_agg(f)) as features
+    from  
+    (select 'Feature' as type, 
+    st_asgeojson(linestring)::json as geometry 
+    from ways where tags -> 'highway' = 'trunk' and tags -> 'oneway' = 'yes') as f) as fc;""")
+
+
+def get_all_streets():
+    return query("""select row_to_json(fc)::text
+    from (select 'FeatureCollection' as type, array_to_json(array_agg(f)) as features
+    from  
+    (select 'Feature' as type, 
+    st_asgeojson(linestring)::json as geometry 
+    from ways where tags -> 'highway' is not null) as f) as fc;""")
+
+
+def query(query):
+    con = create_connection()
+    register(con)
+    cursor = con.cursor()
+    cursor.execute(query)
+    result = cursor.fetchone()[0]
     con.commit()
     con.close()
     return result
