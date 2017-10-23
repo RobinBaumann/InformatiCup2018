@@ -16,6 +16,7 @@
 * TODOS
 ** TODO Paper lesen
 ** TODO Data Exploration
+** TODO KNN, KMeans: testen, ob gleiche kategorien gefunden werden, die wir finden (Autobahn etc)
 * Database
 - install postgresql
 [[https://wiki.archlinux.org/index.php/PostgreSQL]]
