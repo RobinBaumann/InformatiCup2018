@@ -119,6 +119,7 @@ python database.py vacations
 * Papers
 ** ECONOMETRIC MODELS FOR OIL PRICE FORECASTING: A CRITICAL SURVEY
 [[https://drive.google.com/open?id=0B0zREaCR-EN4c3BTSnVYU3pHWFk]]
+
 In the last two years the price of oil and its fluctua-
 tions have reached levels never recorded in the his-
 tory of international oil markets. In 2007, the West
@@ -173,3 +174,19 @@ oil  price  forecasting  proposed  in  the  literature.
 Finally we comment on alternative criteria for eval-
 uating  and  comparing  different  forecasting  models
 for oil prices.
+
+** Forecasting the Nominal Brent Oil Price with VARs—One Model Fits All?
+[[https://drive.google.com/open?id=0B0zREaCR-EN4ZmdkZXdTUENrRFk]]
+
+We carry out an ex post assessment of popular models used to forecast oil prices and propose
+a host of alternative VAR models based on traditional global macroeconomic and oil market
+aggregates. While the exact specification of VAR models for nominal oil price prediction is
+still open to debate, the bias and underprediction in futures and random walk forecasts are
+larger across all horizons in relation to a large set of VAR specifications. The VAR forecasts
+generally have the smallest average forecast errors and the highest accuracy, with most
+specifications outperforming futures and random walk forecasts for horizons up to two years.
+This calls for caution in reliance on futures or the random walk for forecasting, particularly
+for near term predictions. Despite the overall strength of VAR models, we highlight some
+performance instability, with small alterations in specifications, subsamples or lag lengths
+providing widely different forecasts at times. Combining futures, random walk and VAR
+models for forecasting have merit for medium term horizons.
