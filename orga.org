@@ -115,3 +115,61 @@ create table vacations (
 #+begin_src sh
 python database.py vacations
 #+end_src
+
+* Papers
+** ECONOMETRIC MODELS FOR OIL PRICE FORECASTING: A CRITICAL SURVEY
+[[https://drive.google.com/open?id=0B0zREaCR-EN4c3BTSnVYU3pHWFk]]
+In the last two years the price of oil and its fluctua-
+tions have reached levels never recorded in the his-
+tory of international oil markets. In 2007, the West
+Texas Intermediate (WTI) oil price, one of the most
+important  benchmarks  for  crude  oil  prices,  aver-
+aged around 72 $/b, while in 2008 the WTI price was
+around  100  $/b, with  an  increase  of  nearly  38  per-
+cent  over  the  previous  year.  Within  the  past  six
+months, WTI  daily  spot  prices  ranged  from  almost
+150 $/b in early July to about 30 $/b towards the end
+of 2008.
+The  determinants  of  past, current, and  future  levels
+of the price of oil and its fluctuations have been the
+subject of analysis by academics and energy experts,
+given  the  relevance  of  crude  oil  in  the  worldwide
+economy. Although the share of liquid fuels in mar-
+keted  world  energy  consumption  is  expected  to
+decline  from  37  percent  in  2005  to  33  percent  in
+2030, and projected high oil prices will induce many
+consumers to switch from liquid fuels when feasible,
+oil will remain the most important source of energy,
+and  liquid  fuel  consumption  is  expected  to  increase
+at an average annual rate of 1.2 percent from 2005 to
+2030 (EIA 2008).
+The crucial question of whether oil prices will rise in
+the  future  or  will  decline  again  is  timely. According
+to EIA (2009), for example, under current economic
+and world crude oil supply assumptions, WTI prices
+are expected to average 43 $/b in 2009 and 55 $/b in
+2010. The possibility of a milder recession or a faster
+economic  recovery, lower  non-OPEC  production  in
+response to current low oil prices and financial mar-
+ket constraints, and more aggressive action to lower
+production  by  OPEC  countries  could  result  in  a
+faster  and  stronger  recovery  in  oil  prices.  Conse-
+quently, it  is  extremely  important  for  economists  to
+provide accurate answers to the complex problem of
+forecasting oil prices.
+This  study  aims  at  investigating  the  existing  econo-
+metric literature on forecasting oil prices. In particu-
+lar, we (i) develop a taxonomy of econometric mod-
+els  for  oil  price  forecasting;  (ii)  provide  a  critical
+interpretation  of  the  different  methodologies;  and
+(iii) offer a comprehensive interpretation and justifi-
+cation  of  the  heterogeneous  empirical  findings  in
+published oil price forecasts. The paper is structured
+as  follows:  we  first  introduce  the  historical  frame-
+work  which  is  necessary  to  understand  oil  price
+dynamics. The  following  section  discusses  and  criti-
+cally evaluates the different econometric models for
+oil  price  forecasting  proposed  in  the  literature.
+Finally we comment on alternative criteria for eval-
+uating  and  comparing  different  forecasting  models
+for oil prices.
