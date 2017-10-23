@@ -55,7 +55,10 @@ create table prices (
 #+begin_src sh
 python database.py
 #+end_src
-** Autobahn
+** OSM Daten
+#+begin_note
+Um duplicated keys zu vermeiden, werden zuerst alle Daten in einzelne Files gefiltert und anschließen gemerged.
+#+end_note
 - download germany-latest.osm.pbf von [[http://download.geofabrik.de/europe/germany.html]] hier verwendet: Stand 18.10.2017 14:14
 - mv =germany-latest.osm.pbf= nach =WeitereDaten=
 - install osmfilter, osmconvert und osmosis
@@ -66,9 +69,56 @@ pacaur -S osmfilter osmconvert osmosis
 #+begin_src sh
 osmconvert germany-latest.osm.pbf -o=germany.o5m
 #+end_src
-- filter autobahn
+- Straßen: [[http://wiki.openstreetmap.org/wiki/Attributierung_von_Stra%C3%9Fen_in_Deutschland]]
+- regionale Grenzen: [[http://wiki.openstreetmap.org/wiki/DE:Grenze]]
+- filter data
+    - Autobahn: =--keeprelations="network=BAB"=
+    #+begin_src sh
+    osmfilter germany.o5m --keep= --keep-relations="network=BAB" > autobahn.osm
+    #+end_src
+    - Schnellstrassen: =--keep-ways="highway=trunk oneway=yes"=
+    #+begin_src sh
+    osmfilter germany.o5m --keep= --keep-ways="highway=trunk oneway=yes" > schnellstr.osm
+    #+end_src
+    - Bundesstrassen: =--keep-ways="highway=primary"=
+    #+begin_src sh
+    osmfilter germany.o5m --keep= --keep-ways="highway=primary" > bundesstr.osm
+    #+end_src
+    - Grenzen Bundeslaender: =--keep-relations="boundary=administrative admin_level=4"=
+    #+begin_src sh
+    osmfilter germany.o5m --keep= --keep-relations="boundary=administrative admin_level=4" > laender.osm
+    #+end_src
+    - Kreisgrenzen: =--keep-relations="boundary=administrative admin_level=6"=
+    #+begin_src sh
+    osmfilter germany.o5m --keep= --keep-relations="boundary=administrative admin_level=6" > kreise.osm
+    #+end_src
+- sort data
+#+begin_quote
+Merges the contents of two data sources together.
+
+Note that this task requires both input streams to be sorted first by type then by id.
+#+end_quote
 #+begin_src sh
-osmfilter germany.o5m --keep= --keep-relations="network=BAB" > autobahn.osm
+osmosis --read-xml autobahn.osm --log-progress --sort --write-xml autobahn_sorted.osm
+osmosis --read-xml schnellstr.osm --log-progress --sort --write-xml schnellstr_sorted.osm
+osmosis --read-xml bundesstr.osm --log-progress --sort --write-xml bundesstr_sorted.osm
+osmosis --read-xml laender.osm --log-progress --sort --write-xml laender_sorted.osm
+osmosis --read-xml kreise.osm --log-progress --sort --write-xml kreise_sorted.osm
+#+end_src
+- clean up intermediate
+#+begin_src sh
+rm autobahn.osm schnellstr.osm bundesstr.osm laender.osm kreise.osm
+#+end_src
+- merge files
+#+begin_src sh
+osmosis --read-xml autobahn_sorted.osm --read-xml schnellstr_sorted.osm --merge --sort --write-xml merge.osm
+osmosis --read-xml merge.osm --read-xml bundesstr_sorted.osm --merge --sort --write-xml merge2.osm
+osmosis --read-xml merge2.osm --read-xml laender_sorted.osm --merge --sort --write-xml merge3.osm
+osmosis --read-xml merge3.osm --read-xml kreise_sorted.osm --merge --sort --write-xml mergefinal.osm
+#+end_src
+- clean up intermediate
+#+begin_src sh
+rm merge.osm merge2.osm merge3.osm
 #+end_src
 - install postgis extension, create schema
 #+begin_src sh
@@ -86,7 +136,10 @@ psql -d infocup -f /usr/share/osmosis/script/pgsnapshot_schema_0.6_linestring.sq
 - read o5m, write postgis
 #+begin_src sh
 osmosis --truncate-pgsql database=infocup
-osmosis --read-xml autobahn.osm --log-progress --write-pgsql database=infocup
+osmosis --read-xml mergefinal.osm --log-progress --write-pgsql database=infocup
+#+end_src
+#+begin_src pseudo
+make coffee
 #+end_src
 - add ref col to ways for better grouping
 #+begin_src sql
