@@ -5,29 +5,31 @@ import urllib3
 import re
 from bs4 import BeautifulSoup
 from datetime import date
+from Holiday import Holiday
+import holidays
 
 VACATION_FILES = "../Eingabedaten/Ferien/"
 
 files = [os.path.join(VACATION_FILES, f) for f in os.listdir(os.path.join(VACATION_FILES)) if
          os.path.isfile(os.path.join(VACATION_FILES, f))]
-states = [
-    'Baden-Württemberg',
-    'Bayern',
-    'Berlin',
-    'Brandenburg',
-    'Bremen',
-    'Hamburg',
-    'Hessen',
-    'Mecklenburg-Vorpommern',
-    'Niedersachsen',
-    'Nordrhein-Westfalen',
-    'Rheinland-Pfalz',
-    'Saarland',
-    'Sachsen',
-    'Sachsen-Anhalt',
-    'Schleswig-Holstein',
-    'Thüringen',
-]
+states = {
+    'BW': 'Baden-Württemberg',
+    'BY': 'Bayern',
+    'BE': 'Berlin',
+    'BB': 'Brandenburg',
+    'HB': 'Bremen',
+    'HH': 'Hamburg',
+    'HE': 'Hessen',
+    'MV': 'Mecklenburg-Vorpommern',
+    'NI': 'Niedersachsen',
+    'NW': 'Nordrhein-Westfalen',
+    'RP': 'Rheinland-Pfalz',
+    'SL': 'Saarland',
+    'SN': 'Sachsen',
+    'ST': 'Sachsen-Anhalt',
+    'SH': 'Schleswig-Holstein',
+    'TH': 'Thüringen',
+}
 vacation_types = [
     'Winterferien',
     'Osterferien',
@@ -64,7 +66,7 @@ def scrape_year(year, http):
                 start = date(year, int(match.group(2)), int(match.group(1)))
                 end = date(end_year, int(match.group(4)), int(match.group(3)))
                 vac = Vacation(
-                    state,
+                    states[state],
                     vac_type,
                     start,
                     end)
@@ -72,7 +74,7 @@ def scrape_year(year, http):
     return vacs
 
 
-def create_py_objects(file):
+def create_vacation_objects(file):
     f = open(file, 'rb')
     cal = Calendar.from_ical(f.read())
     ev0 = cal.walk("vevent")
@@ -88,6 +90,17 @@ def create_py_objects(file):
     return vacations
 
 
+def get_holidays():
+    hdays = []
+    for key, value in states.items():
+        for date, name in sorted(holidays.DE(prov=key, years=range(2013, 2019)).items()):
+            h = Holiday(date, value, name)
+            h.to_string()
+            hdays.append(Holiday(date, value, name))
+
+    return hdays
+
+
 def split_summary(summary):
     splitted = summary.split(' ')
     state = splitted[2]
@@ -98,12 +111,12 @@ def split_summary(summary):
 def get_vacations():
     vacations = []
     for f in files:
-        file_vac = create_py_objects(f)
+        file_vac = create_vacation_objects(f)
         for v in file_vac:
             vacations.append(v)
     return vacations
 
-
 if __name__ == "__main__":
     get_vacations()
     scrape_2013_14()
+    get_holidays()

@@ -56,6 +56,17 @@ def import_vacations():
     con.close()
 
 
+def import_holidays():
+    hdays = vacation_and_holidays.get_holidays()
+    con = create_connection()
+    cursor = con.cursor()
+    for h in hdays:
+        cursor.execute('insert into holidays (state, name, date) values (%s, %s, %s)',
+                       (h.state, h.name, h.date))
+    con.commit()
+    cursor.close()
+    con.close()
+
 def get_highways():
     return query("""select row_to_json(fc)::text
     from (select 'FeatureCollection' as type, array_to_json(array_agg(f)) as features
@@ -174,12 +185,15 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         import_input()
         import_vacations()
+        import_holidays()
         import_commuters()
     elif len(sys.argv) == 2:
         if sys.argv[1] == 'input':
             import_input()
         elif sys.argv[1] == 'vacations':
             import_vacations()
+        elif sys.argv[1] == 'holidays':
+            import_holidays()
         elif sys.argv[1] == 'commuters':
             import_commuters()
 
