@@ -4,6 +4,7 @@ import os
 import pandas as pd
 import sys
 import vacation_and_holidays
+import euro_dollar
 import json
 from urllib.request import urlopen
 from io import StringIO
@@ -63,6 +64,19 @@ def import_holidays():
     for h in hdays:
         cursor.execute('insert into holidays (state, name, date) values (%s, %s, %s)',
                        (h.state, h.name, h.date))
+    con.commit()
+    cursor.close()
+    con.close()
+
+
+def import_dollar_per_euro():
+    data = euro_dollar.load_euro_dollar_data()
+    con = create_connection()
+    cursor = con.cursor()
+    for d in data:
+        cursor.execute('insert into dollar_per_euro (date, value) values (%s, %s)',
+                       (d[0], d[1]))
+
     con.commit()
     cursor.close()
     con.close()
@@ -186,6 +200,7 @@ if __name__ == '__main__':
         import_input()
         import_vacations()
         import_holidays()
+        import_dollar_per_euro()
         import_commuters()
     elif len(sys.argv) == 2:
         if sys.argv[1] == 'input':
@@ -194,6 +209,8 @@ if __name__ == '__main__':
             import_vacations()
         elif sys.argv[1] == 'holidays':
             import_holidays()
+        elif sys.argv[1] == 'dollar_per_euro':
+            import_dollar_per_euro()
         elif sys.argv[1] == 'commuters':
             import_commuters()
 
