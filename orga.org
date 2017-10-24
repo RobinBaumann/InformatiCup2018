@@ -169,6 +169,20 @@ create table vacations (
 python database.py vacations
 #+end_src
 
+** Pendler
+- create table
+#+begin_src sql
+create table commuters (
+  region varchar(5) primary key,
+  name varchar(255) not null,
+  from_region jsonb not null,
+  to_region jsonb notnull);
+#+end_src
+- import data
+#+begin_src sh
+python database.py commuters
+#+end_src
+
 * Papers
 ** ECONOMETRIC MODELS FOR OIL PRICE FORECASTING: A CRITICAL SURVEY
 [[https://drive.google.com/open?id=0B0zREaCR-EN4c3BTSnVYU3pHWFk]]

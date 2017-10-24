@@ -4,6 +4,8 @@ import os
 import pandas as pd
 import sys
 import vacation_and_holidays
+import json
+from urllib.request import urlopen
 from io import StringIO
 from postgis.psycopg import register
 
@@ -134,13 +136,50 @@ def query(query):
     return result
 
 
+def loadJson(url):
+    response = urlopen(url)
+    data = response.read()
+    values = json.loads(data)
+    return values
+
+
+def getRegions():
+    values = loadJson("https://geois.arbeitsagentur.de/arcgis/rest/services/Gebietsstrukturen/MapServer/3/query?f=json&where=valid_from%20%3C=%20CURRENT_DATE%20AND%20valid_to%20%3E=%20CURRENT_DATE&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=ID,region,OBJECTID,parentID&outSR=25832&callback=")
+    regions = {}
+    for x in values["features"]:
+        regions[x["attributes"]["ID"]] = x["attributes"]["region"]
+    return regions
+
+
+def import_commuters():
+    regions = getRegions()
+    con = create_connection()
+    cursor = con.cursor()
+    for x in regions:
+        print(x)
+        from_region = loadJson("https://statistik.arbeitsagentur.de/PendlerData?type=ein&year_month=201606&regionInd="+x+"&view=renderPendler")
+        to_region = loadJson("https://statistik.arbeitsagentur.de/PendlerData?type=aus&year_month=201606&regionInd="+x+"&view=renderPendler")
+        name = regions[x]
+        region = x
+        cursor.execute("""
+            insert into commuters (region, name, from_region, to_region)
+            values (%s, %s, %s, %s);
+        """, (region, name, json.dumps(from_region), json.dumps(to_region)))
+        con.commit()
+    cursor.close()
+    con.close()
+
+
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        #import_input()
+        import_input()
         import_vacations()
+        import_commuters()
     elif len(sys.argv) == 2:
         if sys.argv[1] == 'input':
             import_input()
         elif sys.argv[1] == 'vacations':
             import_vacations()
+        elif sys.argv[1] == 'commuters':
+            import_commuters()
 
