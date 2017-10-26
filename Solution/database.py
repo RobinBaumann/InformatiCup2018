@@ -5,6 +5,7 @@ import pandas as pd
 import sys
 import vacation_and_holidays
 import euro_dollar
+import oil_prices
 import json
 from urllib.request import urlopen
 from io import StringIO
@@ -42,6 +43,18 @@ def import_input():
             print(str(counter) + ' / ' + str(len(files)))
     con.close()
     print('done')
+
+
+def import_oil_prices():
+    con = create_connection()
+    cursor = con.cursor()
+    prices = oil_prices.get_oilprices()
+    for i, p in prices.iterrows():
+        cursor.execute('insert into oil_prices (date, price_brent, price_wti) values (%s, %s, %s)',
+                       (p['date'], p['price_brent'], p['price_wti']))
+    con.commit()
+    cursor.close()
+    con.close()
 
 
 def import_vacations():
@@ -200,6 +213,7 @@ if __name__ == '__main__':
         import_input()
         import_vacations()
         import_holidays()
+        import_oil_prices()
         import_dollar_per_euro()
         import_commuters()
     elif len(sys.argv) == 2:
@@ -211,6 +225,8 @@ if __name__ == '__main__':
             import_holidays()
         elif sys.argv[1] == 'dollar_per_euro':
             import_dollar_per_euro()
+        elif sys.argv[1] == 'oil_prices':
+            import_oil_prices()
         elif sys.argv[1] == 'commuters':
             import_commuters()
 
