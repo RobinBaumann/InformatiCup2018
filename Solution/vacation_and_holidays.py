@@ -119,4 +119,5 @@ def get_vacations():
 if __name__ == "__main__":
     get_vacations()
     scrape_2013_14()
-    get_holidays()
+    hds = get_holidays()
+    print(len(hds))

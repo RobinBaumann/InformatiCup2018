@@ -4,6 +4,8 @@ import os
 import pandas as pd
 import sys
 import vacation_and_holidays
+import euro_dollar
+import oil_prices
 import json
 from urllib.request import urlopen
 from io import StringIO
@@ -43,6 +45,18 @@ def import_input():
     print('done')
 
 
+def import_oil_prices():
+    con = create_connection()
+    cursor = con.cursor()
+    prices = oil_prices.get_oilprices()
+    for i, p in prices.iterrows():
+        cursor.execute('insert into oil_prices (date, price_brent, price_wti) values (%s, %s, %s)',
+                       (p['date'], p['price_brent'], p['price_wti']))
+    con.commit()
+    cursor.close()
+    con.close()
+
+
 def import_vacations():
     vacs = vacation_and_holidays.get_vacations()
     vacs.extend(vacation_and_holidays.scrape_2013_14())
@@ -63,6 +77,19 @@ def import_holidays():
     for h in hdays:
         cursor.execute('insert into holidays (state, name, date) values (%s, %s, %s)',
                        (h.state, h.name, h.date))
+    con.commit()
+    cursor.close()
+    con.close()
+
+
+def import_dollar_per_euro():
+    data = euro_dollar.load_euro_dollar_data()
+    con = create_connection()
+    cursor = con.cursor()
+    for d in data:
+        cursor.execute('insert into dollar_per_euro (date, value) values (%s, %s)',
+                       (d[0], d[1]))
+
     con.commit()
     cursor.close()
     con.close()
@@ -186,6 +213,8 @@ if __name__ == '__main__':
         import_input()
         import_vacations()
         import_holidays()
+        import_oil_prices()
+        import_dollar_per_euro()
         import_commuters()
     elif len(sys.argv) == 2:
         if sys.argv[1] == 'input':
@@ -194,6 +223,10 @@ if __name__ == '__main__':
             import_vacations()
         elif sys.argv[1] == 'holidays':
             import_holidays()
+        elif sys.argv[1] == 'dollar_per_euro':
+            import_dollar_per_euro()
+        elif sys.argv[1] == 'oil_prices':
+            import_oil_prices()
         elif sys.argv[1] == 'commuters':
             import_commuters()
 
