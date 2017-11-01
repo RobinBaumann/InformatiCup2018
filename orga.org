@@ -203,6 +203,10 @@ delete from prices_sampled as p where p.station_id in (select id from stations a
 delete from prices_sampled as p where p.time_stamp < (select s.min_ts from stations as s where s.id = p.station_id limit 1);
 delete from prices_sampled as p where p.time_stamp > (select s.max_ts from stations as s where s.id = p.station_id limit 1);
 #+end_src
+#+begin_src sql
+create index on prices_sampled (station_id, time_stamp)
+where time_stamp between '2015-01-01' and '2017-09-18'
+#+end_src
 
 * Papers
 ** ECONOMETRIC MODELS FOR OIL PRICE FORECASTING: A CRITICAL SURVEY
