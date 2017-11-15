@@ -1,3 +1,6 @@
 .idea
 DataExploration/.ipynb_checkpoints
 Solution/__pycache__/
+/routingService/routingService.iml
+/routingService/target
+/routingService/.idea
