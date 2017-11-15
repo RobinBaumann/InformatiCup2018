@@ -57,6 +57,7 @@ public class FixedGasStation {
 
     /**
      * get the optimal fitting gasstation succeeding a given one
+     * Implying there is always at least one reachable Gas Station you can reach with a full tank
      * @param route
      * @param full
      * @param i
@@ -66,7 +67,7 @@ public class FixedGasStation {
     public static int getSuccessor(LinkedList<GasStation> route, long full, int i, double capacity) {
         ArrayList<GasStation> prio = new ArrayList<GasStation>();
         for (int k = i + 1; k < route.size(); k++) {
-            if (route.get(k).cost <= route.get(i).cost && distanceGasStation(route.get(k), route.get(i)) < U(capacity)) {
+            if (route.get(k).cost <= route.get(i).cost && distanceByRange(route,k, i) < U(capacity)) {
                 prio.add(route.get(k));
             }
         }
@@ -100,7 +101,7 @@ public class FixedGasStation {
             g.lon = (double) i / 200;
             g.station_name = "" + i;
             g.id = i;
-            g.cost =  rand.nextDouble()/100 + 1;
+            g.cost =  rand.nextDouble()/10 + 1;
             route.add(g);
         }
         double capacity = 50;
