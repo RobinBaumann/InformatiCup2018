@@ -10,6 +10,7 @@ public class GasStation extends AbstractStation {
     public String house_number;
     public String zip_code;
     public String city;
+    public double cost;
     @Override
     public String toString() {
         return "GasStation{" +
