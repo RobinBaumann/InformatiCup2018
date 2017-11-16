@@ -6,12 +6,12 @@ public class GasStation extends AbstractStation {
     public Double lon;
     public Double lat;
     public String station_name;
-    public String street;
-    public String brand;
+    private String street;
+    private String brand;
     public int id;
-    public String house_number;
-    public String zip_code;
-    public String city;
+    private String house_number;
+    private String zip_code;
+    private String city;
     public double cost;
 
     @Override

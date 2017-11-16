@@ -24,7 +24,7 @@ public class StationSparkProxy {
         this.jell = jell;
     }
 
-    private Function<String, Collection<GasStation>> queryStationMethod = (Function<String, Collection<GasStation>>) s -> {
+    private final Function<String, Collection<GasStation>> queryStationMethod = (Function<String, Collection<GasStation>>) s -> {
         Collection<GasStation> gasStations = null;
         try {
             gasStations = jell.query(s, GasStation.class);
