@@ -2,9 +2,11 @@ package Routing;
 
 import GasStation.GasStation;
 
-import java.time.LocalTime;
 import java.util.*;
 
+/**
+ * implemented http://www.cs.umd.edu/projects/gas/gas-station.pdf Appendix B
+ */
 public class FixedGasStation {
     public static final Double EARTHRADIUS = 6378.388;
     //5.6 litre per 100km, german average 2016
@@ -12,6 +14,7 @@ public class FixedGasStation {
 
     /**
      * Destination from two Geo-points
+     *
      * @param lat
      * @param lon
      * @param destLat
@@ -24,6 +27,7 @@ public class FixedGasStation {
 
     /**
      * Distance from two Gas Stations
+     *
      * @param x
      * @param y
      * @return
@@ -32,12 +36,34 @@ public class FixedGasStation {
         return getDistance(x.lat, x.lon, y.lat, y.lon);
     }
 
-    public static void calculateRoute(LinkedList<GasStation> route, LocalTime time, Double capacity, Double fuelState) {
+    /**
+     * Calculate where we fill the tank
+     *
+     * @param route
+     * @param capacity
+     * @param full
+     */
+    public static void calculateRoute(LinkedList<GasStation> route, double capacity, double full) {
+        int i = 0;
+        while (i < route.size() - 1) {
+            int next = getSuccessor(route, i, capacity);
+            if (next == -1)
+                next = route.size() - 1;
+            if (distanceByRange(route, i, next) <= U(full)) {
+                full -= distanceByRange(route, i, next) * LITREPERKM;
+                System.out.println("reaching from " + i + " to " + next + " distance from " + distanceByRange(route, i, next) + " km ");
+            } else {
+                double fillingAmount = (distanceByRange(route, i, next) * LITREPERKM) - full;
+                System.out.println("filling in " + fillingAmount + " liters to reach " + next + " from " + i + " for " + route.get(i).cost * distanceByRange(route, i, next) * LITREPERKM + "€");
 
+            }
+            i = next;
+        }
     }
 
     /**
      * Calculate liter you can drive given a capacity
+     *
      * @param capacity
      * @return
      */
@@ -46,28 +72,18 @@ public class FixedGasStation {
     }
 
     /**
-     * get the distance in liters
-     * @param x
-     * @param y
-     * @return
-     */
-    public static Double d(GasStation x, GasStation y) {
-        return distanceGasStation(x, y) * LITREPERKM;
-    }
-
-    /**
      * get the optimal fitting gasstation succeeding a given one
      * Implying there is always at least one reachable Gas Station you can reach with a full tank
+     *
      * @param route
-     * @param full
      * @param i
      * @param capacity
      * @return
      */
-    public static int getSuccessor(LinkedList<GasStation> route, long full, int i, double capacity) {
+    public static int getSuccessor(LinkedList<GasStation> route, int i, double capacity) {
         ArrayList<GasStation> prio = new ArrayList<GasStation>();
         for (int k = i + 1; k < route.size(); k++) {
-            if (route.get(k).cost <= route.get(i).cost && distanceByRange(route,k, i) < U(capacity)) {
+            if (route.get(k).cost <= route.get(i).cost && distanceByRange(route, k, i) < U(capacity)) {
                 prio.add(route.get(k));
             }
         }
@@ -79,6 +95,7 @@ public class FixedGasStation {
 
     /**
      * Distance from two Gas Station given a route and indices
+     *
      * @param route
      * @param i
      * @param j
@@ -101,25 +118,13 @@ public class FixedGasStation {
             g.lon = (double) i / 200;
             g.station_name = "" + i;
             g.id = i;
-            g.cost =  rand.nextDouble()/10 + 1;
+            g.cost = 10 - i;
             route.add(g);
         }
         double capacity = 50;
-        long full = 0;
+        long full = 5;
         int i = 0;
-        while (i < route.size() - 1) {
-            int next = getSuccessor(route, full, i, capacity);
-            if (next == -1)
-                next = route.size() - 1;
-            if (distanceByRange(route, i, next) <= U(full)) {
-                full -= distanceByRange(route, i, next) * LITREPERKM;
-                System.out.println("reaching from " + i + " to " + next + " distance from " + distanceByRange(route, i, next) + " km ");
-            } else {
-                System.out.println("insuficient fuel filling in " + distanceByRange(route, i, next) * LITREPERKM + " liters to reach " + next + " from " + i + " for " + route.get(next).cost * distanceByRange(route, i, next)*LITREPERKM + "€");
-
-            }
-            i = next;
-        }
+        calculateRoute(route, capacity, full);
 
     }
 }

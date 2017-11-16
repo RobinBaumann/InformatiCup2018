@@ -1,5 +1,7 @@
 package GasStation;
 
+import java.time.LocalTime;
+
 public class GasStation extends AbstractStation {
     public Double lon;
     public Double lat;
@@ -11,6 +13,7 @@ public class GasStation extends AbstractStation {
     public String zip_code;
     public String city;
     public double cost;
+
     @Override
     public String toString() {
         return "GasStation{" +
@@ -24,5 +27,11 @@ public class GasStation extends AbstractStation {
                 ", id=" + id +
                 ", city='" + city + '\'' +
                 '}';
+    }
+
+
+    @Override
+    public void setPredictedCost(LocalTime t) {
+        cost = 1;
     }
 }
