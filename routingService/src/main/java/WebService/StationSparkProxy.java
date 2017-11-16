@@ -44,6 +44,13 @@ public class StationSparkProxy {
         return AbstractStation.getByID(Integer.parseInt(request.params(":id")), queryStationMethod);
     }
 
+    /**
+     * TODO:
+     * parse json and calc route
+     * @param request
+     * @param response
+     * @return
+     */
     public String getStationsByRoute(Request request, Response response) {
         Type mapType = new TypeToken<Map<String, Map>>() {
         }.getType();
