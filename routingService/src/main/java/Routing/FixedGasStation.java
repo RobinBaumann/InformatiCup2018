@@ -8,9 +8,9 @@ import java.util.*;
  * implemented http://www.cs.umd.edu/projects/gas/gas-station.pdf Appendix B
  */
 public class FixedGasStation {
-    public static final Double EARTHRADIUS = 6378.388;
+    public static final double EARTHRADIUS = 6378.388;
     //5.6 litre per 100km, german average 2016
-    public static final Double LITREPERKM = 0.056;
+    public static final double LITREPERKM = 0.056;
 
     /**
      * Destination from two Geo-points
@@ -21,7 +21,7 @@ public class FixedGasStation {
      * @param destLon
      * @return
      */
-    public static Double getDistance(Double lat, Double lon, Double destLat, Double destLon) {
+    public static Double getDistance(double lat, double lon, double destLat, double destLon) {
         return EARTHRADIUS * Math.acos(Math.sin(lat) * Math.sin(destLat) + Math.cos(lat) * Math.cos(destLat) * Math.cos(destLon - lon));
     }
 
@@ -50,11 +50,12 @@ public class FixedGasStation {
             if (next == -1)
                 next = route.size() - 1;
             if (distanceByRange(route, i, next) <= U(full)) {
-                full -= distanceByRange(route, i, next) * LITREPERKM;
+                full -= (distanceByRange(route, i, next) * LITREPERKM);
                 System.out.println("reaching from " + i + " to " + next + " distance from " + distanceByRange(route, i, next) + " km ");
             } else {
-                double fillingAmount = (distanceByRange(route, i, next) * LITREPERKM) - full;
-                System.out.println("filling in " + fillingAmount + " liters to reach " + next + " from " + i + " for " + route.get(i).cost * distanceByRange(route, i, next) * LITREPERKM + "€");
+                double fillingAmount = Math.abs(full - (distanceByRange(route, i, next) * LITREPERKM));
+                full = 0;
+                System.out.println("filling in " + fillingAmount + " liters to reach " + next + " from " + i + " for " + route.get(i).cost * distanceByRange(route, i, next) * LITREPERKM + "€ for distance " + distanceByRange(route, i, next) + " km ");
 
             }
             i = next;
@@ -114,15 +115,15 @@ public class FixedGasStation {
         for (int i = 0; i <= 10; i++) {
             GasStation g = new GasStation();
             Random rand = new Random();
-            g.lat = (double) i / 200;
-            g.lon = (double) i / 200;
+            g.lat = (double) i / 180;
+            g.lon = (double) i / 180;
             g.station_name = "" + i;
             g.id = i;
             g.cost = 10 - i;
             route.add(g);
         }
         double capacity = 50;
-        long full = 5;
+        double full = 3;
         int i = 0;
         calculateRoute(route, capacity, full);
 
