@@ -10,16 +10,5 @@ public abstract class AbstractStation implements IStation {
         return queryFunction.apply("SELECT * FROM stations where id = " + id);
     }
 
-    public static boolean add() {
-        return false;
-    }
 
-    public static boolean change() {
-        return false;
-    }
-
-
-    public static boolean delete() {
-        return false;
-    }
 }

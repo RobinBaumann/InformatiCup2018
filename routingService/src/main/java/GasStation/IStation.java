@@ -2,8 +2,9 @@ package GasStation;
 
 import java.time.LocalTime;
 
-public interface IStation {
+interface IStation {
     /**
+     * TODO:
      * for later RESTful Request to prediction service, needs GasStation-ID and time
      * @param t
      */

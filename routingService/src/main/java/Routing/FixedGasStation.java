@@ -7,10 +7,10 @@ import java.util.*;
 /**
  * implemented http://www.cs.umd.edu/projects/gas/gas-station.pdf Appendix B
  */
-public class FixedGasStation {
-    public static final double EARTHRADIUS = 6378.388;
+class FixedGasStation {
+    private static final double EARTHRADIUS = 6378.388;
     //5.6 litre per 100km, german average 2016
-    public static final double LITREPERKM = 0.056;
+    private static final double LITREPERKM = 0.056;
 
     /**
      * Destination from two Geo-points
@@ -21,7 +21,7 @@ public class FixedGasStation {
      * @param destLon
      * @return
      */
-    public static Double getDistance(double lat, double lon, double destLat, double destLon) {
+    private static Double getDistance(double lat, double lon, double destLat, double destLon) {
         return EARTHRADIUS * Math.acos(Math.sin(lat) * Math.sin(destLat) + Math.cos(lat) * Math.cos(destLat) * Math.cos(destLon - lon));
     }
 
@@ -43,7 +43,7 @@ public class FixedGasStation {
      * @param capacity
      * @param full
      */
-    public static void calculateRoute(LinkedList<GasStation> route, double capacity, double full) {
+    private static void calculateRoute(LinkedList<GasStation> route, double capacity, double full) {
         int i = 0;
         while (i < route.size() - 1) {
             int next = getSuccessor(route, i, capacity);
@@ -68,7 +68,7 @@ public class FixedGasStation {
      * @param capacity
      * @return
      */
-    public static double U(double capacity) {
+    private static double U(double capacity) {
         return capacity / LITREPERKM;
     }
 
@@ -81,7 +81,7 @@ public class FixedGasStation {
      * @param capacity
      * @return
      */
-    public static int getSuccessor(LinkedList<GasStation> route, int i, double capacity) {
+    private static int getSuccessor(LinkedList<GasStation> route, int i, double capacity) {
         ArrayList<GasStation> prio = new ArrayList<GasStation>();
         for (int k = i + 1; k < route.size(); k++) {
             if (route.get(k).cost <= route.get(i).cost && distanceByRange(route, k, i) < U(capacity)) {
@@ -90,7 +90,7 @@ public class FixedGasStation {
         }
         if (prio.size() <= 0)
             return -1;
-        prio.sort(new GasStationComparator());
+        prio.sort(new GasStationComparator(route.getLast()));
         return route.indexOf(prio.get(0));
     }
 
@@ -102,7 +102,7 @@ public class FixedGasStation {
      * @param j
      * @return
      */
-    public static double distanceByRange(LinkedList<GasStation> route, int i, int j) {
+    private static double distanceByRange(LinkedList<GasStation> route, int i, int j) {
         double sum = 0;
         for (int k = i; k < j; k++) {
             sum += distanceGasStation(route.get(k), route.get(k + 1));
