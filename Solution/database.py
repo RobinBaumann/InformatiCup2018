@@ -208,6 +208,51 @@ def import_commuters():
     con.close()
 
 
+def collect_ways_for(con, rel_id):
+    ways = set()
+    rels = {rel_id}
+    while rels:
+        cursor = con.cursor()
+        cursor.execute("""
+        select member_id, member_type 
+        from relation_members 
+        where relation_id in %s
+        """, (tuple(rels),))
+        rels = set()
+        for result in cursor.fetchall():
+            if result[1] == 'R':
+                rels.add(result[0])
+            elif result[1] == 'W':
+                ways.add(result[0])
+            else:
+                print(result[1])
+        cursor.close()
+    return ways
+
+
+def update_autobahn():
+    con = create_connection()
+    cursor = con.cursor()
+    cursor.execute("select rel_id from autobahn;")
+    ids = [x[0] for x in cursor]
+    i = 0
+    for id in ids:
+        i += 1
+        print(str(id))
+        print(str(i) + '/' + str(len(ids)))
+        ways = collect_ways_for(con, id)
+        cursor.execute("""
+        update autobahn set geom = (select st_collect(linestring)
+                                    from ways where id in %s)
+                                    where rel_id = %s
+        """, (tuple(ways),id))
+    cursor.close()
+    con.commit()
+    con.close()
+
+
+
+
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         import_input()
@@ -216,6 +261,7 @@ if __name__ == '__main__':
         import_oil_prices()
         import_dollar_per_euro()
         import_commuters()
+        update_autobahn()
     elif len(sys.argv) == 2:
         if sys.argv[1] == 'input':
             import_input()
