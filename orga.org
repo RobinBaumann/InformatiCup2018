@@ -330,6 +330,38 @@ set poly_4839 = st_makepolygon(l.line)
 from lines as l
 where b.id = l.id
   and st_geometrytype(l.line) = 'ST_LineString';
+-- nur 3 bundeslaender werden korrekt erkannt und in polygone umgewandelt
+#+END_SRC
+
+restliche bundesländer per qgis polygonized und als geojson exportiert.
+
+Nicht funktionierendes Script um das zu automatisieren:
+#+BEGIN_SRC python
+##layer=vector
+##rel_id=number
+##out=output file
+
+
+from qgis.core import *
+from PyQt4.QtCore import *
+import processing
+
+
+inlayer = processing.getObject(layer)
+inData = inlayer.dataProvider()
+iter = inlayer.getFeatures()
+rel_id_idx = inlayer.fieldNameIndex('rel_id')
+result = QgsVectorLayer("LineString", "tmp", "ogr")
+result.startEditing()
+data = result.dataProvider()
+data.addAttributes(inData.fields())
+for feature in iter:
+    if feature.attributes()[rel_id_idx] == rel_id:
+        data.addFeatures([feature])
+result.commitChanges()
+
+
+result2 = processing.runalg("qgis:polygonize", result,  True, True, out)
 #+END_SRC
 * Papers
 ** ECONOMETRIC MODELS FOR OIL PRICE FORECASTING: A CRITICAL SURVEY
