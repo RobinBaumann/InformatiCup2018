@@ -219,6 +219,8 @@ ausreichen.
 
 [[https://epsg.io/4839]]
 
+*** Autobahnen
+
 #+begin_src sql
 alter table stations add column location geometry(Point, 4326);
 update stations as s set location = st_setsrid(st_makepoint(s.lon, s.lat), 4326);
@@ -260,7 +262,75 @@ from distances as d
 where id = d.sid;
 #+END_SRC
 
+*** Schnellstraßen
+#+BEGIN_SRC sql
+create table schnellstr (
+  id serial primary key,
+  tags hstore,
+  geom geometry(linestring, 4326),
+  geom_4839 geometry(linestring, 4839));
+insert into schnellstr (tags, geom)
+(select tags, linestring 
+from ways
+where tags -> 'highway' = 'trunk' and tags -> 'oneway' = 'yes');
+update schnellstr set geom_4839 = st_transform(geom, 4839);
+create index schnellstr_geom_gix on schnellstr using gist (geom_4839);
+#+END_SRC
 
+*** Bundesstrassen
+#+BEGIN_SRC sql
+create table bundesstr (
+  id serial primary key,
+  tags hstore,
+  geom geometry(linestring, 4326),
+  geom_4839 geometry(linestring, 4839));
+insert into bundesstr (tags, geom)
+(select tags, linestring
+from ways
+where tags -> 'highway' = 'primary');
+update bundesstr set geom_4839 = st_transform(geom, 4839);
+create index bundesstr_geom_gix on bundesstr using gist (geom_4839);
+#+END_SRC
+
+*** Bundeslaender
+ST_contains benötigt valide simple Geometrien (kein Multistuff). Einige der Bundesländer haben Enklaven, 
+Löcher etc. Nur 3 der Bundesländer lassen sich in Polygone umwandeln.
+#+BEGIN_SRC sql
+create table bundeslaender (
+  id serial primary key,
+  tags hstore,
+  rel_id bigint,
+  geom geometry(multilinestring, 4326),
+  geom_4839 geometry(multilinestring, 4839),
+  poly_4839 geometry(polygon, 4839));
+insert into bundeslaender (tags, rel_id)
+(select tags, id
+from relations
+where tags -> 'boundary' = 'administrative'
+  and tags -> 'admin_level' = '4'
+  and tags -> 'de:regionalschluessel' is not null);
+select distinct member_type 
+from relation_members
+where relation_id in (select rel_id from bundeslaender);
+-- result: W, N --> only ways and nodes (center? and capital)
+update bundeslaender as b
+set geom = (select st_collect(linestring)
+            from relation_members m
+              inner join ways as w on m.member_id = w.id
+            where m.relation_id = b.rel_id);
+update bundeslaender
+set geom_4839 = st_transform(geom, 4839);
+create index bundeslaender_geom_gix on bundeslaender using gist (geom_4839);
+with lines as (
+  select id, st_linemerge(geom_4839) as line
+  from bundeslaender
+)
+update bundeslaender as b
+set poly_4839 = st_makepolygon(l.line)
+from lines as l
+where b.id = l.id
+  and st_geometrytype(l.line) = 'ST_LineString';
+#+END_SRC
 * Papers
 ** ECONOMETRIC MODELS FOR OIL PRICE FORECASTING: A CRITICAL SURVEY
 [[https://drive.google.com/open?id=0B0zREaCR-EN4c3BTSnVYU3pHWFk]]
