@@ -15,10 +15,10 @@ class FixedGasStation {
     /**
      * Destination from two Geo-points
      *
-     * @param lat
-     * @param lon
-     * @param destLat
-     * @param destLon
+     * @param lat latitude source
+     * @param lon longitude source
+     * @param destLat latitude destination
+     * @param destLon latitude destination
      * @return
      */
     private static Double getDistance(double lat, double lon, double destLat, double destLon) {
@@ -28,8 +28,8 @@ class FixedGasStation {
     /**
      * Distance from two Gas Stations
      *
-     * @param x
-     * @param y
+     * @param x gasStation x
+     * @param y gasStation y
      * @return
      */
     public static double distanceGasStation(GasStation x, GasStation y) {
@@ -40,8 +40,8 @@ class FixedGasStation {
      * Calculate where we fill the tank
      *
      * @param route
-     * @param capacity
-     * @param full
+     * @param capacity capacity of tank
+     * @param full start fuel of tank
      */
     private static void calculateRoute(LinkedList<GasStation> route, double capacity, double full) {
         int i = 0;
@@ -65,7 +65,7 @@ class FixedGasStation {
     /**
      * Calculate liter you can drive given a capacity
      *
-     * @param capacity
+     * @param capacity capacity of tank
      * @return
      */
     private static double U(double capacity) {
@@ -77,8 +77,8 @@ class FixedGasStation {
      * Implying there is always at least one reachable Gas Station you can reach with a full tank
      *
      * @param route
-     * @param i
-     * @param capacity
+     * @param i predeccessors which succcessor is searched
+     * @param capacity capacity of tank
      * @return
      */
     private static int getSuccessor(LinkedList<GasStation> route, int i, double capacity) {
@@ -98,8 +98,8 @@ class FixedGasStation {
      * Distance from two Gas Station given a route and indices
      *
      * @param route
-     * @param i
-     * @param j
+     * @param i start index
+     * @param j destination index
      * @return
      */
     private static double distanceByRange(LinkedList<GasStation> route, int i, int j) {
@@ -110,11 +110,14 @@ class FixedGasStation {
         return sum;
     }
 
+    /**
+     * dummy Testcase
+     * @param args
+     */
     public static void main(String[] args) {
         LinkedList<GasStation> route = new LinkedList<GasStation>();
         for (int i = 0; i <= 10; i++) {
             GasStation g = new GasStation();
-            Random rand = new Random();
             g.lat = (double) i / 180;
             g.lon = (double) i / 180;
             g.station_name = "" + i;
@@ -124,7 +127,6 @@ class FixedGasStation {
         }
         double capacity = 50;
         double full = 3;
-        int i = 0;
         calculateRoute(route, capacity, full);
 
     }

@@ -5,6 +5,8 @@ import GasStation.GasStation;
 import com.google.common.base.Function;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.noelherrick.jell.Jell;
 import spark.Request;
 import spark.Response;
@@ -47,14 +49,22 @@ public class StationSparkProxy {
     /**
      * TODO:
      * parse json and calc route
+     * curl localhost:4567/api/gasStation/route --data "route=[{timestamp:5,station_id:1}]"
      * @param request
      * @param response
      * @return
      */
     public String getStationsByRoute(Request request, Response response) {
-        Type mapType = new TypeToken<Map<String, Map>>() {
-        }.getType();
-        Map<String, String[]> son = new Gson().fromJson(request.body(), mapType);
-        return son.toString();
+        String route = (request.queryParams("route"));
+        Gson gson = new GsonBuilder().create();
+        String responseString = "Syntaxerror";
+        try {
+            RequestStop[] r = gson.fromJson(route, RequestStop[].class);
+            responseString = r.toString();
+        } catch (JsonSyntaxException e) {
+            LOGGER.log(Level.SEVERE, "JSON Syntax Error " + e.toString());
+        }
+
+        return responseString;
     }
 }
