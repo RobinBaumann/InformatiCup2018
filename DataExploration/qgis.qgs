@@ -5,13 +5,13 @@
   <evaluateDefaultValues active="0"/>
   <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
     <customproperties/>
-    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Checked" id="null_kreis_stations20171122181842479" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' table=&quot;(select id, location_4839 from stations where kreis is null&#xa;)&quot; (location_4839) sql=" name="null-kreis-stations">
+    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="null_kreis_stations20171122181842479" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' table=&quot;(select id, location_4839 from stations where kreis is null&#xa;)&quot; (location_4839) sql=" name="null-kreis-stations">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="multikreis_location_483920171122173530168" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='objectid' srid=4839 type=Point table=&quot;public&quot;.&quot;multikreis&quot; (location_4839) sql=" name="multikreis.location_4839">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Checked" id="kreise_geom20171122172705815" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4326 type=Polygon table=&quot;public&quot;.&quot;kreise&quot; (geom) sql=" name="kreise.geom">
+    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="kreise_geom20171122172705815" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4326 type=Polygon table=&quot;public&quot;.&quot;kreise&quot; (geom) sql=" name="kreise.geom">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="stations_location20171122155016533" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4326 type=Point table=&quot;public&quot;.&quot;stations&quot; (location) sql=" name="stations.location">
@@ -26,13 +26,24 @@
     <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="bundeslaender_geom_483920171117054000867" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=MultiLineString table=&quot;public&quot;.&quot;bundeslaender&quot; (geom_4839) sql=" name="bundeslaender.geom_4839">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="bundesstr_geom_483920171117052020591" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=LineString table=&quot;public&quot;.&quot;bundesstr&quot; (geom_4839) sql=" name="bundesstr.geom_4839">
+    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Checked" id="stations_location_483920171122191117586" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=Point table=&quot;public&quot;.&quot;stations&quot; (location_4839) sql=&quot;dist_bstr&quot; is not null&#xd;&#xa;" name="stations.location_4839 bstr dist not null">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="schnellstr_geom_483920171117051025159" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=LineString table=&quot;public&quot;.&quot;schnellstr&quot; (geom_4839) sql=" name="schnellstr.geom_4839">
+    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Checked" id="stations_location_483920171122191029930" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=Point table=&quot;public&quot;.&quot;stations&quot; (location_4839) sql=&quot;dist_sstr&quot; is not null" name="stations.location_4839 sstr dist not null">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Checked" id="bundesstr_geom_483920171117052020591" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=LineString table=&quot;public&quot;.&quot;bundesstr&quot; (geom_4839) sql=" name="bundesstr.geom_4839">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Checked" id="schnellstr_geom_483920171117051025159" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=LineString table=&quot;public&quot;.&quot;schnellstr&quot; (geom_4839) sql=" name="schnellstr.geom_4839">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="stations_location_483920171116233058079" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=Point table=&quot;public&quot;.&quot;stations&quot; (location_4839) sql=" name="stations.location_4839">
+      <customproperties>
+        <property key="showFeatureCount" value="1"/>
+      </customproperties>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="stations_location_483920171122183157958" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=Point table=&quot;public&quot;.&quot;stations&quot; (location_4839) sql=&quot;dist_abahn&quot; &lt; 300" name="stations.location_4839 abahn dist &lt;">
       <customproperties>
         <property key="showFeatureCount" value="1"/>
       </customproperties>
@@ -42,7 +53,7 @@
         <property key="showFeatureCount" value="1"/>
       </customproperties>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="autobahn_geom_483920171116221042733" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=MultiLineString table=&quot;public&quot;.&quot;autobahn&quot; (geom_4839) sql=" name="autobahn.geom_4839">
+    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Checked" id="autobahn_geom_483920171116221042733" source="dbname='infocup' host=localhost port=3333 user='infocup' sslmode=disable key='id' srid=4839 type=MultiLineString table=&quot;public&quot;.&quot;autobahn&quot; (geom_4839) sql=" name="autobahn.geom_4839">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" providerKey="" checked="Qt::Checked" id="OSM_Standard20171116172247168" source="D:/src/InformatiCup2018/DataExploration" name="OSM Standard">
@@ -53,10 +64,10 @@
   <mapcanvas>
     <units>meters</units>
     <extent>
-      <xmin>-42073.57331422530114651</xmin>
-      <ymin>5784595.06186830624938011</ymin>
-      <xmax>2938291.61809202469885349</xmax>
-      <ymax>8324316.03061830624938011</ymax>
+      <xmin>975989.90985615097451955</xmin>
+      <ymin>5988553.76977736316621304</ymin>
+      <xmax>1162262.73431904194876552</xmax>
+      <ymax>6147286.33032423816621304</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>1</projections>
@@ -87,11 +98,14 @@
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="memory_20171117172922512"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="bundesstr_geom_483920171117052020591"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="memory_20171117173043396"/>
+      <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="stations_location_483920171116233058079"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="memory_20171117161521554"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="memory_20171117173154469"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="schnellstr_geom_483920171117051025159"/>
+      <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="stations_location_483920171122191029930"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="bundeslaender_poly_483920171117073338365"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="stations_location20171122155016533"/>
+      <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="stations_location_483920171122191117586"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="autobahn_geom_483920171116221042733"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="memory_20171117172714029"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="tmp20171117145437222"/>
@@ -106,7 +120,9 @@
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="memory_20171117135241086"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4326" srcDatumTransform="-1" destDatumTransform="-1" layerid="ways20171117052642311"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="Polygons_from_lines20171117171430074"/>
+      <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="stations_location_483920171122183157958"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="tmp20171117144850730"/>
+      <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="stations_location_483920171116232643169"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="memory_20171117135308115"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="Polygons_from_lines20171117133724742"/>
       <layer_coordinate_transform destAuthId="EPSG:3857" srcAuthId="EPSG:4839" srcDatumTransform="-1" destDatumTransform="-1" layerid="out20171117171043182"/>
@@ -137,12 +153,15 @@
       <item>kreise_geom20171122172705815</item>
       <item>multikreis_location_483920171122173530168</item>
       <item>null_kreis_stations20171122181842479</item>
+      <item>stations_location_483920171122183157958</item>
+      <item>stations_location_483920171122191029930</item>
+      <item>stations_location_483920171122191117586</item>
     </custom-order>
   </layer-tree-canvas>
   <legend updateDrawingOrder="true">
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="null-kreis-stations" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="null-kreis-stations" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="null_kreis_stations20171122181842479" visible="1"/>
+        <legendlayerfile isInOverview="0" layerid="null_kreis_stations20171122181842479" visible="0"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="multikreis.location_4839" showFeatureCount="0">
@@ -150,9 +169,9 @@
         <legendlayerfile isInOverview="0" layerid="multikreis_location_483920171122173530168" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="kreise.geom" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="kreise.geom" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="kreise_geom20171122172705815" visible="1"/>
+        <legendlayerfile isInOverview="0" layerid="kreise_geom20171122172705815" visible="0"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="stations.location" showFeatureCount="0">
@@ -175,14 +194,24 @@
         <legendlayerfile isInOverview="0" layerid="bundeslaender_geom_483920171117054000867" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="bundesstr.geom_4839" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="stations.location_4839 bstr dist not null" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="bundesstr_geom_483920171117052020591" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="stations_location_483920171122191117586" visible="1"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="schnellstr.geom_4839" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="stations.location_4839 sstr dist not null" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="schnellstr_geom_483920171117051025159" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="stations_location_483920171122191029930" visible="1"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="bundesstr.geom_4839" showFeatureCount="0">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile isInOverview="0" layerid="bundesstr_geom_483920171117052020591" visible="1"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="schnellstr.geom_4839" showFeatureCount="0">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile isInOverview="0" layerid="schnellstr_geom_483920171117051025159" visible="1"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="stations.location_4839" showFeatureCount="1">
@@ -190,14 +219,19 @@
         <legendlayerfile isInOverview="0" layerid="stations_location_483920171116233058079" visible="0"/>
       </filegroup>
     </legendlayer>
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="stations.location_4839 abahn dist &lt;" showFeatureCount="1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile isInOverview="0" layerid="stations_location_483920171122183157958" visible="0"/>
+      </filegroup>
+    </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="stations.location_4839" showFeatureCount="1">
       <filegroup open="true" hidden="false">
         <legendlayerfile isInOverview="0" layerid="stations_location_483920171116232643169" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="autobahn.geom_4839" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="autobahn.geom_4839" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="autobahn_geom_483920171116221042733" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="autobahn_geom_483920171116221042733" visible="1"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="OSM Standard" showFeatureCount="0">
@@ -726,7 +760,7 @@
               <prop k="customdash_unit" v="MM"/>
               <prop k="draw_inside_polygon" v="0"/>
               <prop k="joinstyle" v="bevel"/>
-              <prop k="line_color" v="152,99,208,255"/>
+              <prop k="line_color" v="246,11,11,255"/>
               <prop k="line_style" v="solid"/>
               <prop k="line_width" v="0.26"/>
               <prop k="line_width_unit" v="MM"/>
@@ -2029,6 +2063,611 @@
         <default field="dist_abahn" expression=""/>
         <default field="abahn_id" expression=""/>
         <default field="bland" expression=""/>
+      </defaults>
+      <previewExpression></previewExpression>
+    </maplayer>
+    <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <id>stations_location_483920171122183157958</id>
+      <datasource>dbname='infocup' host=localhost port=3333 user='infocup' password='X5pcbJ1QCgbeU5YXWQbE' sslmode=disable key='id' srid=4839 type=Point table="public"."stations" (location_4839) sql="dist_abahn" &lt; 300</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>stations.location_4839 abahn dist &lt;</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=48.66666666666666 +lat_2=53.66666666666666 +lat_0=51 +lon_0=10.5 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+          <srsid>27901</srsid>
+          <srid>4839</srid>
+          <authid>EPSG:4839</authid>
+          <description>ETRS89 / LCC Germany (N-E)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">postgres</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="">
+        <map-layer-style name=""/>
+      </map-layer-style-manager>
+      <edittypes>
+        <edittype widgetv2type="TextEdit" name="id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="station_name">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="brand">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="street">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="house_number">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="zip_code">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="city">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="lat">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="lon">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="location">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="min_ts">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="max_ts">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="dist_abahn">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="abahn_id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="bland">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="kreis">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+      </edittypes>
+      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
+        <symbols>
+          <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="178,175,238,255"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="diameter"/>
+              <prop k="size" v="2"/>
+              <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale scalemethod="diameter"/>
+      </renderer-v2>
+      <labeling type="simple"/>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerTransparency>0</layerTransparency>
+      <displayfield>station_name</displayfield>
+      <label>0</label>
+      <labelattributes>
+        <label fieldname="" text="Label"/>
+        <family fieldname="" name="MS Shell Dlg 2"/>
+        <size fieldname="" units="pt" value="12"/>
+        <bold fieldname="" on="0"/>
+        <italic fieldname="" on="0"/>
+        <underline fieldname="" on="0"/>
+        <strikeout fieldname="" on="0"/>
+        <color fieldname="" red="0" blue="0" green="0"/>
+        <x fieldname=""/>
+        <y fieldname=""/>
+        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+        <angle fieldname="" value="0" auto="0"/>
+        <alignment fieldname="" value="center"/>
+        <buffercolor fieldname="" red="255" blue="255" green="255"/>
+        <buffersize fieldname="" units="pt" value="1"/>
+        <bufferenabled fieldname="" on=""/>
+        <multilineenabled fieldname="" on=""/>
+        <selectedonly on=""/>
+      </labelattributes>
+      <annotationform></annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="station_name" index="1" name=""/>
+        <alias field="brand" index="2" name=""/>
+        <alias field="street" index="3" name=""/>
+        <alias field="house_number" index="4" name=""/>
+        <alias field="zip_code" index="5" name=""/>
+        <alias field="city" index="6" name=""/>
+        <alias field="lat" index="7" name=""/>
+        <alias field="lon" index="8" name=""/>
+        <alias field="location" index="9" name=""/>
+        <alias field="min_ts" index="10" name=""/>
+        <alias field="max_ts" index="11" name=""/>
+        <alias field="dist_abahn" index="12" name=""/>
+        <alias field="abahn_id" index="13" name=""/>
+        <alias field="bland" index="14" name=""/>
+        <alias field="kreis" index="15" name=""/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <attributeactions default="-1"/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="7602273">
+        <columns/>
+      </attributetableconfig>
+      <editform></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="station_name" expression=""/>
+        <default field="brand" expression=""/>
+        <default field="street" expression=""/>
+        <default field="house_number" expression=""/>
+        <default field="zip_code" expression=""/>
+        <default field="city" expression=""/>
+        <default field="lat" expression=""/>
+        <default field="lon" expression=""/>
+        <default field="location" expression=""/>
+        <default field="min_ts" expression=""/>
+        <default field="max_ts" expression=""/>
+        <default field="dist_abahn" expression=""/>
+        <default field="abahn_id" expression=""/>
+        <default field="bland" expression=""/>
+        <default field="kreis" expression=""/>
+      </defaults>
+      <previewExpression></previewExpression>
+    </maplayer>
+    <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <id>stations_location_483920171122191029930</id>
+      <datasource>dbname='infocup' host=localhost port=3333 user='infocup' password='X5pcbJ1QCgbeU5YXWQbE' sslmode=disable key='id' srid=4839 type=Point table="public"."stations" (location_4839) sql="dist_sstr" is not null</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>stations.location_4839 sstr dist not null</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=48.66666666666666 +lat_2=53.66666666666666 +lat_0=51 +lon_0=10.5 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+          <srsid>27901</srsid>
+          <srid>4839</srid>
+          <authid>EPSG:4839</authid>
+          <description>ETRS89 / LCC Germany (N-E)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">postgres</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="">
+        <map-layer-style name=""/>
+      </map-layer-style-manager>
+      <edittypes>
+        <edittype widgetv2type="TextEdit" name="id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="station_name">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="brand">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="street">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="house_number">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="zip_code">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="city">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="lat">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="lon">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="location">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="min_ts">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="max_ts">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="dist_abahn">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="abahn_id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="bland">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="kreis">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="dist_sstr">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="sstr_id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="dist_bstr">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="bstr_id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+      </edittypes>
+      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
+        <symbols>
+          <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="181,134,154,255"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="diameter"/>
+              <prop k="size" v="2"/>
+              <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale scalemethod="diameter"/>
+      </renderer-v2>
+      <labeling type="simple"/>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerTransparency>0</layerTransparency>
+      <displayfield>station_name</displayfield>
+      <label>0</label>
+      <labelattributes>
+        <label fieldname="" text="Label"/>
+        <family fieldname="" name="MS Shell Dlg 2"/>
+        <size fieldname="" units="pt" value="12"/>
+        <bold fieldname="" on="0"/>
+        <italic fieldname="" on="0"/>
+        <underline fieldname="" on="0"/>
+        <strikeout fieldname="" on="0"/>
+        <color fieldname="" red="0" blue="0" green="0"/>
+        <x fieldname=""/>
+        <y fieldname=""/>
+        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+        <angle fieldname="" value="0" auto="0"/>
+        <alignment fieldname="" value="center"/>
+        <buffercolor fieldname="" red="255" blue="255" green="255"/>
+        <buffersize fieldname="" units="pt" value="1"/>
+        <bufferenabled fieldname="" on=""/>
+        <multilineenabled fieldname="" on=""/>
+        <selectedonly on=""/>
+      </labelattributes>
+      <annotationform></annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="station_name" index="1" name=""/>
+        <alias field="brand" index="2" name=""/>
+        <alias field="street" index="3" name=""/>
+        <alias field="house_number" index="4" name=""/>
+        <alias field="zip_code" index="5" name=""/>
+        <alias field="city" index="6" name=""/>
+        <alias field="lat" index="7" name=""/>
+        <alias field="lon" index="8" name=""/>
+        <alias field="location" index="9" name=""/>
+        <alias field="min_ts" index="10" name=""/>
+        <alias field="max_ts" index="11" name=""/>
+        <alias field="dist_abahn" index="12" name=""/>
+        <alias field="abahn_id" index="13" name=""/>
+        <alias field="bland" index="14" name=""/>
+        <alias field="kreis" index="15" name=""/>
+        <alias field="dist_sstr" index="16" name=""/>
+        <alias field="sstr_id" index="17" name=""/>
+        <alias field="dist_bstr" index="18" name=""/>
+        <alias field="bstr_id" index="19" name=""/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <attributeactions default="-1"/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="55378113">
+        <columns/>
+      </attributetableconfig>
+      <editform></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="station_name" expression=""/>
+        <default field="brand" expression=""/>
+        <default field="street" expression=""/>
+        <default field="house_number" expression=""/>
+        <default field="zip_code" expression=""/>
+        <default field="city" expression=""/>
+        <default field="lat" expression=""/>
+        <default field="lon" expression=""/>
+        <default field="location" expression=""/>
+        <default field="min_ts" expression=""/>
+        <default field="max_ts" expression=""/>
+        <default field="dist_abahn" expression=""/>
+        <default field="abahn_id" expression=""/>
+        <default field="bland" expression=""/>
+        <default field="kreis" expression=""/>
+        <default field="dist_sstr" expression=""/>
+        <default field="sstr_id" expression=""/>
+        <default field="dist_bstr" expression=""/>
+        <default field="bstr_id" expression=""/>
+      </defaults>
+      <previewExpression></previewExpression>
+    </maplayer>
+    <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <id>stations_location_483920171122191117586</id>
+      <datasource>dbname='infocup' host=localhost port=3333 user='infocup' password='X5pcbJ1QCgbeU5YXWQbE' sslmode=disable key='id' srid=4839 type=Point table="public"."stations" (location_4839) sql="dist_bstr" is not null&#xd;
+</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>stations.location_4839 bstr dist not null</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=48.66666666666666 +lat_2=53.66666666666666 +lat_0=51 +lon_0=10.5 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs</proj4>
+          <srsid>27901</srsid>
+          <srid>4839</srid>
+          <authid>EPSG:4839</authid>
+          <description>ETRS89 / LCC Germany (N-E)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">postgres</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="">
+        <map-layer-style name=""/>
+      </map-layer-style-manager>
+      <edittypes>
+        <edittype widgetv2type="TextEdit" name="id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="station_name">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="brand">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="street">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="house_number">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="zip_code">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="city">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="lat">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="lon">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="location">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="min_ts">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="max_ts">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="dist_abahn">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="abahn_id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="bland">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="kreis">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="dist_sstr">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="sstr_id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="dist_bstr">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="bstr_id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+      </edittypes>
+      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
+        <symbols>
+          <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
+            <layer pass="0" class="SimpleMarker" locked="0">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="126,169,110,255"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="diameter"/>
+              <prop k="size" v="2"/>
+              <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale scalemethod="diameter"/>
+      </renderer-v2>
+      <labeling type="simple"/>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerTransparency>0</layerTransparency>
+      <displayfield>station_name</displayfield>
+      <label>0</label>
+      <labelattributes>
+        <label fieldname="" text="Label"/>
+        <family fieldname="" name="MS Shell Dlg 2"/>
+        <size fieldname="" units="pt" value="12"/>
+        <bold fieldname="" on="0"/>
+        <italic fieldname="" on="0"/>
+        <underline fieldname="" on="0"/>
+        <strikeout fieldname="" on="0"/>
+        <color fieldname="" red="0" blue="0" green="0"/>
+        <x fieldname=""/>
+        <y fieldname=""/>
+        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+        <angle fieldname="" value="0" auto="0"/>
+        <alignment fieldname="" value="center"/>
+        <buffercolor fieldname="" red="255" blue="255" green="255"/>
+        <buffersize fieldname="" units="pt" value="1"/>
+        <bufferenabled fieldname="" on=""/>
+        <multilineenabled fieldname="" on=""/>
+        <selectedonly on=""/>
+      </labelattributes>
+      <annotationform></annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="station_name" index="1" name=""/>
+        <alias field="brand" index="2" name=""/>
+        <alias field="street" index="3" name=""/>
+        <alias field="house_number" index="4" name=""/>
+        <alias field="zip_code" index="5" name=""/>
+        <alias field="city" index="6" name=""/>
+        <alias field="lat" index="7" name=""/>
+        <alias field="lon" index="8" name=""/>
+        <alias field="location" index="9" name=""/>
+        <alias field="min_ts" index="10" name=""/>
+        <alias field="max_ts" index="11" name=""/>
+        <alias field="dist_abahn" index="12" name=""/>
+        <alias field="abahn_id" index="13" name=""/>
+        <alias field="bland" index="14" name=""/>
+        <alias field="kreis" index="15" name=""/>
+        <alias field="dist_sstr" index="16" name=""/>
+        <alias field="sstr_id" index="17" name=""/>
+        <alias field="dist_bstr" index="18" name=""/>
+        <alias field="bstr_id" index="19" name=""/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <attributeactions default="-1"/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="-219938623">
+        <columns/>
+      </attributetableconfig>
+      <editform></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="station_name" expression=""/>
+        <default field="brand" expression=""/>
+        <default field="street" expression=""/>
+        <default field="house_number" expression=""/>
+        <default field="zip_code" expression=""/>
+        <default field="city" expression=""/>
+        <default field="lat" expression=""/>
+        <default field="lon" expression=""/>
+        <default field="location" expression=""/>
+        <default field="min_ts" expression=""/>
+        <default field="max_ts" expression=""/>
+        <default field="dist_abahn" expression=""/>
+        <default field="abahn_id" expression=""/>
+        <default field="bland" expression=""/>
+        <default field="kreis" expression=""/>
+        <default field="dist_sstr" expression=""/>
+        <default field="sstr_id" expression=""/>
+        <default field="dist_bstr" expression=""/>
+        <default field="bstr_id" expression=""/>
       </defaults>
       <previewExpression></previewExpression>
     </maplayer>
