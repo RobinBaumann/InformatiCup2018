@@ -415,6 +415,153 @@ where id = sub.sid;
 select * from stations where bland is null;
 -- id = 6232 --> coordinates for this station are wrong
 #+END_SRC
+*** Kreise
+- Polygone der Kreise in DB erstellen
+#+BEGIN_SRC sql
+-- result: R, W, N (lkr konstanz und oberbergischer kreis haben relations)
+-- in beiden fällen handelt es sich um relations, die komplett in den ways liegen --> ignorieren
+-- Nodes treten als admin_centre etc. auf --> ignorieren
+create table kreise (
+  id serial primary key,
+  tags hstore,
+  rel_id bigint,
+  geom geometry(polygon, 4326),
+  geom_4839 geometry(polygon, 4839));
+
+
+with collection as (
+select
+  st_polygonize((linestring)) as g,
+  m.relation_id
+from relations as r
+inner join relation_members as m on r.id = m.relation_id
+    and r.tags -> 'boundary' = 'administrative'
+    and r.tags -> 'admin_level' = '6'
+    and r.tags -> 'de:regionalschluessel' is not null
+  inner join ways as w on m.member_id = w.id
+    and m.member_type = 'W'
+    and m.member_role = 'outer'
+  GROUP BY m.relation_id
+), dump as (
+    select (st_dump(g)).geom as geom,
+      relation_id
+    from collection
+)
+insert into kreise (tags, rel_id, geom)
+  (select tags, relation_id, geom
+  from dump as d
+    inner join relations as r on d.relation_id = r.id);
+
+update kreise 
+set geom_4839 = st_transform(geom, 4839);
+create index kreise_geom_gix on kreise using gist (geom_4839);
+#+END_SRC
+- tankstellen in mehreren kreisen
+#+BEGIN_SRC sql
+create or replace view multikreis as
+with multis as (
+    select s.id
+    from stations as s
+      inner join kreise as k on st_contains(k.geom_4839, s.location_4839)
+    GROUP BY s.id
+    having count(*) > 1
+)
+select row_number() over (order by s.id) as objectid,
+  s.id as sid,
+  s.location_4839,
+  k.id as kid,
+  k.geom_4839
+  from stations as s
+  inner join kreise as k on st_contains(k.geom_4839, s.location_4839)
+  where s.id in (select * from multis);
+select count(*) from multikreis group by sid;
+-- 411 Stations in jeweils 2 Kreisen
+#+END_SRC
+- visualisierung mit qgis legt nahe, dass es sich jeweils um 'geschachtelte' kreise handelt
+#+BEGIN_SRC sql
+select distinct  m1.kid as m1id,
+  m2.kid as m2id,
+  st_contains(m1.geom_4839, m2.geom_4839) as m2inm1
+from multikreis as m1
+  inner join multikreis as m2
+    on m1.sid = m2.sid
+where m1.kid < m2.kid;
+-- 25 kreispaare, die 'geschachtelt' sind
+select case when m2inm1 then m2id else m1id end as innerId
+from (
+  select distinct  m1.kid as m1id,
+                   m2.kid as m2id,
+                   st_contains(m1.geom_4839, m2.geom_4839) as m2inm1
+  from multikreis as m1
+    inner join multikreis as m2
+      on m1.sid = m2.sid
+  where m1.kid < m2.kid
+) as sub;
+#+END_SRC
+- zuerst stations in inneren Kreisen zuordnen
+- danach restliche
+#+BEGIN_SRC sql
+alter table stations add column kreis varchar(12);
+-- select stations in inner Kreisen
+with innerIds as (
+  select case when m2inm1 then m2id else m1id end as innerId
+  from (
+    select distinct  m1.kid as m1id,
+                    m2.kid as m2id,
+                    st_contains(m1.geom_4839, m2.geom_4839) as m2inm1
+    from multikreis as m1
+      inner join multikreis as m2
+        on m1.sid = m2.sid
+    where m1.kid < m2.kid
+  ) as sub
+)
+select s.id, count(*)
+from stations as s
+inner join kreise as k on st_contains(k.geom_4839, s.location_4839)
+  where k.id in (select innerId from innerIds)
+group by s.id;
+with innerIds as (
+  select case when m2inm1 then m2id else m1id end as innerId
+  from (
+    select distinct  m1.kid as m1id,
+                    m2.kid as m2id,
+                    st_contains(m1.geom_4839, m2.geom_4839) as m2inm1
+    from multikreis as m1
+      inner join multikreis as m2
+        on m1.sid = m2.sid
+    where m1.kid < m2.kid
+  ) as sub
+)
+update stations
+set kreis = n
+from (select k.tags -> 'de:regionalschluessel' as n, s.id as sid from stations as s inner join kreise as k
+             on st_contains(k.geom_4839, s.location_4839)
+             where k.id in (select innerId from innerIds)) as sub
+where id = sub.sid;
+-- update remaining stations
+update stations
+set kreis = n
+from (select k.tags -> 'de:regionalschluessel' as n, s.id as sid from stations as s inner join kreise as k
+      on st_contains(k.geom_4839, s.location_4839)
+      where s.kreis is null) as sub
+where id = sub.sid;
+-- check not categorized
+select * from stations where kreis is null;
+-- 517 results: jeweils in Berlin und Hamburg
+with hamber as (
+    select distinct tags -> 'de:regionalschluessel' as k,
+                    tags -> 'name' as n
+    from bundeslaender
+    where tags -> 'name' in ('Berlin', 'Hamburg')
+)
+update stations set kreis = sub.k
+from (select k, n from hamber) as sub
+where kreis is NULL
+    and sub.n = bland
+-- 516 rows affected
+select * from stations where kreis is null;
+-- id = 6232 --> coordinates for this station are wrong
+#+END_SRC
 * Papers
 ** ECONOMETRIC MODELS FOR OIL PRICE FORECASTING: A CRITICAL SURVEY
 [[https://drive.google.com/open?id=0B0zREaCR-EN4c3BTSnVYU3pHWFk]]
