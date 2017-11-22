@@ -363,6 +363,58 @@ result.commitChanges()
 
 result2 = processing.runalg("qgis:polygonize", result,  True, True, out)
 #+END_SRC
+
+- importiere geojson polygone für bundesländer =python database.py blaender=
+
+#+BEGIN_SRC sql
+-- view to inspect stations that are in multiple polys
+create or replace view multibland as
+with multis as (
+    select s.id
+    from stations as s
+      inner join bundeslaender as b on st_contains(b.poly_4839, s.location_4839)
+    GROUP BY s.id
+    having count(*) > 1
+)
+select row_number() over (order by s.id) as objectid,
+  s.id as sid,
+  s.location_4839,
+  b.id as bid,
+  b.poly_4839
+  from stations as s
+  inner join bundeslaender as b on st_contains(b.poly_4839, s.location_4839)
+  where s.id in (select * from multis);
+#+END_SRC
+
+- kurze analyse in qgis zeigt, dass es sich um tankstellen in berlin, bremerhaven und bremen handelt
+- --> zuerst stations in bremen und berlin updaten, dann restliche
+
+#+BEGIN_SRC sql
+alter table stations add column bland varchar(30);
+-- select stations in bremen/berlin
+select s.id, count(*)
+from stations as s
+inner join bundeslaender as b on st_contains(b.poly_4839, s.location_4839)
+  where b.id in (6, 12, 49)
+group by s.id;
+
+update stations
+set bland = n
+from (select b.tags -> 'name' as n, s.id as sid from stations as s inner join bundeslaender as b
+             on st_contains(b.poly_4839, s.location_4839)
+             where b.id in (6, 12, 49)) as sub
+where id = sub.sid;
+-- update remaining stations
+update stations
+set bland = n
+from (select b.tags -> 'name' as n, s.id as sid from stations as s inner join bundeslaender as b
+      on st_contains(b.poly_4839, s.location_4839)
+      where s.bland is null) as sub
+where id = sub.sid;
+-- check not categorized
+select * from stations where bland is null;
+-- id = 6232 --> coordinates for this station are wrong
+#+END_SRC
 * Papers
 ** ECONOMETRIC MODELS FOR OIL PRICE FORECASTING: A CRITICAL SURVEY
 [[https://drive.google.com/open?id=0B0zREaCR-EN4c3BTSnVYU3pHWFk]]
