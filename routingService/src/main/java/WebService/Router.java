@@ -19,7 +19,7 @@ public class Router {
             before("/*", (q, a) -> LOGGER.info("Received api call"));
             path("/gasStation", () -> {
                 get("/info/:id", (q, a) -> this.stationSparkProxy.getStationByID(q, a));
-                get("/route", (q, a) -> this.stationSparkProxy.getStationsByRoute(q, a));
+                post("/route", (q, a) -> this.stationSparkProxy.getStationsByRoute(q, a));
             });
 
         });
