@@ -7,6 +7,7 @@ import vacation_and_holidays
 import euro_dollar
 import oil_prices
 import json
+import geojson
 from urllib.request import urlopen
 from io import StringIO
 from postgis.psycopg import register
@@ -251,6 +252,47 @@ def update_autobahn():
     con.close()
 
 
+def import_blaender():
+    files = glob.glob('../geojson/*.geojson')
+    con = create_connection()
+    cursor = con.cursor()
+    for file in files:
+        with open(file, 'r') as f:
+            bland = geojson.loads(f.read())
+            import_bland(cursor, bland)
+    con.commit()
+    cursor.close()
+    con.close()
+
+
+def import_bland(cursor, bland):
+    cursor.execute("""
+    select id from bundeslaender where rel_id = %s
+    """, (int(bland.name), ))
+    entry_id = cursor.fetchone()[0]
+    geom_count = 0
+    for feature in bland.features:
+        geom_count += 1
+        if feature.geometry.type != 'Polygon':
+            print(bland.name + ' has geometry of type ' + feature.geometry.type)
+            continue
+        if geom_count == 1:
+            update_poly(cursor, entry_id, feature.geometry, bland.crs)
+        else:
+            cursor.execute("""
+            insert into bundeslaender (tags, rel_id, geom, geom_4839)
+            (select tags, rel_id, geom, geom_4839 from bundeslaender where id = %s)
+            RETURNING id
+            """, (entry_id, ))
+            id = cursor.fetchone()[0]
+            update_poly(cursor, id, feature.geometry, bland.crs)
+
+
+def update_poly(cursor, id, poly, crs):
+    poly['crs'] = crs
+    cursor.execute("""
+            update bundeslaender set poly_4839 = ST_GeomFromGeoJSON(%s) where id = %s
+            """, (geojson.dumps(poly), id))
 
 
 if __name__ == '__main__':
@@ -262,6 +304,7 @@ if __name__ == '__main__':
         import_dollar_per_euro()
         import_commuters()
         update_autobahn()
+        import_blaender()
     elif len(sys.argv) == 2:
         if sys.argv[1] == 'input':
             import_input()
@@ -275,4 +318,8 @@ if __name__ == '__main__':
             import_oil_prices()
         elif sys.argv[1] == 'commuters':
             import_commuters()
+        elif sys.argv[1] == 'autobahn':
+            update_autobahn()
+        elif sys.argv[1] == 'blaender':
+            import_blaender()
 
