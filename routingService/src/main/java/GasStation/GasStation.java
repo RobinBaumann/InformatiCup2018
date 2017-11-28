@@ -2,31 +2,23 @@ package GasStation;
 
 import java.time.LocalTime;
 
+@SuppressWarnings("WeakerAccess")
 public class GasStation extends AbstractStation {
-    public Double lon;
-    public Double lat;
+    public double lon;
+    public double lat;
     public String station_name;
-    private String street;
-    private String brand;
-    public int id;
-    private String house_number;
-    private String zip_code;
-    private String city;
     public double cost;
+    public int id;
+    public String street;
+    public String brand;
+    public String house_number;
+    public String zip_code;
+    public String city;
+
 
     @Override
     public String toString() {
-        return "GasStation{" +
-                "lon=" + lon +
-                ", lat=" + lat +
-                ", station_name='" + station_name + '\'' +
-                ", street='" + street + '\'' +
-                ", brand='" + brand + '\'' +
-                ", house_number='" + house_number + '\'' +
-                ", zip_code=" + zip_code +
-                ", id=" + id +
-                ", city='" + city + '\'' +
-                '}';
+        return String.format("GasStation{lon=%s, lat=%s, station_name='%s', street='%s', brand='%s', house_number='%s', zip_code=%s, id=%d, city='%s'}", lon, lat, station_name, street, brand, house_number, zip_code, id, city);
     }
 
 

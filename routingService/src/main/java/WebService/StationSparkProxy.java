@@ -2,8 +2,9 @@ package WebService;
 
 import GasStation.AbstractStation;
 import GasStation.GasStation;
+import Model.RequestStop;
+import Validation.AnnotatedDeserializer;
 import com.google.common.base.Function;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -11,21 +12,15 @@ import com.noelherrick.jell.Jell;
 import spark.Request;
 import spark.Response;
 
-import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StationSparkProxy {
     private Jell jell = null;
     private final static Logger LOGGER = Logger.getLogger(StationSparkProxy.class.getName());
-
-    public StationSparkProxy(Jell jell) {
-        this.jell = jell;
-    }
-
+    // Query function
     private final Function<String, Collection<GasStation>> queryStationMethod = (Function<String, Collection<GasStation>>) s -> {
         Collection<GasStation> gasStations = null;
         try {
@@ -42,22 +37,33 @@ public class StationSparkProxy {
         return gasStations;
     };
 
+    public StationSparkProxy(Jell jell) {
+        this.jell = jell;
+    }
+
+    /**
+     * Retrieve Station by ID
+     * @param request
+     * @param response
+     * @return
+     */
     public Collection<GasStation> getStationByID(Request request, Response response) {
         return AbstractStation.getByID(Integer.parseInt(request.params(":id")), queryStationMethod);
     }
 
     /**
      * TODO:
-     * parse json and calc route
-     * curl localhost:4567/api/gasStation/route --data "route=[{timestamp:5,station_id:1}]"
+     * Create Route and solve Fixed Path Station Problem
      * @param request
      * @param response
      * @return
      */
     public String getStationsByRoute(Request request, Response response) {
         String route = (request.queryParams("route"));
-        Gson gson = new GsonBuilder().create();
-        String responseString = "Syntaxerror";
+        Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(RequestStop.class, new AnnotatedDeserializer<RequestStop>())
+                        .create();
+        String responseString = "Syntax Error";
         try {
             RequestStop[] r = gson.fromJson(route, RequestStop[].class);
             responseString = r.toString();
