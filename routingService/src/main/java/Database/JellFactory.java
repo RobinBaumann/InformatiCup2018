@@ -7,6 +7,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JellFactory {
+    /**
+     * Setup connection
+     * @param url
+     * @param username
+     * @param password
+     * @return
+     * @throws SQLException
+     */
     public static Jell setUpConnection(String url, String username, String password) throws SQLException {
         Connection conn = DriverManager.getConnection(url, username, password);
         return new Jell(conn);
