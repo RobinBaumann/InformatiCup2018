@@ -9,7 +9,7 @@ def create_connection():
     return create_engine(f"postgresql://infocup@{host}:{port}/infocup")
 
 
-def prepare_data():
+def prepare_data(batch_size=20):
     # select stations between 2015-01-01 and 2017-09-18
     active_stations = pd.read_sql_query("""
     select id, min_ts, max_ts
@@ -18,7 +18,7 @@ def prepare_data():
     and max_ts >= '2017-09-18'""", con)
 
     # subsample 100 stations, because the full dataset is to large
-    ids = np.random.choice(active_stations['id'], 100)
+    ids = np.random.choice(active_stations['id'], batch_size)
 
     param = ','.join([str(x) for x in ids])
     query = """select * from prices_sampled where station_id in (%s) 
@@ -56,4 +56,5 @@ def train_test_split(series, train_amount=0.8):
 if __name__ == "__main__":
     con = create_connection()
     prepared_data = prepare_data()
-    print(prepared_data)
+    for k in prepared_data:
+        print("{}: {}".format(k, prepared_data[k]))
