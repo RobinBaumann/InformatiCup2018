@@ -6,10 +6,10 @@ import pandas as pd
 def create_connection():
     host = 'localhost'
     port = '3333'
-    return create_engine(f"postgresql://infocup@{host}:{port}/infocup")
+    return create_engine("postgresql://infocup@{}:{}/infocup".format(host, port))
 
 
-def prepare_data():
+def prepare_data(con, batch_size=20):
     # select stations between 2015-01-01 and 2017-09-18
     active_stations = pd.read_sql_query("""
     select id, min_ts, max_ts
@@ -18,7 +18,7 @@ def prepare_data():
     and max_ts >= '2017-09-18'""", con)
 
     # subsample 100 stations, because the full dataset is to large
-    ids = np.random.choice(active_stations['id'], 100)
+    ids = np.random.choice(active_stations['id'], batch_size)
 
     param = ','.join([str(x) for x in ids])
     query = """select * from prices_sampled where station_id in (%s) 
@@ -52,6 +52,7 @@ def train_test_split(series, train_amount=0.8):
     train_size = int(len(series) * train_amount)
     train, test = series[0:train_size], series[train_size:len(series)]
     return train, test
+
 
 if __name__ == "__main__":
     con = create_connection()
