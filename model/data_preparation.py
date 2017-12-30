@@ -9,7 +9,7 @@ def create_connection():
     return create_engine("postgresql://infocup@{}:{}/infocup".format(host, port))
 
 
-def prepare_data(con, batch_size=20):
+def prepare_data(con, batch_size=200):
     # select stations between 2015-01-01 and 2017-09-18
     active_stations = pd.read_sql_query("""
     select id, min_ts, max_ts
