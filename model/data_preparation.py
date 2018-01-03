@@ -36,6 +36,7 @@ def prepare_data(con, batch_size=20):
         prices_for_id = prices.loc[prices['station_id'] == idx]
         train, test, ts_train, ts_test = train_test_split(prices_for_id['price'].as_matrix(), prices_for_id["time_stamp"].as_matrix())
         time_series = {"train": train, "test": test}
+        prepared_data[idx] = {}
         prepared_data[idx]["time_series"] = time_series
         prepared_data[idx]["train_stamps"] = ts_train
         prepared_data[idx]["test_stamps"] = ts_test
@@ -54,3 +55,7 @@ def train_test_split(series, time_stamps, train_amount=0.8):
                                      time_stamps[0:train_size], time_stamps[train_size:len(time_stamps)]
     return train, test, ts_train, ts_test
 
+if __name__ == "__main__":
+    con = create_connection()
+    res = prepare_data(con)
+    print(res)
