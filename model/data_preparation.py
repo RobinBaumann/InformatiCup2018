@@ -45,7 +45,6 @@ def prepare_data(con, batch_size=20):
         prepared_data[idx]["abahn"] = ~np.isnan(stations.loc[stations['id'] == idx, 'abahn_id'].as_matrix()[0])
         prepared_data[idx]["bstr"] = ~np.isnan(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0])
         prepared_data[idx]["sstr"] = ~np.isnan(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0])
-
     return prepared_data
 
 
