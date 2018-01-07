@@ -1,6 +1,8 @@
 import numpy as np
 from sqlalchemy import create_engine
 import pandas as pd
+import holidays
+
 
 def create_connection():
     host = 'localhost'
@@ -22,7 +24,7 @@ def prepare_data(con, batch_size=20):
     param = ','.join([str(x) for x in ids])
     query = """select * from prices_sampled where station_id in (%s) 
     and time_stamp between '2015-01-01' and '2017-09-18'""" % param
-    prices = pd.read_sql_query(query, con)
+    prices = pd.read_sql_query(query, con, parse_dates=["time_stamp"])
 
     query = """select * from stations where id in (%s) """ % param
     stations = pd.read_sql_query(query, con)
@@ -45,7 +47,61 @@ def prepare_data(con, batch_size=20):
         prepared_data[idx]["abahn"] = ~np.isnan(stations.loc[stations['id'] == idx, 'abahn_id'].as_matrix()[0])
         prepared_data[idx]["bstr"] = ~np.isnan(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0])
         prepared_data[idx]["sstr"] = ~np.isnan(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0])
-    return prepared_data
+
+    for key in prepared_data.keys():
+        prepared_data[key]["time_series"]["test"] = np.log(prepared_data[key]["time_series"]["test"].reshape(-1, 1))
+        prepared_data[key]["time_series"]["train"] = np.log(prepared_data[key]["time_series"]["train"].reshape(-1, 1))
+
+    x_train_adjusted = {}
+    x_test_adjusted = {}
+    y_train_adjusted = {}
+    y_test_adjusted = {}
+
+    for k in prepared_data.keys():
+        x_train = prepared_data[k]["time_series"]["train"][0:-2]
+        ts_train = prepared_data[k]["train_stamps"][0:-2]
+        y_train_adjusted[k] = prepared_data[k]["time_series"]["train"][1:-1]
+        x_test = prepared_data[k]["time_series"]["test"][0:-2]
+        ts_test = prepared_data[k]["test_stamps"][0:-2]
+        y_test_adjusted[k] = prepared_data[k]["time_series"]["test"][1:-1]
+        x_train_adjusted[k] = []
+        x_test_adjusted[k] = []
+        for i, p in enumerate(x_train):
+            vac, hol, dow = get_vacation_holiday_and_weekday(prices, ts_train[i])
+            features = []
+            features.append(np.float(p[0]))
+            features.append(ts_train[i])
+            features.append(int(vac))
+            features.append(int(hol))
+            features.append(int(dow))
+            features.append(encode_state(prepared_data[k]["state"]))
+            features.append(k)
+            features.append(hash(prepared_data[k]["brand"]))
+            features.append(prepared_data[k]["county"])
+            features.append(int(prepared_data[k]["abahn"]))
+            features.append(int(prepared_data[k]["bstr"]))
+            features.append(int(prepared_data[k]["sstr"]))
+            x_train_adjusted[k].append(features)
+
+        x_test_adjusted[k] = []
+        for i, p in enumerate(x_test):
+            vac, hol, dow = get_vacation_holiday_and_weekday(prices, ts_test[i])
+            features = []
+            features.append(np.float(p[0]))
+            features.append(ts_test[i])
+            features.append(int(vac))
+            features.append(int(hol))
+            features.append(int(dow))
+            features.append(k)
+            features.append(hash(prepared_data[k]["brand"]))
+            features.append(encode_state(prepared_data[k]["state"]))
+            features.append(prepared_data[k]["county"])
+            features.append(int(prepared_data[k]["abahn"]))
+            features.append(int(prepared_data[k]["bstr"]))
+            features.append(int(prepared_data[k]["sstr"]))
+            x_test_adjusted[k].append(features)
+
+    return x_train_adjusted, y_train_adjusted, x_test_adjusted, y_test_adjusted
 
 
 def train_test_split(series, time_stamps, train_amount=0.8):
@@ -55,16 +111,9 @@ def train_test_split(series, time_stamps, train_amount=0.8):
     return train, test, ts_train, ts_test
 
 
-def is_timestamp_in_vacations(state, time_stamp, vacations):
-    state_vac = vacations[vacations["state"] == state]
-    ts = time_stamp.astype("datetime64[D]")
-    in_vac = False
-    while ~in_vac:
-        for start, end in zip(state_vac["start_date"], state_vac["end_date"]):
-            if ts in pd.date_range(start, end):
-                in_vac = True
-
-    return in_vac
+def get_vacation_holiday_and_weekday(prices, time_stamp):
+    ts_price = prices[prices["time_stamp"] == time_stamp]
+    return ts_price["is_vacation"].as_matrix()[0], ts_price["is_holiday"].as_matrix()[0], ts_price["day_of_week"].as_matrix()[0]
 
 
 def get_vacations(con):
