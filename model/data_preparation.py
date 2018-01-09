@@ -1,7 +1,6 @@
 import numpy as np
 from sqlalchemy import create_engine
 import pandas as pd
-import holidays
 
 
 def create_connection():
@@ -33,6 +32,7 @@ def prepare_data(con, batch_size=20):
     prices = prices.loc[mask]
 
     prepared_data = {}
+    #TODO: Der shit kann eigentlich weg...
     for idx in ids:
         prices_for_id = prices.loc[prices['station_id'] == idx]
         train, test, ts_train, ts_test = train_test_split(prices_for_id['price'].as_matrix(), prices_for_id["time_stamp"].as_matrix())
@@ -114,10 +114,6 @@ def train_test_split(series, time_stamps, train_amount=0.8):
 def get_vacation_holiday_and_weekday(prices, time_stamp):
     ts_price = prices[prices["time_stamp"] == time_stamp]
     return ts_price["is_vacation"].as_matrix()[0], ts_price["is_holiday"].as_matrix()[0], ts_price["day_of_week"].as_matrix()[0]
-
-
-def get_vacations(con):
-    return pd.read_sql_query("""select * from vacations""", con)
 
 
 def encode_state(data):
