@@ -46,7 +46,11 @@ def query_db():
 def make_requests(data):
     results = {}
     errors = {}
+    i = 0
+    total = len(data)
     for station in data:
+        if i % 100 == 0:
+            print(str(i) + ' / ' + str(total))
         params = query_params(station[0], station[1], station[3], station[2])
         start = time() * 1000
         result = requests.get(baseurl, headers=headers, params=params)
@@ -58,7 +62,9 @@ def make_requests(data):
             errors[str(station[4])] = payload
         end = time() * 1000
         delta = 1100 - (end - start)
-        sleep(float('.' + str(delta)))
+        if delta > 0:
+            sleep(float('.' + str(delta).replace('.', '')))
+        i += 1
     return (results, errors)
 
 
