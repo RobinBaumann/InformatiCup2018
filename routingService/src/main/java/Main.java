@@ -2,6 +2,7 @@ import Database.JellFactory;
 import WebService.Router;
 import WebService.StationSparkProxy;
 import com.noelherrick.jell.Jell;
+import spark.Spark;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ class Main {
             e.printStackTrace();
             LOGGER.log(Level.SEVERE, "Database connection failed");
         }
+        Spark.staticFiles.location("/public");
         StationSparkProxy stationSparkProxy = new StationSparkProxy(jell);
         Router router = new Router(stationSparkProxy);
         router.setupRouter();

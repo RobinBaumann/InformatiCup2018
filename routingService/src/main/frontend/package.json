@@ -1,0 +1,28 @@
+{
+  "name": "language",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "start": "webpack-dev-server"
+  },
+  "dependencies": {
+    "vue": "^2.5.13",
+    "vue-typed": "^2.1.3",
+    "material-design-lite": "^1.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^9.3.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "cross-env":"^5.1.3",
+    "css-loader": "^0.28.8",
+    "file-loader": "^1.1.6",
+    "html-loader": "^0.5.4",
+    "style-loader": "^0.19.1",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.10.1",
+    "html-webpack-plugin": "^2.30.1"
+  }
+}
