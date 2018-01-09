@@ -594,6 +594,58 @@ where kreis is NULL
 select * from stations where kreis is null;
 -- id = 6232 --> coordinates for this station are wrong
 #+END_SRC
+** day_of_week, is_holiday, is_vacation Features für prices_sampled
+*** day of week
+#+BEGIN_SRC sql
+alter table prices_sampled add column day_of_week smallint;
+update prices_sampled set day_of_week = extract (ISODOW from time_stamp);
+#+END_SRC
+*** is_vacation
+#+BEGIN_SRC sql
+alter table prices_sampled add column is_vacation boolean;
+
+create table stations_vacations (
+  station_id smallint not null,
+  vacation daterange
+);
+
+insert into stations_vacations (station_id, vacation)
+  (select s.id, daterange(v.start_date, v.end_date) 
+   from stations as s 
+   inner join vacations as v on s.bland = v.state);
+
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+
+create index idx_stations_vacations on stations_vacations using gist (station_id, vacation);
+
+update prices_sampled as p
+set is_vacation = exists (select station_id 
+    from stations_vacations as v 
+    where p.station_id = v.station_id 
+        and  p.time_stamp::date <@ v.vacation);
+#+END_SRC
+*** is_holiday
+#+BEGIN_SRC sql
+alter table prices_sampled add column is_holiday boolean;
+
+create table stations_holidays (
+  station_id smallint not null,
+  holiday date
+);
+
+insert into stations_holidays (station_id, holiday) 
+  SELECT s.id, to_date(h.date, 'YYYY-MM-DD') 
+  from stations as s 
+    inner join holidays as h on s.bland = h.state;
+
+create index idx_stations_holidays on stations_holidays (station_id, holiday) ;
+
+update prices_sampled as p
+  set is_holiday = exists (select station_id 
+      from stations_holidays as h 
+      where p.station_id = h.station_id 
+         and p.time_stamp::date = h.holiday);
+#+END_SRC
 * Papers
 ** ECONOMETRIC MODELS FOR OIL PRICE FORECASTING: A CRITICAL SURVEY
 [[https://drive.google.com/open?id=0B0zREaCR-EN4c3BTSnVYU3pHWFk]]
