@@ -64,9 +64,9 @@ def prepare_data(con, batch_size=20):
             features.append(hash(stations.loc[stations['id'] == idx, 'brand'].as_matrix()[0]))
             features.append(encode_state(stations.loc[stations['id'] == idx, 'bland'].as_matrix()[0]))
             features.append(stations.loc[stations['id'] == idx, 'kreis'].as_matrix()[0])
-            features.append(~np.isnan(stations.loc[stations['id'] == idx, 'abahn_id'].as_matrix()[0]))
-            features.append(~np.isnan(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0]))
-            features.append(~np.isnan(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0]))
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'abahn_id'].as_matrix()[0]))
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0]))
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0]))
             x_train_adjusted[idx].append(features)
 
         x_test_adjusted[idx] = []
@@ -84,9 +84,9 @@ def prepare_data(con, batch_size=20):
             features.append(hash(stations.loc[stations['id'] == idx, 'brand'].as_matrix()[0]))
             features.append(encode_state(stations.loc[stations['id'] == idx, 'bland'].as_matrix()[0]))
             features.append(stations.loc[stations['id'] == idx, 'kreis'].as_matrix()[0])
-            features.append(~np.isnan(stations.loc[stations['id'] == idx, 'abahn_id'].as_matrix()[0]))
-            features.append(~np.isnan(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0]))
-            features.append(~np.isnan(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0]))
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'abahn_id'].as_matrix()[0]))
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0]))
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0]))
             x_test_adjusted[idx].append(features)
 
     return x_train_adjusted, y_train_adjusted, x_test_adjusted, y_test_adjusted
