@@ -10,16 +10,30 @@ export class Map extends Vue {
     map: ol.Map;
 
     mounted() {
-        this.$nextTick(
-            () => this.map = new ol.Map({
-                target: 'map',
-                layers: [
-                    new ol.layer.Tile({source: new ol.source.OSM()})
-                ],
-                view: new ol.View({
-                    center: [0, 0],
-                    zoom: 4
-                })
-            }));
+        this.$nextTick(() => this.setupOl());
+    }
+
+    setupOl() {
+        this.map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({source: new ol.source.OSM()})
+            ],
+            view: new ol.View({
+                center: [0, 0],
+                zoom: 4
+            }),
+            controls: []
+            });
+        window.addEventListener('resize', this.onResize);
+        this.onResize();
+    }
+
+    beforeDestroy() {
+        window.removeEventListener('resize', this.onResize)
+    }
+
+    onResize() {
+        this.map.updateSize();
     }
 }
