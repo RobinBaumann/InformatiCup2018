@@ -19,9 +19,10 @@ const config = {
     },
     devtool: '#eval-source-map',
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.ts', '.js', '.vue'],
         alias: {
-            'vue$': 'vue/dist/vue.js'
+            'vue$': 'vue/dist/vue.js',
+            'icons': path.resolve(__dirname, 'node_modules/vue-material-design-icons')
         }
     },
     module: {
@@ -37,8 +38,11 @@ const config = {
             {
                 test: /\.(woff2|eot|ttf|woff)$/,
                 loader: 'file-loader?name=fonts/[name].[ext]'
+            },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
             }
-
         ]
     },
     plugins: [
