@@ -646,6 +646,32 @@ update prices_sampled as p
       where p.station_id = h.station_id 
          and p.time_stamp::date = h.holiday);
 #+END_SRC
+** numerical station brand
+#+BEGIN_SRC sql
+create table station_brands (
+  id serial PRIMARY KEY,
+  brand varchar(255)
+);
+
+alter table stations add column brand_no int;
+
+insert into station_brands (brand) select distinct brand from stations;
+
+update stations as s set brand_no = (select id from station_brands as b where s.brand = b.brand);
+#+END_SRC
+** numerical states
+#+BEGIN_SRC sql
+create table bland_enum (
+  id serial primary key,
+  bland varchar(255)
+);
+
+alter table stations add column bland_no int;
+
+insert into bland_enum (bland) select distinct bland from stations;
+
+update stations as s set bland_no = (select id from bland_enum as b where b.bland = s.bland)
+#+END_SRC
 * Papers
 ** ECONOMETRIC MODELS FOR OIL PRICE FORECASTING: A CRITICAL SURVEY
 [[https://drive.google.com/open?id=0B0zREaCR-EN4c3BTSnVYU3pHWFk]]

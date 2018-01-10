@@ -1,6 +1,7 @@
 import numpy as np
 from sqlalchemy import create_engine
 import pandas as pd
+from time import time
 
 def create_connection():
     host = 'localhost'
@@ -50,6 +51,7 @@ def prepare_data(con, batch_size=20):
         x_train_adjusted[idx] = []
         x_test_adjusted[idx] = []
         vac = hol = dow = 0
+        t1 = time()
         for i, p in enumerate(x_train):
             if ts_train[i].astype('datetime64[h]').tolist().time().hour % 24 == 0 or i == 0:
                 vac, hol, dow = get_vacation_holiday_and_weekday(prices, ts_train[i])
@@ -68,9 +70,11 @@ def prepare_data(con, batch_size=20):
             features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0]))
             features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0]))
             x_train_adjusted[idx].append(features)
+        print(time() - t1)
 
         x_test_adjusted[idx] = []
         vac = hol = dow = 0
+        t2 = time()
         for i, p in enumerate(x_test):
             if ts_test[i].astype('datetime64[h]').tolist().time().hour % 24 == 0 or i == 0:
                 vac, hol, dow = get_vacation_holiday_and_weekday(prices, ts_test[i])
@@ -88,8 +92,44 @@ def prepare_data(con, batch_size=20):
             features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0]))
             features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0]))
             x_test_adjusted[idx].append(features)
+        print(time() - t2)
 
     return x_train_adjusted, y_train_adjusted, x_test_adjusted, y_test_adjusted
+
+def prepare_data_2(con, batch_size=20):
+    active_stations = pd.read_sql_query("""
+    select id 
+    from stations
+    where min_ts <= '2015-01-01'
+      and max_ts >= '2017-09-18'""", con)
+
+    ids = np.random.choice(active_stations['id'], batch_size)
+
+    ids_param = ','.join([str(x) for x in ids])
+
+    query = """
+    select 
+      ln(p.price) as ln_price,
+      p.time_stamp,
+      p.is_vacation::int,
+      p.is_holiday::int,
+      p.day_of_week,
+      s.id as station_id,
+      s.brand_no,
+      s.bland_no,
+      s.kreis,
+      s.abahn_id,
+      s.bstr_id,
+      s.sstr_id
+    from stations as s
+    inner join prices_sampled as p on s.id = p.station_id
+      and s.id in (%s)
+      and p.time_stamp between '2015-01-01' and '2017-09-18'
+    order by s.id, p.time_stamp
+      """ % ids_param
+
+    data = pd.read_sql_query(query, con)
+    return data
 
 
 def train_test_split(series, time_stamps, train_amount=0.8):
@@ -149,5 +189,7 @@ def get_state_shortcut(state):
 
 if __name__ == "__main__":
     con = create_connection()
-    res = prepare_data(con)
-    print(res)
+    t = time()
+    res = prepare_data_2(con, 20)
+    print(time() - t)
+    #print(res)
