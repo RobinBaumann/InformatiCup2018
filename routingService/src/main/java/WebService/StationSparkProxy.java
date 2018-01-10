@@ -65,6 +65,7 @@ public class StationSparkProxy {
                         .create();
         String responseString = "Syntax Error";
         try {
+            //TODO fix types
             RequestStop[] r = gson.fromJson(route, RequestStop[].class);
             responseString = r.toString();
         } catch (JsonSyntaxException e) {

@@ -11,6 +11,7 @@ import {FileUpload} from "./vue/file-upload";
 Vue.component('my-map', Map);
 Vue.component('upload-button', FileUpload);
 
+//TODO add top level tabs to switch from prediction to routing
 @Component({
     template: `
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
