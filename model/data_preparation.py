@@ -2,7 +2,6 @@ import numpy as np
 from sqlalchemy import create_engine
 import pandas as pd
 
-
 def create_connection():
     host = 'localhost'
     port = '3333'
@@ -14,7 +13,7 @@ def prepare_data(con, batch_size=20):
     active_stations = pd.read_sql_query("""
     select id, min_ts, max_ts
     from stations
-    where min_ts <= '2015-01-01'
+    where min_ts <= '2015-01-01'  
     and max_ts >= '2017-09-18'""", con)
 
     # subsample 100 stations, because the full dataset is to large
@@ -31,75 +30,64 @@ def prepare_data(con, batch_size=20):
     mask = prices['station_id'].isin(ids)
     prices = prices.loc[mask]
 
-    prepared_data = {}
-    #TODO: Der shit kann eigentlich weg...
-    for idx in ids:
-        prices_for_id = prices.loc[prices['station_id'] == idx]
-        train, test, ts_train, ts_test = train_test_split(prices_for_id['price'].as_matrix(), prices_for_id["time_stamp"].as_matrix())
-        time_series = {"train": train, "test": test}
-        prepared_data[idx] = {}
-        prepared_data[idx]["time_series"] = time_series
-        prepared_data[idx]["train_stamps"] = ts_train
-        prepared_data[idx]["test_stamps"] = ts_test
-        prepared_data[idx]["brand"] = stations.loc[stations['id'] == idx, 'brand'].as_matrix()[0]
-        prepared_data[idx]["state"] = stations.loc[stations['id'] == idx, 'bland'].as_matrix()[0]
-        prepared_data[idx]["county"] = stations.loc[stations['id'] == idx, 'kreis'].as_matrix()[0]
-        prepared_data[idx]["abahn"] = ~np.isnan(stations.loc[stations['id'] == idx, 'abahn_id'].as_matrix()[0])
-        prepared_data[idx]["bstr"] = ~np.isnan(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0])
-        prepared_data[idx]["sstr"] = ~np.isnan(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0])
-
-    for key in prepared_data.keys():
-        prepared_data[key]["time_series"]["test"] = np.log(prepared_data[key]["time_series"]["test"].reshape(-1, 1))
-        prepared_data[key]["time_series"]["train"] = np.log(prepared_data[key]["time_series"]["train"].reshape(-1, 1))
-
     x_train_adjusted = {}
     x_test_adjusted = {}
     y_train_adjusted = {}
     y_test_adjusted = {}
 
-    for k in prepared_data.keys():
-        x_train = prepared_data[k]["time_series"]["train"][0:-2]
-        ts_train = prepared_data[k]["train_stamps"][0:-2]
-        y_train_adjusted[k] = prepared_data[k]["time_series"]["train"][1:-1]
-        x_test = prepared_data[k]["time_series"]["test"][0:-2]
-        ts_test = prepared_data[k]["test_stamps"][0:-2]
-        y_test_adjusted[k] = prepared_data[k]["time_series"]["test"][1:-1]
-        x_train_adjusted[k] = []
-        x_test_adjusted[k] = []
+    for idx in ids:
+        prices_for_id = prices.loc[prices['station_id'] == idx]
+        train, test, ts_train, ts_test = train_test_split(prices_for_id['price'].as_matrix(),
+                                                          prices_for_id["time_stamp"].as_matrix())
+        test = np.log(test.reshape(-1, 1))
+        train = np.log(train.reshape(-1, 1))
+        x_train = train[0:-2]
+        ts_train = ts_train[0:-2]
+        y_train_adjusted[idx] = train[1:-1]
+        x_test = test[0:-2]
+        ts_test = ts_test[0:-2]
+        y_test_adjusted[idx] = test[1:-1]
+        x_train_adjusted[idx] = []
+        x_test_adjusted[idx] = []
+        vac = hol = dow = 0
         for i, p in enumerate(x_train):
-            vac, hol, dow = get_vacation_holiday_and_weekday(prices, ts_train[i])
-            features = []
+            if ts_train[i].astype('datetime64[h]').tolist().time().hour % 24 == 0 or i == 0:
+                vac, hol, dow = get_vacation_holiday_and_weekday(prices, ts_train[i])
+
+            features = list()
             features.append(np.float(p[0]))
             features.append(ts_train[i])
             features.append(int(vac))
             features.append(int(hol))
             features.append(int(dow))
-            features.append(encode_state(prepared_data[k]["state"]))
-            features.append(k)
-            features.append(hash(prepared_data[k]["brand"]))
-            features.append(prepared_data[k]["county"])
-            features.append(int(prepared_data[k]["abahn"]))
-            features.append(int(prepared_data[k]["bstr"]))
-            features.append(int(prepared_data[k]["sstr"]))
-            x_train_adjusted[k].append(features)
+            features.append(idx)
+            features.append(hash(stations.loc[stations['id'] == idx, 'brand'].as_matrix()[0]))
+            features.append(encode_state(stations.loc[stations['id'] == idx, 'bland'].as_matrix()[0]))
+            features.append(stations.loc[stations['id'] == idx, 'kreis'].as_matrix()[0])
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'abahn_id'].as_matrix()[0]))
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0]))
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0]))
+            x_train_adjusted[idx].append(features)
 
-        x_test_adjusted[k] = []
+        x_test_adjusted[idx] = []
+        vac = hol = dow = 0
         for i, p in enumerate(x_test):
-            vac, hol, dow = get_vacation_holiday_and_weekday(prices, ts_test[i])
-            features = []
+            if ts_test[i].astype('datetime64[h]').tolist().time().hour % 24 == 0 or i == 0:
+                vac, hol, dow = get_vacation_holiday_and_weekday(prices, ts_test[i])
+            features = list()
             features.append(np.float(p[0]))
             features.append(ts_test[i])
             features.append(int(vac))
             features.append(int(hol))
             features.append(int(dow))
-            features.append(k)
-            features.append(hash(prepared_data[k]["brand"]))
-            features.append(encode_state(prepared_data[k]["state"]))
-            features.append(prepared_data[k]["county"])
-            features.append(int(prepared_data[k]["abahn"]))
-            features.append(int(prepared_data[k]["bstr"]))
-            features.append(int(prepared_data[k]["sstr"]))
-            x_test_adjusted[k].append(features)
+            features.append(idx)
+            features.append(hash(stations.loc[stations['id'] == idx, 'brand'].as_matrix()[0]))
+            features.append(encode_state(stations.loc[stations['id'] == idx, 'bland'].as_matrix()[0]))
+            features.append(stations.loc[stations['id'] == idx, 'kreis'].as_matrix()[0])
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'abahn_id'].as_matrix()[0]))
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'bstr_id'].as_matrix()[0]))
+            features.append(~pd.isnull(stations.loc[stations['id'] == idx, 'sstr_id'].as_matrix()[0]))
+            x_test_adjusted[idx].append(features)
 
     return x_train_adjusted, y_train_adjusted, x_test_adjusted, y_test_adjusted
 
