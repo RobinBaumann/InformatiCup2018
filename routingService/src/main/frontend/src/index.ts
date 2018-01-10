@@ -5,10 +5,9 @@ import 'material-design-lite/dist/material.amber-blue.min.css'
 import 'material-design-lite/material.min.js'
 import './css/app.css'
 import 'vue-material-design-icons/styles.css'
-import FileUpload from 'icons/upload.vue'
+import './icons.ts'
 
 Vue.component('my-map', Map);
-Vue.component('upload-icon', FileUpload);
 
 @Component({
     template: `
