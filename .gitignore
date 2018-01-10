@@ -4,3 +4,5 @@ Solution/__pycache__/
 /routingService/routingService.iml
 /routingService/target
 /routingService/.idea
+/routingService/main/frontend/node_modules
+/routingService/main/frontend/resources

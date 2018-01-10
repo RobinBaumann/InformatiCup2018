@@ -1,12 +1,12 @@
-<div >
- <button id="show-modal" @click="open()"
+<div>
+    <button id="show-modal" @click="open()"
             class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored upload-button">
         <upload-icon title="upload csv"></upload-icon>
     </button>
 
     <transition name="modal" v-if="getState()">
-        <div class="modal-mask" @click="close()" >
-            <div class="modal-wrapper"  >
+        <div class="modal-mask" @click="close()">
+            <div class="modal-wrapper">
 
                 <div class="modal-container" @click.stop>
 
@@ -18,7 +18,12 @@
 
                     <div class="modal-body">
                         <slot name="body">
-                            Mr.Hanky says Hidihoo
+                            <fieldset>
+                                <legend>CSV Route</legend>
+
+                                <input type="file"
+                                       accept=".csv">
+                            </fieldset>
                         </slot>
                     </div>
 
