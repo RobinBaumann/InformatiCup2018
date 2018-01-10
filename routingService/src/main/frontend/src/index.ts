@@ -7,9 +7,12 @@ import './css/app.css'
 import 'vue-material-design-icons/styles.css'
 import './icons.ts'
 import {FileUpload} from "./vue/file-upload";
+import {Toastr} from "./vue/toastr";
+import {AppError} from "./app/DomainTypes";
 
 Vue.component('my-map', Map);
 Vue.component('upload-button', FileUpload);
+Vue.component('toastr', Toastr);
 
 //TODO add top level tabs to switch from prediction to routing
 @Component({
@@ -18,7 +21,8 @@ Vue.component('upload-button', FileUpload);
             <div class="mdl-layout__content">
                 <div class="page-content">
                     <my-map></my-map>
-                    <upload-button class="floating-bottom-right"></upload-button>
+                    <upload-button class="floating-bottom-right" @error="showError"></upload-button>
+                    <toastr :error="error"></toastr>
                 </div>
             </div>
         </div>
@@ -26,6 +30,11 @@ Vue.component('upload-button', FileUpload);
 })
 
 class App extends Vue {
+    error?: AppError = undefined
+
+    showError(error: AppError) {
+        this.error = error
+    }
 }
 
 new App().$mount('#app');
