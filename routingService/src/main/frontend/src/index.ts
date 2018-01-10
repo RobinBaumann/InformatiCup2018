@@ -6,8 +6,10 @@ import 'material-design-lite/material.min.js'
 import './css/app.css'
 import 'vue-material-design-icons/styles.css'
 import './icons.ts'
+import {FileUpload} from "./vue/file-upload";
 
 Vue.component('my-map', Map);
+Vue.component('upload-button', FileUpload);
 
 @Component({
     template: `
@@ -15,9 +17,7 @@ Vue.component('my-map', Map);
             <div class="mdl-layout__content">
                 <div class="page-content">
                     <my-map></my-map>
-                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored upload-button">
-                        <upload-icon title="upload csv"></upload-icon>
-                    </button>
+                    <upload-button class="floating-bottom-right"></upload-button>
                 </div>
             </div>
         </div>
