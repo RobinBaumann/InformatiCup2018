@@ -1,3 +1,4 @@
-<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" @click="openFileDialog">
     <upload-icon title="upload csv"></upload-icon>
+    <input type="file" class="display-none" ref="fileInput">
 </button>

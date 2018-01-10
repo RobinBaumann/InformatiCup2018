@@ -6,5 +6,7 @@ import {Component} from 'vue-typed'
 })
 
 export class FileUpload extends Vue {
-
+    openFileDialog() {
+        (this.$refs.fileInput as HTMLElement).click();
+    }
 }
