@@ -66,7 +66,6 @@ public class StationSparkProxy {
         } catch (CapacityException e) {
             e.printStackTrace();
         }
-        LOGGER.severe("Error in getStationsByRoute, this point should never be reached");
         throw new RuntimeException("Error in getStationsByRoute, this point should never be reached.");
     }
 }
