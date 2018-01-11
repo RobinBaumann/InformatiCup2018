@@ -1,28 +1,35 @@
 package Database;
 
 
-import GasStation.GasStation;
-import com.noelherrick.jell.Jell;
+import Model.GasStation;
+import Model.StationNotFoundException;
+import org.sql2o.Connection;
+import org.sql2o.Sql2o;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class Repository {
-    private final static Logger LOGGER = Logger.getLogger(Repository.class.getName());
+    private static Sql2o sql2o = new Sql2o(ConnectionFactory.getDataSource());
 
     public static List<GasStation> getStationsByIds(List<Integer> ids) {
-        List<GasStation> stations;
-        try (Connection con = ConnectionFactory.getConnection()) {
-            Jell jell = new Jell(con);
-            stations = new ArrayList<>(jell.query("select id, lat, lon, station_name, street, brand, house_number, zip_code, city" +
-                    "from stations where id in (@ids)", GasStation.class, ids));
-        } catch (IllegalAccessException | NoSuchFieldException | SQLException | InstantiationException e) {
-            LOGGER.severe(e.toString());
-            throw new RuntimeException();
+        try (Connection con = sql2o.open()) {
+            return con.createQuery("select id, lat, lon, station_name, street, brand, house_number, zip_code, city " +
+                    "from stations where id in (:ids)")
+                    .addParameter("ids", ids)
+                    .executeAndFetch(GasStation.class);
         }
-        return stations;
+    }
+
+    public static GasStation getStationById(int id) throws StationNotFoundException {
+        try (Connection con = sql2o.open()) {
+            List<GasStation> stations = con.createQuery("select id, lat, lon, station_name, street, brand, house_number, zip_code, city" +
+                    "from stations where id = :id")
+                    .addParameter("id", id)
+                    .executeAndFetch(GasStation.class);
+            if (stations.size() != 1) {
+                throw new StationNotFoundException(id);
+            }
+            return stations.get(0);
+        }
     }
 }

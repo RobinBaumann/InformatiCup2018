@@ -22,15 +22,14 @@ public class Router {
 
     //localhost:4567/api/gasStation/info/1 retrieves the first gasStation
     public void setupRouter() {
-        post("/api/simpleRoute",  (q,a) -> stationSparkProxy.getStationsByRoute(q, a));
-/*        path("/api", () -> {
+        path("/api", () -> {
             before("/*", (q, a) -> {LOGGER.info("Received api call");});
-            //post("/simpleRoute", (q, a) -> this.stationSparkProxy.getStationsByRoute(q, a));
+            post("/simpleRoute", (q, a) -> this.stationSparkProxy.getStationsByRoute(q, a));
             path("/gasStation", () -> {
                 get("/info/:id", (q, a) -> this.stationSparkProxy.getStationByID(q, a));
             });
 
-        });*/
+        });
     }
 
     private static void enableCORS(String origin, String methods, String headers) {

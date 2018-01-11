@@ -1,26 +1,21 @@
 package Database;
 
-import org.postgresql.ds.PGPoolingDataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public class ConnectionFactory {
     private static DataSource dataSource;
 
     static {
-        PGPoolingDataSource source = new PGPoolingDataSource();
-        source.setDataSourceName("infocup datasource");
-        source.setServerName("localhost");
-        source.setDatabaseName("infocup");
-        source.setUser("infocup");
-        source.setPortNumber(3333);
-        source.setMaxConnections(10);
-        ConnectionFactory.dataSource = source;
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl("jdbc:postgresql://localhost:3333/infocup");
+        config.setUsername("infocup");
+        dataSource = new HikariDataSource(config);
     }
 
-    public static Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+    public static DataSource getDataSource() {
+        return dataSource;
     }
 }

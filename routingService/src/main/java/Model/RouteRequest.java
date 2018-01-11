@@ -2,18 +2,20 @@ package Model;
 
 import Validation.JsonRequired;
 
+import java.util.List;
+
 public class RouteRequest {
     @JsonRequired
     private int capacity;
 
     @JsonRequired
-    private RoutePoint[] routePoints;
+    private List<RoutePoint> routePoints;
 
     public int getCapacity() {
         return capacity;
     }
 
-    public RoutePoint[] getRoutePoints() {
+    public List<RoutePoint> getRoutePoints() {
         return routePoints;
     }
 }

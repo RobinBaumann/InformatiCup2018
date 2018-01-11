@@ -1,35 +1,46 @@
 package Routing;
 
-import GasStation.GasStation;
+import Database.Repository;
+import Model.GasStation;
 import Model.*;
 
 import java.time.OffsetDateTime;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class SimpleRoutingService {
     private final static double STARTING_AMOUNT = 0;
+    private FixedGasStation fixedGasStation;
+
+    public SimpleRoutingService(FixedGasStation fixedGasStation){
+        this.fixedGasStation = fixedGasStation;
+    }
 
     public GasStrategy route(RouteRequest request) throws EmptyRouteException, RoutePointsOutOfOrderException, CapacityException {
         validate(request);
-        LinkedList<GasStation> stations = new LinkedList<>();
-
-        FixedGasStation.calculateRoute(stations, 0, STARTING_AMOUNT); //TODO fix
-        return null; //TODO fix
+        Map<Integer, GasStation> gasStations = Repository.getStationsByIds(
+                request.getRoutePoints().stream().map(RoutePoint::getStationId).collect(Collectors.toList()))
+                .stream().collect(Collectors.toMap(GasStation::getId, Function.identity()));
+        List<GasStop> gasStops = request.getRoutePoints().stream()
+                .map(p -> new GasStop(p.getTimestamp(), gasStations.get(p.getStationId()))).collect(Collectors.toList());
+        return fixedGasStation.calculateRoute(gasStops, request.getCapacity(), STARTING_AMOUNT);
     }
 
     private void validate(RouteRequest request) throws CapacityException, EmptyRouteException, RoutePointsOutOfOrderException {
         if (request.getCapacity() < 1) {
             throw new CapacityException(request.getCapacity());
         }
-        if (request.getRoutePoints().length < 1) {
+        if (request.getRoutePoints().size() < 1) {
             throw new EmptyRouteException();
         }
-        OffsetDateTime lastOffset = request.getRoutePoints()[0].getTimestamp();
-        for (int i = 1; i < request.getRoutePoints().length; i++) {
-            if (request.getRoutePoints()[i].getTimestamp().compareTo(lastOffset) < 1) {
+        OffsetDateTime lastOffset = request.getRoutePoints().get(0).getTimestamp();
+        for (int i = 1; i < request.getRoutePoints().size(); i++) {
+            if (request.getRoutePoints().get(i).getTimestamp().compareTo(lastOffset) < 1) {
                 throw new RoutePointsOutOfOrderException(i);
             }
-            lastOffset = request.getRoutePoints()[i].getTimestamp();
+            lastOffset = request.getRoutePoints().get(i).getTimestamp();
         }
     }
 }

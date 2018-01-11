@@ -1,5 +1,11 @@
 package Model;
 
+import java.util.List;
+
 public class GasStrategy {
-    GasStop[] stops;
+    private final List<GasStop> stops;
+
+    public GasStrategy(List<GasStop> stops) {
+        this.stops = stops;
+    }
 }

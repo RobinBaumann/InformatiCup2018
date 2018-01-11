@@ -42,10 +42,11 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.noelherrick.jell</groupId>
-            <artifactId>jell</artifactId>
-            <version>0.1.1</version>
+            <groupId>org.sql2o</groupId>
+            <artifactId>sql2o</artifactId>
+            <version>1.6.0-RC3</version>
         </dependency>
+
         <dependency>
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
@@ -57,9 +58,14 @@
             <version>1.7.21</version>
         </dependency>
         <dependency>
-            <groupId>postgresql</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>8.3-603.jdbc3</version>
+            <version>42.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.7.5</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>

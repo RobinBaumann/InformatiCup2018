@@ -1,16 +1,24 @@
 package Routing;
 
-import GasStation.GasStation;
+import Model.GasStation;
+import Model.GasStop;
+import Model.GasStrategy;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * implemented http://www.cs.umd.edu/projects/gas/gas-station.pdf Appendix B
  */
-class FixedGasStation {
+public class FixedGasStation {
     protected static final double EARTHRADIUS = 6378.388;
     //5.6 litre per 100km, german average 2016
     private static final double LITREPERKM = 0.056;
+    private PricePredictionService pricePredictionService;
+
+    public FixedGasStation(PricePredictionService pricePredictionService) {
+        this.pricePredictionService = pricePredictionService;
+    }
 
     /**
      * Distance from two Gas Stations
@@ -31,26 +39,32 @@ class FixedGasStation {
      * @param capacity capacity of tank
      * @param full     start fuel of tank
      */
-    public static void calculateRoute(LinkedList<GasStation> route, double capacity, double full) {
+    public GasStrategy calculateRoute(List<GasStop> route, double capacity, double full) {
         int i = 0;
+        //TODO check if predictAll is better perf wise
+        for (GasStop gasStop: route) {
+            gasStop.setPrice(pricePredictionService.getPrice(gasStop.getStation(), gasStop.getTimestamp()));
+        }
         while (i < route.size() - 1) {
             int next = getSuccessor(route, i, capacity);
             if (next == -1)
                 next = route.size() - 1;
-            if (distanceByRange(route, i, next) <= U(full)) {
-                full -= (distanceByRange(route, i, next) * LITREPERKM);
+            if (distanceByRange(mapStations(route), i, next) <= U(full)) {
+                full -= (distanceByRange(mapStations(route), i, next) * LITREPERKM);
                 //TODO remove souts
-                System.out.println("reaching from " + i + " to " + next + " distance from " + distanceByRange(route, i, next) + " km ");
+                System.out.println("reaching from " + i + " to " + next + " distance from " + distanceByRange(mapStations(route), i, next) + " km ");
             } else {
-                double fillingAmount = Math.abs(full - (distanceByRange(route, i, next) * LITREPERKM));
+                double fillingAmount = Math.abs(full - (distanceByRange(mapStations(route), i, next) * LITREPERKM));
                 full = 0;
                 System.out.println("filling in " + fillingAmount + " liters to reach " + next +
-                        " from " + i + " for " + route.get(i).cost * distanceByRange(route, i, next) * LITREPERKM +
-                        "€ for distance " + distanceByRange(route, i, next) + " km ");
-
+                        " from " + i + " for " + route.get(i).getPrice() * distanceByRange(mapStations(route), i, next) * LITREPERKM +
+                        "€ for distance " + distanceByRange(mapStations(route), i, next) + " km ");
+                route.get(i).setAmount(fillingAmount);
             }
             i = next;
         }
+        return new GasStrategy(route);
+
     }
 
 
@@ -87,16 +101,18 @@ class FixedGasStation {
      * @param capacity capacity of tank
      * @return
      */
-    protected static int getSuccessor(LinkedList<GasStation> route, int i, double capacity) {
-        ArrayList<GasStation> prio = new ArrayList<GasStation>();
+    protected static int getSuccessor(List<GasStop> route, int i, double capacity) {
+        List<GasStop> prio = new ArrayList<>();
         for (int k = i + 1; k < route.size(); k++) {
-            if (route.get(k).cost <= route.get(i).cost && distanceByRange(route, k, i) < U(capacity)) {
+            if (route.get(k).getPrice() <= route.get(i).getPrice()
+                    && distanceByRange(mapStations(route), k, i)
+                    < U(capacity)) {
                 prio.add(route.get(k));
             }
         }
         if (prio.size() <= 0)
             return -1;
-        prio.sort(new GasStationComparator(route.getLast()));
+        prio.sort(new GasStopComparator(route.get(route.size() - 1)));
         return route.indexOf(prio.get(0));
     }
 
@@ -108,7 +124,7 @@ class FixedGasStation {
      * @param j     destination index
      * @return
      */
-    protected static double distanceByRange(LinkedList<GasStation> route, int i, int j) {
+    protected static double distanceByRange(List<GasStation> route, int i, int j) {
         double sum = 0;
         for (int k = i; k < j; k++) {
             sum += distanceGasStation(route.get(k), route.get(k + 1));
@@ -116,5 +132,7 @@ class FixedGasStation {
         return sum;
     }
 
-
+    private static List<GasStation> mapStations(List<GasStop> stops) {
+        return stops.stream().map(GasStop::getStation).collect(Collectors.toList());
+    }
 }
