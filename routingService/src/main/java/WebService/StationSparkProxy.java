@@ -10,7 +10,6 @@ import com.google.gson.JsonSyntaxException;
 import spark.Request;
 import spark.Response;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StationSparkProxy {
@@ -55,7 +54,6 @@ public class StationSparkProxy {
         try {
             r = GSON.fromJson(request.body(), RouteRequest.class);
         } catch (JsonSyntaxException e) {
-            LOGGER.log(Level.SEVERE, "JSON Syntax Error " + e.toString());
             throw new RuntimeException(e);
         }
         try {
@@ -69,6 +67,6 @@ public class StationSparkProxy {
             e.printStackTrace();
         }
         LOGGER.severe("Error in getStationsByRoute, this point should never be reached");
-        throw new RuntimeException();
+        throw new RuntimeException("Error in getStationsByRoute, this point should never be reached.");
     }
 }

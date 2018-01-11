@@ -33,4 +33,13 @@ public class ProblemResponse {
                 MessageFormat.format("The GasStation with id {0} could not be found.", e.getId())
         );
     }
+
+    public static ProblemResponse internalError() {
+        return new ProblemResponse(
+                "https://github.com/RobinBaumann/InformatiCup2018/InternalError",
+                "An internal error occurred.",
+                500,
+                "An internal error occurred, we are fixing it asap."
+        );
+    }
 }
