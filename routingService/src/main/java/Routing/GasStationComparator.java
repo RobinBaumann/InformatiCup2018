@@ -14,9 +14,9 @@ class GasStationComparator implements Comparator<GasStation> {
 
     @Override
     public int compare(GasStation x, GasStation y) {
-        if (x.cost < y.cost || x.cost==y.cost && FixedGasStation.distanceGasStation(x,last) < FixedGasStation.distanceGasStation(y,last))
+        if (x.cost < y.cost || x.cost == y.cost && FixedGasStation.distanceGasStation(x, last) < FixedGasStation.distanceGasStation(y, last))
             return 1;
-        else if (x.cost > y.cost || x.cost==y.cost && FixedGasStation.distanceGasStation(x,last) > FixedGasStation.distanceGasStation(y,last))
+        else if (x.cost > y.cost || x.cost == y.cost && FixedGasStation.distanceGasStation(x, last) > FixedGasStation.distanceGasStation(y, last))
             return -1;
         else
             return 0;

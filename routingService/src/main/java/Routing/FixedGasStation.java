@@ -10,7 +10,7 @@ import java.util.*;
 class FixedGasStation {
     protected static final double EARTHRADIUS = 6378.388;
     //5.6 litre per 100km, german average 2016
-    protected static final double LITREPERKM = 0.056;
+    private static final double LITREPERKM = 0.056;
 
     /**
      * Distance from two Gas Stations
@@ -19,7 +19,7 @@ class FixedGasStation {
      * @param y gasStation y
      * @return
      */
-    public static double distanceGasStation(GasStation x, GasStation y) {
+    protected static double distanceGasStation(GasStation x, GasStation y) {
         return getDistance(x.lat, x.lon, y.lat, y.lon);
     }
 
@@ -60,7 +60,7 @@ class FixedGasStation {
      * @param destLon latitude destination
      * @return
      */
-    protected static double getDistance(double lat, double lon, double destLat, double destLon) {
+    private static double getDistance(double lat, double lon, double destLat, double destLon) {
         return EARTHRADIUS * Math.acos(Math.sin(lat) * Math.sin(destLat) + Math.cos(lat) * Math.cos(destLat) * Math.cos(destLon - lon));
     }
 
@@ -71,7 +71,7 @@ class FixedGasStation {
      * @param capacity capacity of tank
      * @return
      */
-    protected static double U(double capacity) {
+    private static double U(double capacity) {
         return capacity / LITREPERKM;
     }
 

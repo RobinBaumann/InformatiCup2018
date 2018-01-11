@@ -1,4 +1,4 @@
-import Database.JellFactory;
+import Database.ConnectionFactory;
 import WebService.Router;
 import WebService.StationSparkProxy;
 import com.noelherrick.jell.Jell;
@@ -12,16 +12,8 @@ class Main {
     private final static Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
-
-        Jell jell = null;
-        try {
-            jell = JellFactory.setUpConnection("jdbc:postgresql://localhost:3333/infocup", "infocup","");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            LOGGER.log(Level.SEVERE, "Database connection failed");
-        }
         Spark.staticFiles.location("/public");
-        StationSparkProxy stationSparkProxy = new StationSparkProxy(jell);
+        StationSparkProxy stationSparkProxy = new StationSparkProxy();
         Router router = new Router(stationSparkProxy);
         router.setupRouter();
     }

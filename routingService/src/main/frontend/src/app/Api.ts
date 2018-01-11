@@ -5,7 +5,7 @@ export class Api {
     static prefix: string = HOST + '/api'
 
     private static unprefixedRoutes: Routes = {
-        route: '/gasStation/route'
+        route: '/simpleRoute'
     }
 
     private static routes = (function(){

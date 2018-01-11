@@ -34,8 +34,7 @@ export class CsvProcessor {
         if (isNaN(date)) {
             return new AppError('timestamp can not be parsed.')
         }
-        const timestamp = new Date();
-        timestamp.setMilliseconds(date);
+        const timestamp = new Date(date);
         const stationId = parseInt(parts[1]);
         if (isNaN(stationId)) {
             return new AppError('stationId can not be parsed.')

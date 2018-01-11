@@ -24,9 +24,9 @@ public class Router {
     public void setupRouter() {
         path("/api", () -> {
             before("/*", (q, a) -> LOGGER.info("Received api call"));
+            post("/simpleRoute", (q, a) -> this.stationSparkProxy.getStationsByRoute(q, a));
             path("/gasStation", () -> {
                 get("/info/:id", (q, a) -> this.stationSparkProxy.getStationByID(q, a));
-                post("/route", (q, a) -> this.stationSparkProxy.getStationsByRoute(q, a));
             });
 
         });

@@ -1,9 +1,12 @@
 package WebService;
 
+import Database.ConnectionFactory;
 import GasStation.AbstractStation;
 import GasStation.GasStation;
 import Model.RequestStop;
+import Model.RouteRequest;
 import Validation.AnnotatedDeserializer;
+import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.common.base.Function;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,18 +15,20 @@ import com.noelherrick.jell.Jell;
 import spark.Request;
 import spark.Response;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StationSparkProxy {
-    private Jell jell = null;
     private final static Logger LOGGER = Logger.getLogger(StationSparkProxy.class.getName());
+    private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
     // Query function
     private final Function<String, Collection<GasStation>> queryStationMethod = (Function<String, Collection<GasStation>>) s -> {
         Collection<GasStation> gasStations = null;
-        try {
+        try (Connection con = ConnectionFactory.getConnection()){
+            Jell jell = new Jell(con);
             gasStations = jell.query(s, GasStation.class);
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "SQL Exception " + e.toString());
@@ -37,9 +42,6 @@ public class StationSparkProxy {
         return gasStations;
     };
 
-    public StationSparkProxy(Jell jell) {
-        this.jell = jell;
-    }
 
     /**
      * Retrieve Station by ID
@@ -59,15 +61,12 @@ public class StationSparkProxy {
      * @return
      */
     public String getStationsByRoute(Request request, Response response) {
-        String route = (request.queryParams("route"));
-        Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(RequestStop.class, new AnnotatedDeserializer<RequestStop>())
-                        .create();
+        String route = request.body();
         String responseString = "Syntax Error";
         try {
-            //TODO fix types
-            RequestStop[] r = gson.fromJson(route, RequestStop[].class);
+            RouteRequest r = GSON.fromJson(route, RouteRequest.class);
             responseString = r.toString();
+            //TODO handle stuff
         } catch (JsonSyntaxException e) {
             LOGGER.log(Level.SEVERE, "JSON Syntax Error " + e.toString());
         }
