@@ -74,7 +74,8 @@ if (process.env.NODE_ENV === 'production') {
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: '"production"'
-                }
+                },
+                HOST: ''
             }),
             new webpack.optimize.UglifyJsPlugin({
                 compress: {
@@ -93,6 +94,13 @@ if (process.env.NODE_ENV === 'production') {
             }
         ]
     );
+    config.plugins = config.plugins.concat(
+        [
+            new webpack.DefinePlugin({
+                HOST: '"http://localhost:4567"'
+            })
+        ]
+    )
 }
 
 module.exports = config;

@@ -7,6 +7,13 @@ import java.util.logging.Logger;
 public class Router {
     private final static Logger LOGGER = Logger.getLogger(Router.class.getName());
 
+    static {
+        enableCORS(
+                "http://localhost:8080",
+                "GET, PUT, POST, DELETE, OPTIONS",
+                "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range");
+    }
+
     private StationSparkProxy stationSparkProxy = null;
 
     public Router(StationSparkProxy stationSparkProxy) {
@@ -23,5 +30,27 @@ public class Router {
             });
 
         });
+    }
+
+    private static void enableCORS(String origin, String methods, String headers) {
+        options("/*", (request, response) -> {
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Request-Method", accessControlRequestMethod);
+            }
+
+            return "OK";
+        });
+        before(((request, response) -> {
+            response.header("Access-Control-Allow-Origin", origin);
+            response.header("Access-Control-Request-Method", methods);
+            response.header("Access-Control-Allow-Headers", headers);
+            response.type("application/json");
+        }));
     }
 }

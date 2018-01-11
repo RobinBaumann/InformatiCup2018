@@ -2,6 +2,7 @@ import Vue from 'vue'
 import {Component} from 'vue-typed'
 import {CsvProcessor} from "../app/CsvProcessor";
 import {AppError, Route} from "../app/DomainTypes";
+import {Api} from '../app/Api'
 
 @Component({
     template: require('./file-upload.html')
@@ -9,13 +10,15 @@ import {AppError, Route} from "../app/DomainTypes";
 
 export class FileUpload extends Vue {
     openFileDialog() {
-        (this.$refs.fileInput as HTMLElement).click();
+        const input = <HTMLInputElement>this.$refs.fileInput;
+        input.value = '';
+        input.click();
     }
 
     processFile(event:Event) {
         const element = <HTMLInputElement>event.target;
         if (!element.files || element.files.length !== 1) {
-            //TODO handle error
+            this.$emit('error', new AppError('Must choose one csv for upload'));
             return;
         }
         const reader = new FileReader();
@@ -27,7 +30,9 @@ export class FileUpload extends Vue {
         if (result instanceof AppError) {
             this.$emit('error', result)
         } else if (result instanceof Route) {
-            //TODO handle happy path
+            Api.route(result)
+                .then(response => console.log('success' + response))
+                .catch(reason => console.log('fail' + reason))
         }
     }
 }

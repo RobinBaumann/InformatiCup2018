@@ -12,6 +12,9 @@ export class CsvProcessor {
         }
         const stops: RoutePoint[] = [];
         for (let i = 1; i < lines.length; i++) {
+            if (lines[i] === '') {
+                continue
+            }
             const result = this.parseRouteLine(lines[i]);
             if (result instanceof AppError) {
                 return new AppError(`Error in line ${i + 1}: ${result.description}`)
