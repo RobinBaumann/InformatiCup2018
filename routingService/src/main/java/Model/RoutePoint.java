@@ -10,4 +10,12 @@ public class RoutePoint {
 
     @JsonRequired
     OffsetDateTime timestamp;
+
+    public int getStationId() {
+        return stationId;
+    }
+
+    public OffsetDateTime getTimestamp() {
+        return timestamp;
+    }
 }

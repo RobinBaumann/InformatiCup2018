@@ -4,8 +4,16 @@ import Validation.JsonRequired;
 
 public class RouteRequest {
     @JsonRequired
-    int capacity;
+    private int capacity;
 
     @JsonRequired
-    RoutePoint[] routePoints;
+    private RoutePoint[] routePoints;
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public RoutePoint[] getRoutePoints() {
+        return routePoints;
+    }
 }

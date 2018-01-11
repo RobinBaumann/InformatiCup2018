@@ -1,11 +1,8 @@
-import Database.ConnectionFactory;
+import Routing.SimpleRoutingService;
 import WebService.Router;
 import WebService.StationSparkProxy;
-import com.noelherrick.jell.Jell;
 import spark.Spark;
 
-import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class Main {
@@ -13,7 +10,8 @@ class Main {
 
     public static void main(String[] args) {
         Spark.staticFiles.location("/public");
-        StationSparkProxy stationSparkProxy = new StationSparkProxy();
+        StationSparkProxy stationSparkProxy = new StationSparkProxy(
+                new SimpleRoutingService());
         Router router = new Router(stationSparkProxy);
         router.setupRouter();
     }

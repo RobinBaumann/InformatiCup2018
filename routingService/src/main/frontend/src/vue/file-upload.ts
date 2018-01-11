@@ -31,7 +31,7 @@ export class FileUpload extends Vue {
             this.$emit('error', result)
         } else if (result instanceof Route) {
             Api.route(result)
-                .then(response => console.log('success' + response))
+                .then(response => console.log(response))
                 .catch(reason => console.log('fail' + reason))
         }
     }

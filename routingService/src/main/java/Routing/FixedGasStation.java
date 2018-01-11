@@ -39,11 +39,14 @@ class FixedGasStation {
                 next = route.size() - 1;
             if (distanceByRange(route, i, next) <= U(full)) {
                 full -= (distanceByRange(route, i, next) * LITREPERKM);
+                //TODO remove souts
                 System.out.println("reaching from " + i + " to " + next + " distance from " + distanceByRange(route, i, next) + " km ");
             } else {
                 double fillingAmount = Math.abs(full - (distanceByRange(route, i, next) * LITREPERKM));
                 full = 0;
-                System.out.println("filling in " + fillingAmount + " liters to reach " + next + " from " + i + " for " + route.get(i).cost * distanceByRange(route, i, next) * LITREPERKM + "€ for distance " + distanceByRange(route, i, next) + " km ");
+                System.out.println("filling in " + fillingAmount + " liters to reach " + next +
+                        " from " + i + " for " + route.get(i).cost * distanceByRange(route, i, next) * LITREPERKM +
+                        "€ for distance " + distanceByRange(route, i, next) + " km ");
 
             }
             i = next;

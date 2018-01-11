@@ -21,5 +21,7 @@ export class Api {
     }
 }
 
+Axios.defaults.headers.post['Accept'] = 'application/json'
+
 type Routes = {[index: string]: string}
 
