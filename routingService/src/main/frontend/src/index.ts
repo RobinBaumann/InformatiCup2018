@@ -8,7 +8,6 @@ import 'material-design-icons/iconfont/material-icons.css'
 import {FileUpload} from "./vue/file-upload";
 import {Toastr} from "./vue/toastr";
 import {DescribableError, GasStrategy, Route} from "./app/DomainTypes";
-import {CsvModal} from "./vue/csvmodal";
 import {Component} from "vue-typed";
 import {toGeoJson} from "./app/GeoJsonConverter";
 import VueMaterial from 'vue-material'
@@ -21,7 +20,6 @@ Vue.use(VueMaterial);
 Vue.component('my-map', Map);
 Vue.component('upload-button', FileUpload);
 Vue.component('toastr', Toastr);
-Vue.component('modal', CsvModal);
 Vue.component('route-details', RouteDetails);
 
 
