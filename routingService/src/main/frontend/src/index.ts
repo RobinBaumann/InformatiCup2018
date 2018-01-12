@@ -10,6 +10,7 @@ import {Toastr} from "./vue/toastr";
 import {DescribableError, GasStrategy} from "./app/DomainTypes";
 import {CsvModal} from "./vue/csvmodal";
 import {Component} from "vue-typed";
+import {toGeoJson} from "./app/GeoJsonConverter";
 
 Vue.component('my-map', Map);
 Vue.component('upload-button', FileUpload);
@@ -20,13 +21,14 @@ Vue.component('modal', CsvModal);
 @Component()
 class App extends Vue {
     error?: DescribableError = undefined
+    geoJson?: string = undefined
 
     showError(error: DescribableError) {
         this.error = error
     }
 
     strategyReceived(strategy: GasStrategy) {
-
+        this.geoJson = toGeoJson(strategy)
     }
 }
 

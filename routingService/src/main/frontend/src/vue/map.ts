@@ -1,4 +1,4 @@
-import {Component} from 'vue-typed'
+import {Component, Prop} from 'vue-typed'
 import Vue from 'vue'
 import * as ol from 'openlayers'
 import {currentPositionStyle, wgsToMap} from '../app/OlUtil'
@@ -8,9 +8,12 @@ import {currentPositionStyle, wgsToMap} from '../app/OlUtil'
 })
 
 export class Map extends Vue {
+    @Prop()
+    geoJson?: string;
     map: ol.Map;
     currentPosition?: ol.layer.Vector = undefined
-    private static karlsruhe: ol.Coordinate = wgsToMap([8.403653, 49.00689])
+
+    private static readonly karlsruhe: ol.Coordinate = wgsToMap([8.403653, 49.00689])
 
     mounted() {
         this.$nextTick(() => this.setupOl());
