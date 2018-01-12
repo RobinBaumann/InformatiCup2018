@@ -24,30 +24,7 @@ public class FixedGasStationTest {
     }
 
 
-    @Test
-    /*
-      Test the distance calculation
-     */
-    public void testDistance() {
-        GasStation test1_1 = buildGasStation(30, 30);
-        GasStation test1_2 = buildGasStation(30, 30);
-        Assert.assertEquals(FixedGasStation.distanceGasStation(test1_1, test1_2), 0, 0);
-        GasStation test2_1 = buildGasStation(0, 0);
-        GasStation test2_2 = buildGasStation(0, 1);
-        Assert.assertEquals(FixedGasStation.distanceGasStation(test2_1, test2_2), FixedGasStation.EARTHRADIUS, 1);
-    }
 
-    @Test
-    /*
-      Test the distance by range calculation
-     */
-    public void testDistanceByRange() {
-        LinkedList<GasStation> testRoute = new LinkedList<>();
-        testRoute.add(buildGasStation(0, 0));
-        testRoute.add(buildGasStation(0, 1));
-        testRoute.add(buildGasStation(0, 2));
-        Assert.assertEquals(FixedGasStation.distanceByRange(testRoute, 0, 2), FixedGasStation.EARTHRADIUS * 2, 0);
-    }
 
     @Test
     /*
