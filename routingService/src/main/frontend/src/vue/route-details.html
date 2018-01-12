@@ -21,8 +21,8 @@
                                 <md-table-row v-for="stop in route.strategy.stops">
                                     <md-table-cell>{{stop.station.id}}</md-table-cell>
                                     <md-table-cell>{{stop.station.station_name}}</md-table-cell>
-                                    <md-table-cell>{{stop.price}}</md-table-cell>
-                                    <md-table-cell>{{stop.amount}}</md-table-cell>
+                                    <md-table-cell>{{(stop.price/1000).toFixed(3)}} €</md-table-cell>
+                                    <md-table-cell>{{stop.amount.toFixed(1)}}</md-table-cell>
                                 </md-table-row>
                             </md-table>
                         </div>
