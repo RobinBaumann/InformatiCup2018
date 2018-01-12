@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {Component} from "vue-typed";
-import {GasStrategy} from "../app/DomainTypes";
+import {GasStrategy, Route} from "../app/DomainTypes";
 import {CsvProcessor} from "../app/CsvProcessor";
 
 @Component({
@@ -20,7 +20,6 @@ export class RouteDetails extends Vue {
     get showRoutes(): boolean {
         return this.routes.length > 0
     }
-
 }
 
 class RouteDetail {
@@ -32,7 +31,11 @@ class RouteDetail {
         this.layer = layer;
     }
 
-    get csv(): string {
+    toCsv(): string {
         return `data:text/plain;charset=utf8,${encodeURI(CsvProcessor.toCsv(this.strategy))}`
+    }
+
+    toName(): string {
+        return `${this.strategy.name.split('.')[0]}_strategy.csv`
     }
 }

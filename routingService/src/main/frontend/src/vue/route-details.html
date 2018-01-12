@@ -2,30 +2,39 @@
     <md-icon>explore</md-icon>
     <span class="md-list-item-text">Routen ({{count}})</span>
     <md-list slot="md-expand">
-        <md-list-item class="md-inset" v-for="route in routes">
+        <md-list-item class="md-dense" v-for="route in routes">
             <div class="full-control">
                 <md-list>
                     <md-list-item md-expand>
                         <span class="md-list-item-text">{{route.strategy.name}}</span>
-                        <div slot="md-expand">
-                            <span class="md-list-item-text">Tankkapazität: {{route.strategy.capacity}}</span>
-                            <md-divider></md-divider>
-                            <span class="md-list-item-text">Tankstellen:</span>
-                            <md-table>
-                                <md-table-row>
-                                    <md-table-head md-numeric>ID</md-table-head>
-                                    <md-table-head>Name</md-table-head>
-                                    <md-table-head>Preis</md-table-head>
-                                    <md-table-head>Menge</md-table-head>
-                                </md-table-row>
-                                <md-table-row v-for="stop in route.strategy.stops">
-                                    <md-table-cell>{{stop.station.id}}</md-table-cell>
-                                    <md-table-cell>{{stop.station.station_name}}</md-table-cell>
-                                    <md-table-cell>{{(stop.price/1000).toFixed(3)}} €</md-table-cell>
-                                    <md-table-cell>{{stop.amount.toFixed(1)}}</md-table-cell>
-                                </md-table-row>
-                            </md-table>
-                        </div>
+                        <md-card slot="md-expand">
+                            <md-card-content>
+                                <a v-bind:href="route.toCsv()" v-bind:download="route.toName()">
+                                    <md-icon>file_download</md-icon>
+                                    Download
+                                </a>
+                            </md-card-content>
+                            <md-card-content>
+                                <span class="md-list-item-text">Tankkapazität: {{route.strategy.capacity}}</span>
+                            </md-card-content>
+                            <md-card-content>
+                                <span class="md-list-item-text">Tankstellen:</span>
+                                <md-table>
+                                    <md-table-row>
+                                        <md-table-head md-numeric>ID</md-table-head>
+                                        <md-table-head>Name</md-table-head>
+                                        <md-table-head>Preis</md-table-head>
+                                        <md-table-head>Menge</md-table-head>
+                                    </md-table-row>
+                                    <md-table-row v-for="stop in route.strategy.stops">
+                                        <md-table-cell>{{stop.station.id}}</md-table-cell>
+                                        <md-table-cell>{{stop.station.station_name}}</md-table-cell>
+                                        <md-table-cell>{{(stop.price/1000).toFixed(3)}} €</md-table-cell>
+                                        <md-table-cell>{{stop.amount.toFixed(1)}}</md-table-cell>
+                                    </md-table-row>
+                                </md-table>
+                            </md-card-content>
+                        </md-card>
                     </md-list-item>
                 </md-list>
             </div>
