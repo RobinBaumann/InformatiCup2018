@@ -15,15 +15,14 @@
                     </md-button>
                 </div>
             </md-toolbar>
-            <md-list>
-                <md-list-item>
-                    <md-icon>move_to_inbox</md-icon>
-                    <span class="md-list-item-text">Inbox</span>
-                </md-list-item>
-            </md-list>
+            <div class="full-control">
+                <md-list>
+                    <route-details ref="routedetails"></route-details>
+                </md-list>
+            </div>
         </md-app-drawer>
         <md-app-content >
-            <my-map :geojson="geojson"></my-map>
+            <my-map ref="map"></my-map>
             <upload-button class="floating-bottom-right" @error="showError" @strategy_received="strategyReceived"></upload-button>
             <toastr :error="error"></toastr>
         </md-app-content>

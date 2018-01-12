@@ -1,10 +1,12 @@
 export class Route {
     capacity: number
     routePoints: RoutePoint[]
+    name: string
 
-    constructor(capacity: number, routePoints: RoutePoint[]) {
+    constructor(capacity: number, routePoints: RoutePoint[], name: string) {
         this.capacity = capacity;
         this.routePoints = routePoints;
+        this.name = name;
     }
 }
 
@@ -37,9 +39,13 @@ export interface DescribableError {
 
 export class GasStrategy {
     stops: GasStop[]
+    name: string
+    capacity: number
 
-    constructor(stops: GasStop[]) {
+    constructor(stops: GasStop[], name: string, capacity: number) {
         this.stops = stops;
+        this.name = name;
+        this.capacity = capacity;
     }
 }
 

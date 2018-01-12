@@ -1,6 +1,12 @@
 import {AppError, Route, RoutePoint} from "./DomainTypes";
 
 export class CsvProcessor {
+    private readonly name: string
+
+    constructor(name: string) {
+        this.name = name
+    }
+
     processCsv(content: string): Route | AppError {
         const lines = content.split('\n'); //TODO check OS compat
         if (lines.length < 2) {
@@ -22,7 +28,7 @@ export class CsvProcessor {
                 stops.push(result)
             }
         }
-        return new Route(capacity, stops)
+        return new Route(capacity, stops, this.name)
     }
 
     parseRouteLine(line: string): RoutePoint | AppError {

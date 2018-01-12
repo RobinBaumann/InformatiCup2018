@@ -15,28 +15,31 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 import 'vue-material/dist/theme/default.css'
 import './css/app.css'
+import {RouteDetails} from "./vue/route-details";
 
 Vue.use(VueMaterial);
 Vue.component('my-map', Map);
 Vue.component('upload-button', FileUpload);
 Vue.component('toastr', Toastr);
 Vue.component('modal', CsvModal);
+Vue.component('route-details', RouteDetails);
 
 
 @Component({
     template: require('./index-template.html'),
 })
 class App extends Vue {
-    error?: DescribableError = undefined
-    geojson?: string = undefined
-    menuVisible: boolean = false
+    error?: DescribableError = undefined; //TODO use refs for direct invocation
+    menuVisible: boolean = false;
 
     showError(error: DescribableError) {
         this.error = error
     }
 
     strategyReceived(strategy: GasStrategy) {
-        this.geojson = toGeoJson(strategy)
+        const geojson = toGeoJson(strategy);
+        const layer = (<Map>this.$refs.map).addRoute(geojson);
+        (<RouteDetails>this.$refs.routedetails).addRoute(strategy, layer)
     }
 
     toggleMenu() {

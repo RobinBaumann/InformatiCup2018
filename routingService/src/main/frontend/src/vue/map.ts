@@ -8,8 +8,8 @@ import {currentPositionStyle, gasStrategyStyle, wgsToMap} from '../app/OlUtil'
 })
 
 export class Map extends Vue {
-    @Prop()
-    geojson?: string;
+/*    @Prop()
+    geojson?: string;*/
     map: ol.Map;
     currentPosition?: ol.layer.Vector = undefined
     currentStrategy?: ol.layer.Vector = undefined
@@ -18,7 +18,7 @@ export class Map extends Vue {
 
     mounted() {
         this.$nextTick(() => this.setupOl());
-        this.$watch('geojson', this.strategyJsonChanged)
+        //this.$watch('geojson', this.strategyJsonChanged)
     }
 
     setupOl() {
@@ -53,7 +53,7 @@ export class Map extends Vue {
         this.map.updateSize();
     }
 
-    private strategyJsonChanged() {
+/*    private strategyJsonChanged() {
         if (this.geojson) {
             const source = new ol.source.Vector({
                 features: (new ol.format.GeoJSON()).readFeatures(this.geojson, {
@@ -66,6 +66,20 @@ export class Map extends Vue {
             this.currentStrategy.setStyle(gasStrategyStyle)
             this.map.getLayers().push(this.currentStrategy)
         }
+    }*/
+
+    addRoute(geojson: string): ol.layer.Vector {
+        const source = new ol.source.Vector({
+            features: (new ol.format.GeoJSON()).readFeatures(geojson, {
+                dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:3857'
+            })
+        })
+        const layer = new ol.layer.Vector({source})
+        //@ts-ignore
+        layer.setStyle(gasStrategyStyle)
+        this.map.getLayers().push(layer)
+        return layer
     }
 
     private setWgsCenter(coordinates: ol.Coordinate) {

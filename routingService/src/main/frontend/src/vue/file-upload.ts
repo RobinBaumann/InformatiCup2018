@@ -22,7 +22,8 @@ export class FileUpload extends Vue {
             return;
         }
         const reader = new FileReader();
-        reader.onload = () => this.handleParseResult(new CsvProcessor().processCsv(reader.result));
+        const processor = new CsvProcessor(element.files[0].name)
+        reader.onload = () => this.handleParseResult(processor.processCsv(reader.result));
         reader.readAsText(element.files[0])
     }
 
@@ -31,7 +32,8 @@ export class FileUpload extends Vue {
             this.$emit(Events.Error, result)
         } else if (result instanceof Route) {
             Api.route(result)
-                .then(response => this.$emit(Events.StrategyReceived, new GasStrategy(response.data.stops)))
+                .then(response => this.$emit(
+                    Events.StrategyReceived, new GasStrategy(response.data.stops, result.name, result.capacity)))
                 .catch(reason => this.$emit(Events.Error, <Problem>reason.response.data))
         }
     }
