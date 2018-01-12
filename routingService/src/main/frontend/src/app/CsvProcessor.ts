@@ -1,4 +1,5 @@
 import {AppError, GasStrategy, Route, RoutePoint} from "./DomainTypes";
+import * as moment from 'moment'
 
 export class CsvProcessor {
     private readonly name: string;
@@ -34,7 +35,8 @@ export class CsvProcessor {
     static toCsv(strategy: GasStrategy): string {
         const lines: string[] = [];
         for (let stop of strategy.stops) {
-            lines.push(`${stop.timestamp};${stop.station.id};${stop.price};${stop.price}`)
+            const formatted = moment(stop.timestamp).format('YYYY-MM-DD HH:mm:ssZZ').slice(0, -2);
+            lines.push(`${formatted};${stop.station.id};${stop.price};${stop.amount}`)
         }
         return lines.join('\n')
     }
