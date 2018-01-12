@@ -23,7 +23,7 @@
         </md-app-drawer>
         <md-app-content >
             <my-map ref="map"></my-map>
-            <upload-button class="floating-bottom-right" @error="showError" @strategy_received="strategyReceived"></upload-button>
+            <upload-button @error="showError" @strategy_received="strategyReceived"></upload-button>
             <toastr :error="error"></toastr>
         </md-app-content>
     </md-app>

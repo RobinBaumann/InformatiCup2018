@@ -1,4 +1,14 @@
-<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" @click="openFileDialog">
-    <upload-icon title="upload csv"></upload-icon>
+<md-speed-dial class="md-bottom-right" md-event="click">
+    <md-speed-dial-target class="md-primary" title="Upload csv">
+        <md-icon>file_upload</md-icon>
+    </md-speed-dial-target>
+    <md-speed-dial-content>
+        <md-button class="md-icon-button" title="Tankstrategie" @click="openFileDialog">
+            <md-icon>directions</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" title="Preisvorhersage">
+            <md-icon>euro_symbol</md-icon>
+        </md-button>
+    </md-speed-dial-content>
     <input type="file" class="display-none" ref="fileInput" @change="processFile($event)" @input="processFile($event)" accept=".csv">
-</button>
+</md-speed-dial>
