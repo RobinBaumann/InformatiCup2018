@@ -1,0 +1,30 @@
+<div class="page-container md-layout-row">
+    <md-app>
+        <md-app-toolbar class="md-primary">
+            <md-button class="md-icon-button" @click="toggleMenu" v-if="!menuVisible">
+                <md-icon>menu</md-icon>
+            </md-button>
+            <span class="md-title">Foo Route</span>
+        </md-app-toolbar>
+        <md-app-drawer md-persistent="full" :md-active.sync="menuVisible">
+            <md-toolbar class="md-transparent" md-elevation="0">
+                <span>Foo Route</span>
+                <div class="md-toolbar-section-end">
+                    <md-button class="md-icon-button md-dense" @click="toggleMenu">
+                        <md-icon>keyboard_arrow_left</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <div class="full-control">
+                <md-list>
+                    <route-details ref="routedetails"></route-details>
+                </md-list>
+            </div>
+        </md-app-drawer>
+        <md-app-content >
+            <my-map ref="map"></my-map>
+            <upload-button class="floating-bottom-right" @error="showError" @strategy_received="strategyReceived"></upload-button>
+            <toastr :error="error"></toastr>
+        </md-app-content>
+    </md-app>
+</div>

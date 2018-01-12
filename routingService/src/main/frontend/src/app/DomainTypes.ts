@@ -1,10 +1,12 @@
 export class Route {
     capacity: number
     routePoints: RoutePoint[]
+    name: string
 
-    constructor(capacity: number, routePoints: RoutePoint[]) {
+    constructor(capacity: number, routePoints: RoutePoint[], name: string) {
         this.capacity = capacity;
         this.routePoints = routePoints;
+        this.name = name;
     }
 }
 
@@ -18,10 +20,67 @@ export class RoutePoint {
     }
 }
 
-export class AppError {
+export class AppError implements DescribableError {
     description: string
 
     constructor(description: string) {
         this.description = description
     }
+
+    describe(): string {
+        return this.description
+    }
 }
+
+export interface DescribableError {
+    describe(): string
+}
+
+
+export class GasStrategy {
+    stops: GasStop[]
+    name: string
+    capacity: number
+
+    constructor(stops: GasStop[], name: string, capacity: number) {
+        this.stops = stops;
+        this.name = name;
+        this.capacity = capacity;
+    }
+}
+
+export class GasStop {
+    amount: number
+    price: number
+    timestamp: Date
+    station: GasStation
+}
+
+export class GasStation {
+    lat: number
+    lon: number
+    station_name: string
+    id: number
+    street: string
+    brand: string
+    house_number: string
+    zip_code: string
+    city: string
+}
+
+export class Problem implements DescribableError{
+    type: string
+    title: string
+    detail: string
+    status: number
+
+    describe(): string {
+        return `${this.title}\n${this.detail}`
+    }
+}
+
+export enum Events {
+    Error = 'error',
+    StrategyReceived = 'strategy_received'
+}
+

@@ -24,7 +24,8 @@ public class SimpleRoutingService {
                 request.getRoutePoints().stream().map(RoutePoint::getStationId).collect(Collectors.toList()))
                 .stream().collect(Collectors.toMap(GasStation::getId, Function.identity()));
         List<GasStop> gasStops = request.getRoutePoints().stream()
-                .map(p -> new GasStop(p.getTimestamp(), gasStations.get(p.getStationId()))).collect(Collectors.toList());
+                .map(p -> new GasStop(p.getTimestamp(), gasStations.get(p.getStationId())))
+                .collect(Collectors.toList());
         return fixedGasStation.calculateRoute(gasStops, request.getCapacity(), STARTING_AMOUNT);
     }
 

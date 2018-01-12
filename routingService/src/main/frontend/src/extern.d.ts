@@ -4,3 +4,5 @@ declare module '*.vue' {
 }
 
 declare var HOST: string;
+
+declare module 'vue-material';
