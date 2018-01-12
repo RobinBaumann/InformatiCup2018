@@ -1,12 +1,12 @@
 import Vue from 'vue'
-import {Component, Prop} from "vue-typed";
-import {GasStrategy, Route} from "../app/DomainTypes";
+import {Component} from "vue-typed";
+import {GasStrategy} from "../app/DomainTypes";
 
 @Component({
     template: require('./route-details.html')
 })
 export class RouteDetails extends Vue {
-    routes: RouteDetail[] = []
+    routes: RouteDetail[] = [];
 
     get count(): number {
         return this.routes.length

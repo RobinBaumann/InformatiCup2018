@@ -8,17 +8,13 @@ import {currentPositionStyle, gasStrategyStyle, wgsToMap} from '../app/OlUtil'
 })
 
 export class Map extends Vue {
-/*    @Prop()
-    geojson?: string;*/
     map: ol.Map;
-    currentPosition?: ol.layer.Vector = undefined
-    currentStrategy?: ol.layer.Vector = undefined
+    currentPosition?: ol.layer.Vector = undefined;
 
-    private static readonly karlsruhe: ol.Coordinate = wgsToMap([8.403653, 49.00689])
+    private readonly karlsruhe: ol.Coordinate = [8.403653, 49.00689];
 
     mounted() {
         this.$nextTick(() => this.setupOl());
-        //this.$watch('geojson', this.strategyJsonChanged)
     }
 
     setupOl() {
@@ -38,10 +34,10 @@ export class Map extends Vue {
         if (window.navigator.geolocation) {
             window.navigator.geolocation.getCurrentPosition(
                 pos => this.setCurrentPosition([pos.coords.longitude, pos.coords.latitude]),
-                () => this.setWgsCenter(Map.karlsruhe)
+                () => this.setWgsCenter(this.karlsruhe)
             )
         } else {
-            this.setWgsCenter(Map.karlsruhe)
+            this.setWgsCenter(this.karlsruhe)
         }
     }
 
@@ -53,32 +49,17 @@ export class Map extends Vue {
         this.map.updateSize();
     }
 
-/*    private strategyJsonChanged() {
-        if (this.geojson) {
-            const source = new ol.source.Vector({
-                features: (new ol.format.GeoJSON()).readFeatures(this.geojson, {
-                    dataProjection: 'EPSG:4326',
-                    featureProjection: 'EPSG:3857'
-                })
-            })
-            this.currentStrategy = new ol.layer.Vector({source})
-            //@ts-ignore
-            this.currentStrategy.setStyle(gasStrategyStyle)
-            this.map.getLayers().push(this.currentStrategy)
-        }
-    }*/
-
     addRoute(geojson: string): ol.layer.Vector {
         const source = new ol.source.Vector({
             features: (new ol.format.GeoJSON()).readFeatures(geojson, {
                 dataProjection: 'EPSG:4326',
                 featureProjection: 'EPSG:3857'
             })
-        })
-        const layer = new ol.layer.Vector({source})
+        });
+        const layer = new ol.layer.Vector({source});
         //@ts-ignore
-        layer.setStyle(gasStrategyStyle)
-        this.map.getLayers().push(layer)
+        layer.setStyle(gasStrategyStyle);
+        this.map.getLayers().push(layer);
         return layer
     }
 
@@ -88,17 +69,17 @@ export class Map extends Vue {
 
     private setCurrentPosition(coordinates: ol.Coordinate) {
         if (!this.currentPosition) {
-            const source = new ol.source.Vector()
+            const source = new ol.source.Vector();
             const feature = new ol.Feature({
                 geometry: new ol.geom.Point(wgsToMap(coordinates)),
                 name: 'aktuelle Position',
 
-            })
-            source.addFeature(feature)
-            this.currentPosition = new ol.layer.Vector({source})
+            });
+            source.addFeature(feature);
+            this.currentPosition = new ol.layer.Vector({source});
             //@ts-ignore seems that ol types are incomplete and broken
-            this.currentPosition.setStyle(currentPositionStyle)
-            this.map.getLayers().push(this.currentPosition)
+            this.currentPosition.setStyle(currentPositionStyle);
+            this.map.getLayers().push(this.currentPosition);
         }
         this.setWgsCenter(coordinates)
     }
