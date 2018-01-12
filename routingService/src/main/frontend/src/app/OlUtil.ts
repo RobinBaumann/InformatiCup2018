@@ -6,12 +6,8 @@ export function wgsToMap(coordinates: ol.Coordinate): ol.Coordinate {
 
 //RGBA
 type olColor = [number, number, number, number]
-const primary: olColor = [255, 193, 7, 255]
-const primaryLight: olColor = [255, 243, 80, 255]
-const primaryDark: olColor = [199, 145, 0, 255]
-const secondary: olColor = [33, 149, 242, 255]
-const secondaryLight: olColor = [110, 197, 255, 255]
-const secondaryDark: olColor = [0, 104, 191, 255]
+const primary: olColor = [68, 138, 255, 255]
+const secondary: olColor = [255, 82, 82, 255]
 
 export function currentPositionStyle(feature: ol.Feature, resolution: number) {
     return new ol.style.Style({
@@ -20,7 +16,7 @@ export function currentPositionStyle(feature: ol.Feature, resolution: number) {
                     text: feature.get('name'),
                     font: '12px Roboto, sans-serif',
                     offsetY: 20,
-                    fill: new ol.style.Fill({color: 'black'}),
+                    fill: new ol.style.Fill({color: 'white'}),
                     //@ts-ignore
                     backgroundFill: new ol.style.Fill({color: secondary})
                 })
