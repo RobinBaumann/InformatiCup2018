@@ -2,18 +2,22 @@ import { GasStation, GasStop, GasStrategy} from "./DomainTypes";
 
 //https://tools.ietf.org/html/rfc7946
 export function toGeoJson(gasStrategy: GasStrategy): string {
-    const features: Feature[] = []
-    const route: Coordinates[] = []
+    const features: Feature[] = [];
+    const route: Coordinates[] = [];
     for (let stop of gasStrategy.stops) {
         const feature = new Feature(
             toPoint(stop.station),
             toProperties(stop),
             stop.station.id,
-        )
-        features.push(feature)
-        route.push((<Point>feature.geometry).coordinates)
+        );
+        features.push(feature);
+        route.push((<Point>feature.geometry).coordinates);
     }
-    //TODO add LineString feature for route (id? properties?)
+    features.push(new Feature(
+        new LineString(route),
+        {},
+        gasStrategy.name + Date()
+    ));
     return JSON.stringify(new FeatureCollection(features))
 }
 
