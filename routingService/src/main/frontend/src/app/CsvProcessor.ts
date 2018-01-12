@@ -1,4 +1,4 @@
-import {AppError, Route, RoutePoint} from "./DomainTypes";
+import {AppError, GasStrategy, Route, RoutePoint} from "./DomainTypes";
 
 export class CsvProcessor {
     private readonly name: string;
@@ -29,6 +29,14 @@ export class CsvProcessor {
             }
         }
         return new Route(capacity, stops, this.name)
+    }
+
+    static toCsv(strategy: GasStrategy): string {
+        const lines: string[] = [];
+        for (let stop of strategy.stops) {
+            lines.push(`${stop.timestamp};${stop.station.id};${stop.price};${stop.price}`)
+        }
+        return lines.join('\n')
     }
 
     static parseRouteLine(line: string): RoutePoint | AppError {

@@ -45,11 +45,6 @@ class App extends Vue {
     toggleMenu() {
         this.menuVisible = !this.menuVisible
     }
-
-    get showRoutes():boolean {
-        const details = <RouteDetails>this.$refs.routedetails;
-        return details && (<RouteDetails>this.$refs.routedetails).routes.length > 0
-    }
 }
 
 new App().$mount('#app');
