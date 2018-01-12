@@ -2,7 +2,7 @@
 
 import Vue from 'vue'
 import {Component, Prop} from 'vue-typed'
-import {AppError, DescribableError} from "../app/DomainTypes";
+import {DescribableError} from "../app/DomainTypes";
 
 @Component({
     template: require('./toastr.html'),

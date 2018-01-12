@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import {Map} from './vue/map'
-import 'material-design-lite/dist/material.amber-blue.min.css'
-import 'material-design-lite/material.min.js'
-import 'vue-material-design-icons/styles.css'
 import 'material-design-icons/iconfont/material-icons.css'
 import {FileUpload} from "./vue/file-upload";
 import {Toastr} from "./vue/toastr";
