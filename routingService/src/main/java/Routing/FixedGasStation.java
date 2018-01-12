@@ -42,24 +42,24 @@ public class FixedGasStation {
      *
      * @param route
      * @param capacity capacity of tank
-     * @param full     start fuel of tank
+     * @param reserve  start fuel of tank
      */
-    public GasStrategy calculateRoute(List<GasStop> route, double capacity, double full) {
+    public GasStrategy calculateRoute(List<GasStop> route, double capacity, double reserve) {
         int startIndex = 0;
         //TODO check if predictAll is better perf wise
-        for (GasStop gasStop : route) {
+        for (GasStop gasStop : route)
             gasStop.setPrice(pricePredictionService.getPrice(gasStop.getStation(), gasStop.getTimestamp()));
-        }
+
 
         while (startIndex < route.size() - 1) {
             int successorIndex = getSuccessor(new LinkedList<>(route), startIndex, capacity);
             if (successorIndex == NOSUCCESSOR)
                 successorIndex = route.size() - 1;
-            if (distanceByRange(mapStations(route), startIndex, successorIndex) <= capacityToLitre(full)) {
-                full -= (distanceByRange(mapStations(route), startIndex, successorIndex) * LITREPERKM);
+            if (distanceByRange(mapStations(route), startIndex, successorIndex) <= capacityToKilometres(reserve)) {
+                reserve -= (distanceByRange(mapStations(route), startIndex, successorIndex) * LITREPERKM);
             } else {
-                double fillingAmount = Math.abs(full - (distanceByRange(mapStations(route), startIndex, successorIndex) * LITREPERKM));
-                full = 0;
+                double fillingAmount = (distanceByRange(mapStations(route), startIndex, successorIndex) * LITREPERKM) - reserve;
+                reserve = 0;
                 route.get(startIndex).setAmount(fillingAmount);
             }
             startIndex = successorIndex;
@@ -102,12 +102,12 @@ public class FixedGasStation {
     }
 
     /**
-     * Calculate liter you can drive given a capacity
+     * Calculate kilometre you can drive given a capacity
      *
      * @param capacity capacity of tank
      * @return
      */
-    private static double capacityToLitre(double capacity) {
+    private static double capacityToKilometres(double capacity) {
         return capacity / LITREPERKM;
     }
 
@@ -123,11 +123,8 @@ public class FixedGasStation {
     protected static int getSuccessor(LinkedList<GasStop> route, int startIndex, double capacity) {
         LinkedList<GasStop> prio = new LinkedList<>();
         for (int successorIndex = startIndex + 1; successorIndex < route.size() - 1; successorIndex++) {
-            if (route.get(successorIndex).getPrice() <= route.get(startIndex).getPrice()
-                    && distanceByRange(mapStations(route), startIndex, successorIndex)
-                    < capacityToLitre(capacity)) {
+            if (distanceByRange(mapStations(route), startIndex, successorIndex) * LITREPERKM < (capacity))
                 prio.add(route.get(successorIndex));
-            }
         }
         if (prio.size() <= 0)
             return NOSUCCESSOR;
@@ -139,8 +136,8 @@ public class FixedGasStation {
      * Distance from two Gas Station given a route and indices
      *
      * @param route
-     * @param from     start index
-     * @param to     destination index
+     * @param from  start index
+     * @param to    destination index
      * @return
      */
     protected static double distanceByRange(List<GasStation> route, int from, int to) {

@@ -14,13 +14,13 @@ class GasStopComparator implements Comparator<GasStop> {
 
     @Override
     public int compare(GasStop x, GasStop y) {
-        if (x.getPrice() < y.getPrice() || x.getPrice() == y.getPrice()
-                && FixedGasStation.distanceGasStation(x.getStation(), last.getStation())
-                < FixedGasStation.distanceGasStation(y.getStation(), last.getStation()))
-            return 1;
-        else if (x.getPrice() > y.getPrice() || x.getPrice() == y.getPrice()
+        if (x.getPrice() > y.getPrice() || x.getPrice() == y.getPrice()
                 && FixedGasStation.distanceGasStation(x.getStation(), last.getStation())
                 > FixedGasStation.distanceGasStation(y.getStation(), last.getStation()))
+            return 1;
+        else if (x.getPrice() < y.getPrice() || x.getPrice() == y.getPrice()
+                && FixedGasStation.distanceGasStation(x.getStation(), last.getStation())
+                < FixedGasStation.distanceGasStation(y.getStation(), last.getStation()))
             return -1;
         else
             return 0;
