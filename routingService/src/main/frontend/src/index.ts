@@ -7,7 +7,7 @@ import './icons.ts'
 import 'material-design-icons/iconfont/material-icons.css'
 import {FileUpload} from "./vue/file-upload";
 import {Toastr} from "./vue/toastr";
-import {DescribableError, GasStrategy} from "./app/DomainTypes";
+import {DescribableError, GasStrategy, Route} from "./app/DomainTypes";
 import {CsvModal} from "./vue/csvmodal";
 import {Component} from "vue-typed";
 import {toGeoJson} from "./app/GeoJsonConverter";
@@ -44,6 +44,11 @@ class App extends Vue {
 
     toggleMenu() {
         this.menuVisible = !this.menuVisible
+    }
+
+    get showRoutes():boolean {
+        const details = <RouteDetails>this.$refs.routedetails;
+        return details && (<RouteDetails>this.$refs.routedetails).routes.length > 0
     }
 }
 

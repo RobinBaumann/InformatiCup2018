@@ -8,17 +8,13 @@ import {currentPositionStyle, gasStrategyStyle, wgsToMap} from '../app/OlUtil'
 })
 
 export class Map extends Vue {
-/*    @Prop()
-    geojson?: string;*/
     map: ol.Map;
-    currentPosition?: ol.layer.Vector = undefined
-    currentStrategy?: ol.layer.Vector = undefined
+    currentPosition?: ol.layer.Vector = undefined;
 
     private static readonly karlsruhe: ol.Coordinate = wgsToMap([8.403653, 49.00689])
 
     mounted() {
         this.$nextTick(() => this.setupOl());
-        //this.$watch('geojson', this.strategyJsonChanged)
     }
 
     setupOl() {
@@ -52,21 +48,6 @@ export class Map extends Vue {
     private onResize() {
         this.map.updateSize();
     }
-
-/*    private strategyJsonChanged() {
-        if (this.geojson) {
-            const source = new ol.source.Vector({
-                features: (new ol.format.GeoJSON()).readFeatures(this.geojson, {
-                    dataProjection: 'EPSG:4326',
-                    featureProjection: 'EPSG:3857'
-                })
-            })
-            this.currentStrategy = new ol.layer.Vector({source})
-            //@ts-ignore
-            this.currentStrategy.setStyle(gasStrategyStyle)
-            this.map.getLayers().push(this.currentStrategy)
-        }
-    }*/
 
     addRoute(geojson: string): ol.layer.Vector {
         const source = new ol.source.Vector({
