@@ -1,5 +1,4 @@
-<div class="mdl-js-snackbar mdl-snackbar" ref="snackbar">
-    <div class="mdl-snackbar__text"></div>
-    <!-- mdl needs this even for a toast... -->
-    <button class="mdl-snackbar__action" type="button"></button>
-</div>
+<md-snackbar md-position="center" :md-duration="Infinity" md-persistent :md-active.sync="showSnackbar">
+    <span>{{description}}</span>
+    <md-button class="md-primary" @click="showSnackbar = false">Schliessen</md-button>
+</md-snackbar>

@@ -11,15 +11,16 @@ import {AppError, DescribableError} from "../app/DomainTypes";
 export class Toastr extends Vue {
     @Prop()
     error?: DescribableError;
+    showSnackbar: boolean = false;
+    description: string = '';
 
     showToast() {
-        const snackbar = this.$refs.snackbar;
         if (!this.error) {
-            return;
+            this.showSnackbar = false;
+        } else {
+            this.description = this.error.describe();
+            this.showSnackbar = true;
         }
-        // the alternative would be to create typings for mdl (no time)
-        //@ts-ignore
-        snackbar.MaterialSnackbar.showSnackbar({message: this.error.describe()});
     }
 
     mounted() {
