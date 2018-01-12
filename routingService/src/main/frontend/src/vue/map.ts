@@ -1,7 +1,7 @@
 import {Component, Prop} from 'vue-typed'
 import Vue from 'vue'
 import * as ol from 'openlayers'
-import {currentPositionStyle, wgsToMap} from '../app/OlUtil'
+import {currentPositionStyle, gasStrategyStyle, wgsToMap} from '../app/OlUtil'
 
 @Component({
     template: require('./map.html')
@@ -56,9 +56,14 @@ export class Map extends Vue {
     private strategyJsonChanged() {
         if (this.geojson) {
             const source = new ol.source.Vector({
-                features: (new ol.format.GeoJSON()).readFeatures(this.geojson)
+                features: (new ol.format.GeoJSON()).readFeatures(this.geojson, {
+                    dataProjection: 'EPSG:4326',
+                    featureProjection: 'EPSG:3857'
+                })
             })
             this.currentStrategy = new ol.layer.Vector({source})
+            //@ts-ignore
+            this.currentStrategy.setStyle(gasStrategyStyle)
             this.map.getLayers().push(this.currentStrategy)
         }
     }

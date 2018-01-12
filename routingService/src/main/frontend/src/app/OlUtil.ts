@@ -23,6 +23,17 @@ export function currentPositionStyle(feature: ol.Feature, resolution: number) {
             });
 }
 
+export function gasStrategyStyle(feature: ol.Feature, resolution: number) {
+    //@ts-ignore
+    return strategyStyles[feature.getGeometry().getType()]
+}
+
+const strategyStyles = {
+    'Point': new ol.style.Style({
+        ...(circleImage(color2))
+    })
+}
+
 function circleImage(color: olColor): olx.style.StyleOptions {
     return {
         image: new ol.style.Circle({

@@ -7,8 +7,8 @@ export function toGeoJson(gasStrategy: GasStrategy): string {
     for (let stop of gasStrategy.stops) {
         const feature = new Feature(
             toPoint(stop.station),
+            toProperties(stop),
             stop.station.id,
-            toProperties(stop)
         )
         features.push(feature)
         route.push((<Point>feature.geometry).coordinates)
