@@ -3,11 +3,10 @@ import {Map} from './vue/map'
 import 'material-design-lite/dist/material.amber-blue.min.css'
 import 'material-design-lite/material.min.js'
 import 'vue-material-design-icons/styles.css'
-import './icons.ts'
 import 'material-design-icons/iconfont/material-icons.css'
 import {FileUpload} from "./vue/file-upload";
 import {Toastr} from "./vue/toastr";
-import {DescribableError, GasStrategy, Route} from "./app/DomainTypes";
+import {DescribableError, GasStrategy} from "./app/DomainTypes";
 import {Component} from "vue-typed";
 import {toGeoJson} from "./app/GeoJsonConverter";
 import VueMaterial from 'vue-material'
@@ -21,7 +20,6 @@ Vue.component('my-map', Map);
 Vue.component('upload-button', FileUpload);
 Vue.component('toastr', Toastr);
 Vue.component('route-details', RouteDetails);
-
 
 @Component({
     template: require('./index-template.html'),
