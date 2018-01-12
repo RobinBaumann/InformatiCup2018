@@ -6,7 +6,7 @@ import java.time.OffsetDateTime;
 public class GasStop {
     private OffsetDateTime timestamp;
     private final GasStation station;
-    private double amount;
+    private double amount = 0;
     private int price;
 
     public GasStop(OffsetDateTime timestamp, GasStation station, double amount, int price) {
