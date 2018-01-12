@@ -74,7 +74,7 @@ export class Problem implements DescribableError{
 }
 
 export enum Events {
-    Error = 'ERROR',
-    StrategyReceived = 'STRATEGY_RECEIVED'
+    Error = 'error',
+    StrategyReceived = 'strategy_received'
 }
 

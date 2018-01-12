@@ -8,8 +8,8 @@
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <div class="mdl-layout__content">
             <div class="page-content">
-                <my-map :geoJson="geoJson"></my-map>
-                <upload-button class="floating-bottom-right" @ERROR="showError" @STRATEGY_RECEIVED="strategyReceived"></upload-button>
+                <my-map :geoJson="geojson"></my-map>
+                <upload-button class="floating-bottom-right" @error="showError" @strategy_received="strategyReceived"></upload-button>
                 <toastr :error="error"></toastr>
             </div>
         </div>

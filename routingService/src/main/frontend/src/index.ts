@@ -21,14 +21,14 @@ Vue.component('modal', CsvModal);
 @Component()
 class App extends Vue {
     error?: DescribableError = undefined
-    geoJson?: string = undefined
+    geojson?: string = undefined
 
     showError(error: DescribableError) {
         this.error = error
     }
 
     strategyReceived(strategy: GasStrategy) {
-        this.geoJson = toGeoJson(strategy)
+        this.geojson = toGeoJson(strategy)
     }
 }
 

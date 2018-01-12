@@ -9,14 +9,16 @@ import {currentPositionStyle, wgsToMap} from '../app/OlUtil'
 
 export class Map extends Vue {
     @Prop()
-    geoJson?: string;
+    geojson?: string;
     map: ol.Map;
     currentPosition?: ol.layer.Vector = undefined
+    currentStrategy?: ol.layer.Vector = undefined
 
     private static readonly karlsruhe: ol.Coordinate = wgsToMap([8.403653, 49.00689])
 
     mounted() {
         this.$nextTick(() => this.setupOl());
+        this.$watch('geojson', this.strategyJsonChanged)
     }
 
     setupOl() {
@@ -47,8 +49,18 @@ export class Map extends Vue {
         window.removeEventListener('resize', this.onResize)
     }
 
-    onResize() {
+    private onResize() {
         this.map.updateSize();
+    }
+
+    private strategyJsonChanged() {
+        if (this.geojson) {
+            const source = new ol.source.Vector({
+                features: (new ol.format.GeoJSON()).readFeatures(this.geojson)
+            })
+            this.currentStrategy = new ol.layer.Vector({source})
+            this.map.getLayers().push(this.currentStrategy)
+        }
     }
 
     private setWgsCenter(coordinates: ol.Coordinate) {

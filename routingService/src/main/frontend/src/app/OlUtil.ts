@@ -4,15 +4,14 @@ export function wgsToMap(coordinates: ol.Coordinate): ol.Coordinate {
     return ol.proj.transform(coordinates, 'EPSG:4326', 'EPSG:3857')
 }
 
-const color1: [number, number, number, number] = [68, 138, 255, 255]
+//RGBA
+type olColor = [number, number, number, number]
+const color1: olColor = [68, 138, 255, 255]
+const color2: olColor = [255, 193, 7, 255]
 
 export function currentPositionStyle(feature: ol.Feature, resolution: number) {
     return new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({color: color1}),
-                    stroke: new ol.style.Stroke({color: 'black'}),
-                    radius: 5
-                }),
+                ...(circleImage(color1)),
                 text: new ol.style.Text({
                     text: feature.get('name'),
                     font: '12px Roboto, sans-serif',
@@ -22,4 +21,14 @@ export function currentPositionStyle(feature: ol.Feature, resolution: number) {
                     backgroundFill: new ol.style.Fill({color: color1})
                 })
             });
+}
+
+function circleImage(color: olColor): olx.style.StyleOptions {
+    return {
+        image: new ol.style.Circle({
+            fill: new ol.style.Fill({color}),
+            stroke: new ol.style.Stroke({color: 'black'}), //TODO maybe parameterize
+            radius: 5
+        })
+    }
 }
