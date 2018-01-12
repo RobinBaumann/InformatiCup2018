@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import {Component} from 'vue-typed'
 import {CsvProcessor} from "../app/CsvProcessor";
-import {AppError, Route} from "../app/DomainTypes";
+import {AppError, GasStrategy, Problem, Route, Events} from "../app/DomainTypes";
 import {Api} from '../app/Api'
 
 @Component({
@@ -18,7 +18,7 @@ export class FileUpload extends Vue {
     processFile(event:Event) {
         const element = <HTMLInputElement>event.target;
         if (!element.files || element.files.length !== 1) {
-            this.$emit('error', new AppError('Must choose one csv for upload'));
+            this.$emit(Events.Error, new AppError('Must choose one csv for upload'));
             return;
         }
         const reader = new FileReader();
@@ -28,11 +28,11 @@ export class FileUpload extends Vue {
 
     handleParseResult(result: Route | AppError) {
         if (result instanceof AppError) {
-            this.$emit('error', result)
+            this.$emit(Events.Error, result)
         } else if (result instanceof Route) {
             Api.route(result)
-                .then(response => console.log(response))
-                .catch(reason => console.log(reason.response))
+                .then(response => this.$emit(Events.StrategyReceived, new GasStrategy(response.data.stops)))
+                .catch(reason => this.$emit(Events.Error, <Problem>reason.response.data))
         }
     }
 }

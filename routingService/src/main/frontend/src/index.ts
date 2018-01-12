@@ -7,7 +7,7 @@ import 'vue-material-design-icons/styles.css'
 import './icons.ts'
 import {FileUpload} from "./vue/file-upload";
 import {Toastr} from "./vue/toastr";
-import {AppError} from "./app/DomainTypes";
+import {DescribableError, GasStrategy} from "./app/DomainTypes";
 import {CsvModal} from "./vue/csvmodal";
 import {Component} from "vue-typed";
 
@@ -19,10 +19,14 @@ Vue.component('modal', CsvModal);
 
 @Component()
 class App extends Vue {
-    error?: AppError = undefined
+    error?: DescribableError = undefined
 
-    showError(error: AppError) {
+    showError(error: DescribableError) {
         this.error = error
+    }
+
+    strategyReceived(strategy: GasStrategy) {
+
     }
 }
 
