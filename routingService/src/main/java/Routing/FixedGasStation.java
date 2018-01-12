@@ -139,15 +139,14 @@ public class FixedGasStation {
      * Distance from two Gas Station given a route and indices
      *
      * @param route
-     * @param i     start index
-     * @param j     destination index
+     * @param from     start index
+     * @param to     destination index
      * @return
      */
-    protected static double distanceByRange(List<GasStation> route, int i, int j) {
+    protected static double distanceByRange(List<GasStation> route, int from, int to) {
         double sum = 0;
-        for (int k = i; k < j; k++)
+        for (int k = from; k < to; k++)
             sum += distanceGasStation(route.get(k), route.get(k + 1));
-
         return sum;
     }
 
