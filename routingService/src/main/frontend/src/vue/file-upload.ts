@@ -9,10 +9,31 @@ import {Api} from '../app/Api'
 })
 
 export class FileUpload extends Vue {
-    openFileDialog() {
+    private fileType?: FileType = undefined;
+
+    openFileDialogRoute() {
+        this.fileType = FileType.Route;
+        this.triggerUpload()
+    }
+
+    openFileDialogPrice() {
+        this.fileType = FileType.Price;
+        this.triggerUpload()
+    }
+
+    private triggerUpload() {
         const input = <HTMLInputElement>this.$refs.fileInput;
         input.value = '';
         input.click();
+    }
+
+    private getFunction() {
+        if(this.fileType === FileType.Route) {
+            return (result: any, processor: CsvProcessor) => this.handleParseResult(processor.processCsv(result));
+        } else if (this.fileType === FileType.Price) {
+           //TODO implement
+        }
+        throw new Error("This should never happen ;)")
     }
 
     processFile(event: Event) {
@@ -22,8 +43,8 @@ export class FileUpload extends Vue {
             return;
         }
         const reader = new FileReader();
-        const processor = new CsvProcessor(element.files[0].name)
-        reader.onload = () => this.handleParseResult(processor.processCsv(reader.result));
+        const processor = new CsvProcessor(element.files[0].name);
+        reader.onload = () => this.getFunction()(reader.result, processor);
         reader.readAsText(element.files[0])
     }
 
@@ -48,4 +69,9 @@ export class FileUpload extends Vue {
                 })
         }
     }
+}
+
+enum FileType {
+    Route = 'Route',
+    Price = 'Price'
 }
