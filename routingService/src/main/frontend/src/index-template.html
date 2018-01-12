@@ -1,0 +1,24 @@
+<div class="mdl-layout-transparent mdl-js-layout">
+    <header class="mdl-layout__header mdl-layout__header--transparent">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Foo Route</span>
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation">
+                <a href="" class="mdl-navigation__link">Tankstrategie</a>
+            </nav>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Foo Route</span>
+        <nav class="mdl-navigation">
+            <a href="" class="mdl-navigation__link">Tankstrategie</a>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            <my-map :geoJson="geojson"></my-map>
+            <upload-button class="floating-bottom-right" @error="showError" strategy_received="strategyReceived"></upload-button>
+            <toastr :error="error"></toastr>
+        </div>
+    </main>
+</div>

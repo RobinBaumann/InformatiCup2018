@@ -5,6 +5,7 @@ import 'material-design-lite/material.min.js'
 import './css/app.css'
 import 'vue-material-design-icons/styles.css'
 import './icons.ts'
+import 'material-design-icons/iconfont/material-icons.css'
 import {FileUpload} from "./vue/file-upload";
 import {Toastr} from "./vue/toastr";
 import {DescribableError, GasStrategy} from "./app/DomainTypes";
@@ -18,7 +19,9 @@ Vue.component('toastr', Toastr);
 Vue.component('modal', CsvModal);
 
 
-@Component()
+@Component({
+    template: require('./index-template.html')
+})
 class App extends Vue {
     error?: DescribableError = undefined
     geojson?: string = undefined
