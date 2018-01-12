@@ -14,8 +14,13 @@ public class FixedGasStation {
     protected static final double EARTHRADIUS = 6378.388;
     //5.6 litre per 100km, german average 2016
     private static final double LITREPERKM = 0.056;
+    public static final int NOSUCCESSOR = -1;
+
     private PricePredictionService pricePredictionService;
 
+    /**
+     * @param pricePredictionService
+     */
     public FixedGasStation(PricePredictionService pricePredictionService) {
         this.pricePredictionService = pricePredictionService;
     }
@@ -40,28 +45,24 @@ public class FixedGasStation {
      * @param full     start fuel of tank
      */
     public GasStrategy calculateRoute(List<GasStop> route, double capacity, double full) {
-        int i = 0;
+        int startIndex = 0;
         //TODO check if predictAll is better perf wise
-        for (GasStop gasStop: route) {
+        for (GasStop gasStop : route) {
             gasStop.setPrice(pricePredictionService.getPrice(gasStop.getStation(), gasStop.getTimestamp()));
         }
-        while (i < route.size() - 1) {
-            int next = getSuccessor(route, i, capacity);
-            if (next == -1)
-                next = route.size() - 1;
-            if (distanceByRange(mapStations(route), i, next) <= U(full)) {
-                full -= (distanceByRange(mapStations(route), i, next) * LITREPERKM);
-                //TODO remove souts
-                System.out.println("reaching from " + i + " to " + next + " distance from " + distanceByRange(mapStations(route), i, next) + " km ");
+
+        while (startIndex < route.size() - 1) {
+            int successorIndex = getSuccessor(new LinkedList<>(route), startIndex, capacity);
+            if (successorIndex == NOSUCCESSOR)
+                successorIndex = route.size() - 1;
+            if (distanceByRange(mapStations(route), startIndex, successorIndex) <= capacityToLitre(full)) {
+                full -= (distanceByRange(mapStations(route), startIndex, successorIndex) * LITREPERKM);
             } else {
-                double fillingAmount = Math.abs(full - (distanceByRange(mapStations(route), i, next) * LITREPERKM));
+                double fillingAmount = Math.abs(full - (distanceByRange(mapStations(route), startIndex, successorIndex) * LITREPERKM));
                 full = 0;
-                System.out.println("filling in " + fillingAmount + " liters to reach " + next +
-                        " from " + i + " for " + route.get(i).getPrice() * distanceByRange(mapStations(route), i, next) * LITREPERKM +
-                        "€ for distance " + distanceByRange(mapStations(route), i, next) + " km ");
-                route.get(i).setAmount(fillingAmount);
+                route.get(startIndex).setAmount(fillingAmount);
             }
-            i = next;
+            startIndex = successorIndex;
         }
         return new GasStrategy(route);
 
@@ -69,18 +70,36 @@ public class FixedGasStation {
 
 
     /**
-     * Destination from two Geo-points
-     *
-     * @param lat     latitude source
-     * @param lon     longitude source
-     * @param destLat latitude destination
-     * @param destLon latitude destination
+     * @param degrees
      * @return
      */
-    private static double getDistance(double lat, double lon, double destLat, double destLon) {
-        return EARTHRADIUS * Math.acos(Math.sin(lat) * Math.sin(destLat) + Math.cos(lat) * Math.cos(destLat) * Math.cos(destLon - lon));
+    private static double degreesToRadians(double degrees) {
+        return degrees * Math.PI / 180;
     }
 
+
+    /**
+     * Calculate distance between two geo points
+     *
+     * @param lat1
+     * @param lon1
+     * @param lat2
+     * @param lon2
+     * @return
+     */
+    private static double getDistance(double lat1, double lon1, double lat2, double lon2) {
+
+        double dLat = degreesToRadians(lat2 - lat1);
+        double dLon = degreesToRadians(lon2 - lon1);
+
+        lat1 = degreesToRadians(lat1);
+        lat2 = degreesToRadians(lat2);
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return EARTHRADIUS * c;
+    }
 
     /**
      * Calculate liter you can drive given a capacity
@@ -88,7 +107,7 @@ public class FixedGasStation {
      * @param capacity capacity of tank
      * @return
      */
-    private static double U(double capacity) {
+    private static double capacityToLitre(double capacity) {
         return capacity / LITREPERKM;
     }
 
@@ -97,42 +116,43 @@ public class FixedGasStation {
      * Implying there is always at least one reachable Gas Station you can reach with a full tank
      *
      * @param route
-     * @param i        predeccessors which succcessor is searched
-     * @param capacity capacity of tank
+     * @param startIndex predeccessors which succcessor is searched
+     * @param capacity   capacity of tank
      * @return
      */
-    protected static int getSuccessor(List<GasStop> route, int i, double capacity) {
-        List<GasStop> prio = new ArrayList<>();
-        for (int k = i + 1; k < route.size(); k++) {
-            if (route.get(k).getPrice() <= route.get(i).getPrice()
-                    && distanceByRange(mapStations(route), k, i)
-                    < U(capacity)) {
-                prio.add(route.get(k));
+    protected static int getSuccessor(LinkedList<GasStop> route, int startIndex, double capacity) {
+        LinkedList<GasStop> prio = new LinkedList<>();
+        for (int successorIndex = startIndex + 1; successorIndex < route.size() - 1; successorIndex++) {
+            if (route.get(successorIndex).getPrice() <= route.get(startIndex).getPrice()
+                    && distanceByRange(mapStations(route), startIndex, successorIndex)
+                    < capacityToLitre(capacity)) {
+                prio.add(route.get(successorIndex));
             }
         }
         if (prio.size() <= 0)
-            return -1;
-        prio.sort(new GasStopComparator(route.get(route.size() - 1)));
-        return route.indexOf(prio.get(0));
+            return NOSUCCESSOR;
+        prio.sort(new GasStopComparator(route.getLast()));
+        return route.indexOf(prio.getFirst());
     }
 
     /**
      * Distance from two Gas Station given a route and indices
      *
      * @param route
-     * @param i     start index
-     * @param j     destination index
+     * @param from     start index
+     * @param to     destination index
      * @return
      */
-    protected static double distanceByRange(List<GasStation> route, int i, int j) {
+    protected static double distanceByRange(List<GasStation> route, int from, int to) {
         double sum = 0;
-        for (int k = i; k < j; k++) {
+        for (int k = from; k < to; k++)
             sum += distanceGasStation(route.get(k), route.get(k + 1));
-        }
         return sum;
     }
 
     private static List<GasStation> mapStations(List<GasStop> stops) {
         return stops.stream().map(GasStop::getStation).collect(Collectors.toList());
     }
+
+
 }
