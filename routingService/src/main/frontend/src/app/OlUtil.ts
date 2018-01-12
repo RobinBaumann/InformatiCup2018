@@ -9,7 +9,7 @@ type olColor = [number, number, number, number]
 const primary: olColor = [68, 138, 255, 255];
 const secondary: olColor = [255, 82, 82, 255];
 
-export function currentPositionStyle(feature: ol.Feature, resolution: number) {
+export function currentPositionStyle(feature: ol.Feature) {
     return new ol.style.Style({
         ...(circleImage(secondary)),
         text: new ol.style.Text({
@@ -23,7 +23,7 @@ export function currentPositionStyle(feature: ol.Feature, resolution: number) {
     });
 }
 
-export function gasStrategyStyle(feature: ol.Feature, resolution: number) {
+export function gasStrategyStyle(feature: ol.Feature) {
     //@ts-ignore
     return strategyStyles[feature.getGeometry().getType()]
 }
@@ -41,7 +41,7 @@ function circleImage(color: olColor): olx.style.StyleOptions {
     return {
         image: new ol.style.Circle({
             fill: new ol.style.Fill({color}),
-            stroke: new ol.style.Stroke({color}), //TODO maybe parameterize
+            stroke: new ol.style.Stroke({color}),
             radius: 5
         })
     }

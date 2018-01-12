@@ -15,7 +15,7 @@ export class FileUpload extends Vue {
         input.click();
     }
 
-    processFile(event:Event) {
+    processFile(event: Event) {
         const element = <HTMLInputElement>event.target;
         if (!element.files || element.files.length !== 1) {
             this.$emit(Events.Error, new AppError('Must choose one csv for upload'));
@@ -34,7 +34,18 @@ export class FileUpload extends Vue {
             Api.route(result)
                 .then(response => this.$emit(
                     Events.StrategyReceived, new GasStrategy(response.data.stops, result.name, result.capacity)))
-                .catch(reason => this.$emit(Events.Error, <Problem>reason.response.data))
+                .catch(reason => {
+                    if (reason.response) {
+                        this.$emit(Events.Error, <Problem>reason.response.data)
+                    } else {
+                        this.$emit(Events.Error, new Problem(
+                            "https://github.com/RobinBaumann/InformatiCup2018/InternalError",
+                            "An internal error occurred.",
+                            "An internal error occurred, we are fixing it asap.",
+                            500
+                        ))
+                    }
+                })
         }
     }
 }

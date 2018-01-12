@@ -74,6 +74,13 @@ export class Problem implements DescribableError{
     detail: string
     status: number
 
+    constructor(type: string, title: string, detail: string, status: number) {
+        this.type = type;
+        this.title = title;
+        this.detail = detail;
+        this.status = status;
+    }
+
     describe(): string {
         return `${this.title}\n${this.detail}`
     }

@@ -1,7 +1,7 @@
 import {AppError, Route, RoutePoint} from "./DomainTypes";
 
 export class CsvProcessor {
-    private readonly name: string
+    private readonly name: string;
 
     constructor(name: string) {
         this.name = name
@@ -21,7 +21,7 @@ export class CsvProcessor {
             if (lines[i] === '') {
                 continue
             }
-            const result = this.parseRouteLine(lines[i]);
+            const result = CsvProcessor.parseRouteLine(lines[i]);
             if (result instanceof AppError) {
                 return new AppError(`Error in line ${i + 1}: ${result.description}`)
             } else {
@@ -31,7 +31,7 @@ export class CsvProcessor {
         return new Route(capacity, stops, this.name)
     }
 
-    parseRouteLine(line: string): RoutePoint | AppError {
+    static parseRouteLine(line: string): RoutePoint | AppError {
         const parts = line.split(';');
         if (parts.length !== 2) {
             return new AppError('should consist of two elements separated by ";".')
