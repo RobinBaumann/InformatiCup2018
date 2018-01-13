@@ -13,14 +13,19 @@ import java.util.stream.Collectors;
 public class SimpleRoutingService {
     private final static double STARTING_AMOUNT = 0;
     private FixedGasStation fixedGasStation;
+    private Repository repository;
 
-    public SimpleRoutingService(FixedGasStation fixedGasStation){
+    public SimpleRoutingService(
+            FixedGasStation fixedGasStation,
+            Repository repository
+    ){
         this.fixedGasStation = fixedGasStation;
+        this.repository = repository;
     }
 
     public GasStrategy route(RouteRequest request) throws EmptyRouteException, RoutePointsOutOfOrderException, CapacityException {
         validate(request);
-        Map<Integer, GasStation> gasStations = Repository.getStationsByIds(
+        Map<Integer, GasStation> gasStations = repository.getStationsByIds(
                 request.getRoutePoints().stream().map(RoutePoint::getStationId).collect(Collectors.toList()))
                 .stream().collect(Collectors.toMap(GasStation::getId, Function.identity()));
         List<GasStop> gasStops = request.getRoutePoints().stream()
