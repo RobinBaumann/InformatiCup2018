@@ -10,7 +10,19 @@ import 'vue-material/dist/vue-material.css'
 import 'vue-material/dist/theme/default.css'
 import './css/app.css'
 import {RouteDetails} from "./vue/route-details";
-import {MdApp, MdList, MdToolbar, MdButton, MdIcon, MdContent, MdSpeedDial, MdSnackbar, MdDrawer} from 'vue-material/dist/components';
+import {
+    MdApp,
+    MdList,
+    MdToolbar,
+    MdButton,
+    MdIcon,
+    MdContent,
+    MdSpeedDial,
+    MdSnackbar,
+    MdDrawer,
+    MdTable,
+    MdCard
+} from 'vue-material/dist/components';
 require('babel-core/register');
 require('babel-polyfill');
 
@@ -23,6 +35,8 @@ Vue.use(MdContent);
 Vue.use(MdSpeedDial);
 Vue.use(MdSnackbar);
 Vue.use(MdDrawer);
+Vue.use(MdTable);
+Vue.use(MdCard);
 
 Vue.component('my-map', Map);
 Vue.component('upload-button', FileUpload);
