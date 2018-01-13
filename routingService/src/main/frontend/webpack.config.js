@@ -8,7 +8,7 @@ const target = path.resolve(__dirname, '..', 'resources', 'public');
 
 const config = {
     context: __dirname,
-    entry: "./src/index.ts",
+    entry: ['babel-polyfill', "./src/index.ts"],
     output: {
         path: target,
         filename: outputFileName + '.js',

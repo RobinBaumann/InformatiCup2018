@@ -6,13 +6,24 @@ import {Toastr} from "./vue/toastr";
 import {DescribableError, GasStrategy} from "./app/DomainTypes";
 import {Component} from "vue-typed";
 import {toGeoJson} from "./app/GeoJsonConverter";
-import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 import 'vue-material/dist/theme/default.css'
 import './css/app.css'
 import {RouteDetails} from "./vue/route-details";
+import {MdApp, MdList, MdToolbar, MdButton, MdIcon, MdContent, MdSpeedDial, MdSnackbar, MdDrawer} from 'vue-material/dist/components';
+require('babel-core/register');
+require('babel-polyfill');
 
-Vue.use(VueMaterial);
+Vue.use(MdApp);
+Vue.use(MdList);
+Vue.use(MdToolbar);
+Vue.use(MdButton);
+Vue.use(MdIcon);
+Vue.use(MdContent);
+Vue.use(MdSpeedDial);
+Vue.use(MdSnackbar);
+Vue.use(MdDrawer);
+
 Vue.component('my-map', Map);
 Vue.component('upload-button', FileUpload);
 Vue.component('toastr', Toastr);
