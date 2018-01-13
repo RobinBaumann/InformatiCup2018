@@ -18,13 +18,6 @@ const config = {
         inline: true,
         port: 8080
     },
-    resolve: {
-        extensions: ['.ts', '.js', '.vue'],
-        alias: {
-            'vue$': 'vue/dist/vue.js',
-            'icons': path.resolve(__dirname, 'node_modules/vue-material-design-icons')
-        }
-    },
     module: {
         rules: [
             {
@@ -82,6 +75,13 @@ if (process.env.NODE_ENV === 'production') {
             new webpack.optimize.OccurrenceOrderPlugin()
         ]
     );
+    config.resolve = {
+        extensions: ['.ts', '.js', '.vue'],
+        alias: {
+            'vue$': 'vue/dist/vue.min.js',
+            'icons': path.resolve(__dirname, 'node_modules/vue-material-design-icons')
+        }
+    };
 } else {
     config.devtool = '#eval-source-map';
     config.module.rules = config.module.rules.concat(
@@ -99,7 +99,14 @@ if (process.env.NODE_ENV === 'production') {
             }),
             new BundleAnalyzerPlugin()
         ]
-    )
+    );
+    config.resolve = {
+        extensions: ['.ts', '.js', '.vue'],
+            alias: {
+            'vue$': 'vue/dist/vue.js',
+                'icons': path.resolve(__dirname, 'node_modules/vue-material-design-icons')
+        }
+    };
 }
 
 module.exports = config;
