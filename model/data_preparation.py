@@ -128,8 +128,8 @@ def prepare_data_2(con, batch_size=20):
     order by s.id, p.time_stamp
       """ % ids_param
 
-    data = pd.read_sql_query(query, con)
-    return data
+    data = pd.read_sql_query(query, con, parse_dates=["time_stamp"])
+    return data.fillna(0)
 
 
 def train_test_split(series, time_stamps, train_amount=0.8):
