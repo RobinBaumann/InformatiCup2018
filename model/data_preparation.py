@@ -110,10 +110,10 @@ def prepare_data_2(con, batch_size=20):
     query = """
     select 
       ln(p.price) as ln_price,
-      p.time_stamp,
       p.is_vacation::int,
       p.is_holiday::int,
       p.day_of_week,
+      p.hour_of_day,
       s.id as station_id,
       s.brand_no,
       s.bland_no,
@@ -129,7 +129,7 @@ def prepare_data_2(con, batch_size=20):
       """ % ids_param
 
     data = pd.read_sql_query(query, con)
-    return data
+    return data.fillna(0)
 
 
 def train_test_split(series, time_stamps, train_amount=0.8):
