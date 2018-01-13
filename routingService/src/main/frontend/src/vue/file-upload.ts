@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import {Component} from 'vue-typed'
 import {CsvProcessor} from "../app/CsvProcessor";
-import {AppError, GasStrategy, Problem, Route, Events} from "../app/DomainTypes";
+import {
+    AppError, GasStrategy, Problem, Route, Events, PricePredictionRequests,
+    PricePredictions
+} from "../app/DomainTypes";
 import {Api} from '../app/Api'
 
 @Component({
@@ -28,10 +31,12 @@ export class FileUpload extends Vue {
     }
 
     private getFunction() {
-        if(this.fileType === FileType.Route) {
-            return (result: any, processor: CsvProcessor) => this.handleParseResult(processor.processRouteCsv(result));
+        if (this.fileType === FileType.Route) {
+            return (result: any, processor: CsvProcessor) =>
+                this.handleRouteParseResult(processor.processRouteCsv(result));
         } else if (this.fileType === FileType.Price) {
-           //TODO implement
+            return (result: any, processor: CsvProcessor) =>
+                this.handlePredictionParseResult(processor.processPriceCsv(result));
         }
         throw new Error("This should never happen ;)")
     }
@@ -48,25 +53,39 @@ export class FileUpload extends Vue {
         reader.readAsText(element.files[0])
     }
 
-    handleParseResult(result: Route | AppError) {
+    private handleRouteParseResult(result: Route | AppError) {
         if (result instanceof AppError) {
             this.$emit(Events.Error, result)
         } else if (result instanceof Route) {
             Api.route(result)
                 .then(response => this.$emit(
                     Events.StrategyReceived, new GasStrategy(response.data.stops, result.name, result.capacity)))
-                .catch(reason => {
-                    if (reason.response) {
-                        this.$emit(Events.Error, <Problem>reason.response.data)
-                    } else {
-                        this.$emit(Events.Error, new Problem(
-                            "https://github.com/RobinBaumann/InformatiCup2018/InternalError",
-                            "An internal error occurred.",
-                            "An internal error occurred, we are fixing it asap.",
-                            500
-                        ))
-                    }
-                })
+                .catch(this.apiErrorHandler)
+        }
+    }
+
+    private handlePredictionParseResult(result: PricePredictionRequests | AppError) {
+        if (result instanceof AppError) {
+            this.$emit(Events.Error, result)
+        } else if (result instanceof PricePredictionRequests) {
+            Api.predictions(result)
+                .then(response => this.$emit(
+                    Events.PredictionsReceived, new PricePredictions(result.name, response.data.predictions)
+                ))
+                .catch(this.apiErrorHandler)
+        }
+    }
+
+    private apiErrorHandler(reason: any) {
+        if (reason.response && reason.response.data && reason.response.data instanceof Problem) {
+            this.$emit(Events.Error, reason.response.data);
+        } else {
+            this.$emit(Events.Error, new Problem(
+                "https://github.com/RobinBaumann/InformatiCup2018/InternalError",
+                "An internal error occurred.",
+                "An internal error occurred, we are fixing it asap.",
+                500
+            ));
         }
     }
 }

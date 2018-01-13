@@ -1,4 +1,4 @@
-import {AppError, GasStrategy, Route, RoutePoint} from "./DomainTypes";
+import {AppError, GasStrategy, PricePredictionRequest, PricePredictionRequests, Route, RoutePoint} from "./DomainTypes";
 import * as dateformat from 'date-fns/format'
 import * as dateparse from 'date-fns/parse'
 
@@ -25,12 +25,29 @@ export class CsvProcessor {
             }
             const result = CsvProcessor.parseRouteLine(lines[i]);
             if (result instanceof AppError) {
-                return new AppError(`Error in line ${i + 1}: ${result.description}`)
+                return new AppError(`Error in line ${i + 1}: ${result.describe()}`)
             } else {
                 stops.push(result)
             }
         }
         return new Route(capacity, stops, this.name)
+    }
+
+    processPriceCsv(content: string): PricePredictionRequests | AppError {
+        const lines = content.split('\n'); //TODO check os compat
+        if (lines.length === 0) {
+            return new AppError("Csv file should contain at least 1 line.");
+        }
+        const requests: PricePredictionRequest[] = [];
+        for (let i = 0; i < lines.length; i++) {
+            const result = CsvProcessor.parsePredictionLine(lines[i]);
+            if (result instanceof AppError) {
+                return new AppError(`Error in line ${i + 1}: ${result.describe()}`);
+            } else {
+                requests.push(result);
+            }
+        }
+        return new PricePredictionRequests(requests, this.name);
     }
 
     static toCsv(strategy: GasStrategy): string {
@@ -47,15 +64,31 @@ export class CsvProcessor {
         if (parts.length !== 2) {
             return new AppError('should consist of two elements separated by ";".')
         }
+        // this could be problematic: dateparse is typed with Date as return value,
+        // no way to check for invalid dates, this will be fixed in date-fns v2 (currently prerelease state)
+        // TODO update to date-fns v2 asap and reintroduce error handling
         const date = dateparse(parts[0]);
-/*        if (isNaN(date)) {
-            return new AppError('timestamp can not be parsed.')
-        }*/
-        //const timestamp = new Date(date);
         const stationId = parseInt(parts[1]);
         if (isNaN(stationId)) {
             return new AppError('stationId can not be parsed.')
         }
         return new RoutePoint(stationId, date)
+    }
+
+    static parsePredictionLine(line: string): PricePredictionRequest | AppError {
+        const parts = line.split(';');
+        if (parts.length !== 3) {
+            return new AppError('should consist of three elements separated by ";".');
+        }
+        // this could be problematic: dateparse is typed with Date as return value,
+        // no way to check for invalid dates, this will be fixed in date-fns v2 (currently prerelease state)
+        // TODO update to date-fns v2 asap and reintroduce error handling
+        const known = dateparse(parts[0]);
+        const predict = dateparse(parts[1]);
+        const stationId = parseInt(parts[2]);
+        if (isNaN(stationId)) {
+            return new AppError('stationId can not be parsed.');
+        }
+        return new PricePredictionRequest(known, predict, stationId);
     }
 }
