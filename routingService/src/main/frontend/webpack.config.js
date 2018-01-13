@@ -79,11 +79,10 @@ if (process.env.NODE_ENV === 'production') {
         extensions: ['.ts', '.js', '.vue'],
         alias: {
             'vue$': 'vue/dist/vue.min.js',
-            'icons': path.resolve(__dirname, 'node_modules/vue-material-design-icons')
         }
     };
 } else {
-    config.devtool = '#eval-source-map';
+    config.devtool = '#source-map';
     config.module.rules = config.module.rules.concat(
         [
             {
@@ -104,7 +103,6 @@ if (process.env.NODE_ENV === 'production') {
         extensions: ['.ts', '.js', '.vue'],
             alias: {
             'vue$': 'vue/dist/vue.js',
-                'icons': path.resolve(__dirname, 'node_modules/vue-material-design-icons')
         }
     };
 }
