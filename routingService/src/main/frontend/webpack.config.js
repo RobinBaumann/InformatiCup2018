@@ -18,7 +18,6 @@ const config = {
         inline: true,
         port: 8080
     },
-    devtool: '#eval-source-map',
     resolve: {
         extensions: ['.ts', '.js', '.vue'],
         alias: {
@@ -57,16 +56,12 @@ const config = {
 
 if (process.env.NODE_ENV === 'production') {
     config.output.filename = outputFileName + '.min.js';
+    config.devtool = '#cheap-module-source-map';
     config.module.rules = config.module.rules.concat(
         [
             {
                 test: /\.ts$/,
                 loader: 'babel-loader?presets[]=es2015!ts-loader'
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                query: {presets: ['es2015']}
             }
         ]
     );
@@ -88,6 +83,7 @@ if (process.env.NODE_ENV === 'production') {
         ]
     );
 } else {
+    config.devtool = '#eval-source-map';
     config.module.rules = config.module.rules.concat(
         [
             {
