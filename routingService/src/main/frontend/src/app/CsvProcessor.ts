@@ -1,5 +1,5 @@
 import {AppError, GasStrategy, Route, RoutePoint} from "./DomainTypes";
-import * as moment from 'moment'
+import * as dateformat from 'date-fns/format'
 
 export class CsvProcessor {
     private readonly name: string;
@@ -8,7 +8,7 @@ export class CsvProcessor {
         this.name = name
     }
 
-    processCsv(content: string): Route | AppError {
+    processRouteCsv(content: string): Route | AppError {
         const lines = content.split('\n'); //TODO check OS compat
         if (lines.length < 2) {
             return new AppError("Csv file should contain at least 2 lines (capacity and one stop).");
@@ -35,7 +35,7 @@ export class CsvProcessor {
     static toCsv(strategy: GasStrategy): string {
         const lines: string[] = [];
         for (let stop of strategy.stops) {
-            const formatted = moment(stop.timestamp).format('YYYY-MM-DD HH:mm:ssZZ').slice(0, -2);
+            const formatted = dateformat(stop.timestamp, 'YYYY-MM-DD HH:mm:ssZZ').slice(0, -2);
             lines.push(`${formatted};${stop.station.id};${stop.price};${stop.amount}`)
         }
         return lines.join('\n')

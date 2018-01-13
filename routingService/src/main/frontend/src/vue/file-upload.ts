@@ -29,7 +29,7 @@ export class FileUpload extends Vue {
 
     private getFunction() {
         if(this.fileType === FileType.Route) {
-            return (result: any, processor: CsvProcessor) => this.handleParseResult(processor.processCsv(result));
+            return (result: any, processor: CsvProcessor) => this.handleParseResult(processor.processRouteCsv(result));
         } else if (this.fileType === FileType.Price) {
            //TODO implement
         }

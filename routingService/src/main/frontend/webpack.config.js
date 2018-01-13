@@ -1,6 +1,7 @@
 const path = require('path'),
     webpack = require('webpack'),
     outputFileName = 'bundle',
+    BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const target = path.resolve(__dirname, '..', 'resources', 'public');
@@ -78,6 +79,7 @@ if (process.env.NODE_ENV === 'production') {
                 HOST: ''
             }),
             new webpack.optimize.UglifyJsPlugin({
+                sourceMap: true,
                 compress: {
                     warnings: false
                 }
@@ -98,7 +100,8 @@ if (process.env.NODE_ENV === 'production') {
         [
             new webpack.DefinePlugin({
                 HOST: '"http://localhost:4567"'
-            })
+            }),
+            new BundleAnalyzerPlugin()
         ]
     )
 }
