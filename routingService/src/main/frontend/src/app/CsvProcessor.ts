@@ -1,5 +1,6 @@
 import {AppError, GasStrategy, Route, RoutePoint} from "./DomainTypes";
 import * as dateformat from 'date-fns/format'
+import * as dateparse from 'date-fns/parse'
 
 export class CsvProcessor {
     private readonly name: string;
@@ -46,15 +47,15 @@ export class CsvProcessor {
         if (parts.length !== 2) {
             return new AppError('should consist of two elements separated by ";".')
         }
-        const date = Date.parse(parts[0]);
-        if (isNaN(date)) {
+        const date = dateparse(parts[0]);
+/*        if (isNaN(date)) {
             return new AppError('timestamp can not be parsed.')
-        }
-        const timestamp = new Date(date);
+        }*/
+        //const timestamp = new Date(date);
         const stationId = parseInt(parts[1]);
         if (isNaN(stationId)) {
             return new AppError('stationId can not be parsed.')
         }
-        return new RoutePoint(stationId, timestamp)
+        return new RoutePoint(stationId, date)
     }
 }
