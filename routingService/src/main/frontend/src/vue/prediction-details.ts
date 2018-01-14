@@ -25,7 +25,7 @@ export class PredictionDetails extends Vue {
         for (let i = 0; i < this.predictions.length; i++) {
             if (this.predictions[i] === predictions) {
                 this.predictions.splice(i, 1);
-                this.$emit(Events.PredictionDetailsRemoved, predictions)
+                this.$emit(Events.PredictionDetailsRemoved, predictions);
                 return;
             }
         }
