@@ -9,12 +9,6 @@
                         <span class="md-list-item-text">{{detail.data.name}}</span>
                         <md-card slot="md-expand">
                             <md-card-content>
-                                <a v-bind:href="detail.toCsv()" v-bind:download="detail.toName()">
-                                    <md-icon>file_download</md-icon>
-                                    Download
-                                </a>
-                            </md-card-content>
-                            <md-card-content>
                                 <span class="md-list-item-text">Preisvorhersagen:</span>
                                 <md-table>
                                     <md-table-row>
@@ -31,6 +25,14 @@
                                     </md-table-row>
                                 </md-table>
                             </md-card-content>
+                            <md-card-actions>
+                                <md-button @click="detail.download">
+                                    <a class="display-none" v-bind:href="detail.toCsv()" v-bind:download="detail.toName()" name="link">
+                                    </a>
+                                    <md-icon>file_download</md-icon>
+                                    Download
+                                </md-button>
+                            </md-card-actions>
                         </md-card>
                     </md-list-item>
                 </md-list>

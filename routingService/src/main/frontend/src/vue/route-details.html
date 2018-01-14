@@ -9,12 +9,6 @@
                         <span class="md-list-item-text">{{route.data.name}}</span>
                         <md-card slot="md-expand">
                             <md-card-content>
-                                <a v-bind:href="route.toCsv()" v-bind:download="route.toName()">
-                                    <md-icon>file_download</md-icon>
-                                    Download
-                                </a>
-                            </md-card-content>
-                            <md-card-content>
                                 <span class="md-list-item-text">Tankkapazität: {{route.data.capacity}}</span>
                             </md-card-content>
                             <md-card-content>
@@ -34,6 +28,14 @@
                                     </md-table-row>
                                 </md-table>
                             </md-card-content>
+                            <md-card-actions>
+                                <md-button @click="route.download">
+                                    <a class="display-none" v-bind:href="route.toCsv()" v-bind:download="route.toName()">
+                                    </a>
+                                    <md-icon>file_download</md-icon>
+                                    Download
+                                </md-button>
+                            </md-card-actions>
                         </md-card>
                     </md-list-item>
                 </md-list>

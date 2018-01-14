@@ -150,6 +150,27 @@ export abstract class Detail<T> {
     createDataUri(content: string): string {
         return `data:text/plain;charset=utf8,${encodeURI(content)}`
     }
+
+    download(event: MouseEvent) {
+        let button: HTMLButtonElement|null = null;
+        if (!event.srcElement) {
+            return;
+        }
+        if (event.srcElement.tagName === 'button') {
+            button = <HTMLButtonElement>event.srcElement;
+        } else {
+            if (event.srcElement.parentElement) {
+                button = <HTMLButtonElement> event.srcElement.parentElement;
+            }
+        }
+        if (!button) {
+            return;
+        }
+        const link = button.querySelector('a');
+        if (link) {
+            link.click();
+        }
+    }
 }
 
 export enum Events {
