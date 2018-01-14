@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {Component} from "vue-typed";
-import {GasStrategy, Route} from "../app/DomainTypes";
+import {Detail, GasStrategy, Route} from "../app/DomainTypes";
 import {CsvProcessor} from "../app/CsvProcessor";
 
 @Component({
@@ -10,32 +10,28 @@ export class RouteDetails extends Vue {
     routes: RouteDetail[] = [];
 
     get count(): number {
-        return this.routes.length
+        return this.routes.length;
     }
 
     addRoute(strategy: GasStrategy, layer: ol.layer.Vector) {
-        this.routes.push(new RouteDetail(strategy, layer))
+        this.routes.push(new RouteDetail(strategy, layer));
     }
 
     get showRoutes(): boolean {
-        return this.routes.length > 0
+        return this.routes.length > 0;
     }
 }
 
-class RouteDetail {
-    strategy: GasStrategy;
-    layer: ol.layer.Vector;
-
+class RouteDetail extends Detail<GasStrategy>{
     constructor(strategy: GasStrategy, layer: ol.layer.Vector) {
-        this.strategy = strategy;
-        this.layer = layer;
+        super(strategy, layer);
     }
 
     toCsv(): string {
-        return `data:text/plain;charset=utf8,${encodeURI(CsvProcessor.toCsv(this.strategy))}`
+        return this.createDataUri(CsvProcessor.strategyToCsv(this.data));
     }
 
     toName(): string {
-        return `${this.strategy.name.split('.')[0]}_strategy.csv`
+        return `${this.data.name.split('.')[0]}_strategy.csv`;
     }
 }

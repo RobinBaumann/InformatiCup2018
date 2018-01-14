@@ -1,4 +1,7 @@
-import {AppError, GasStrategy, PricePredictionRequest, PricePredictionRequests, Route, RoutePoint} from "./DomainTypes";
+import {
+    AppError, GasStrategy, PricePredictionRequest, PricePredictionRequests, PricePredictions, Route,
+    RoutePoint
+} from "./DomainTypes";
 import * as dateformat from 'date-fns/format'
 import * as dateparse from 'date-fns/parse'
 
@@ -50,13 +53,20 @@ export class CsvProcessor {
         return new PricePredictionRequests(requests, this.name);
     }
 
-    static toCsv(strategy: GasStrategy): string {
-        const lines: string[] = [];
-        for (let stop of strategy.stops) {
-            const formatted = dateformat(stop.timestamp, 'YYYY-MM-DD HH:mm:ssZZ').slice(0, -2);
-            lines.push(`${formatted};${stop.station.id};${stop.price};${stop.amount}`)
-        }
-        return lines.join('\n')
+    static strategyToCsv(strategy: GasStrategy): string {
+        return strategy.stops
+            .map(s => `${this.formatDate(s.timestamp)};${s.station.id};${s.price};${s.amount}`)
+            .join('\n');
+    }
+
+    static predictionsToCsv(predictions: PricePredictions): string {
+        return predictions.predictions
+            .map(p => `${this.formatDate(p.momentKnownPrices)};${this.formatDate(p.momentPrediction)};${p.station.id};${p.price}`)
+            .join('\n')
+    }
+
+    private static formatDate(timestamp: Date): string {
+        return dateformat(timestamp, 'YYYY-MM-DD HH:mm:ssZZ').slice(0, -2);
     }
 
     static parseRouteLine(line: string): RoutePoint | AppError {

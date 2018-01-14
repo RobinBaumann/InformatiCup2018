@@ -3,9 +3,9 @@ import {Map} from './vue/map'
 import 'material-design-icons/iconfont/material-icons.css'
 import {FileUpload} from "./vue/file-upload";
 import {Toastr} from "./vue/toastr";
-import {DescribableError, GasStrategy} from "./app/DomainTypes";
+import {DescribableError, GasStrategy, PricePredictions} from "./app/DomainTypes";
 import {Component} from "vue-typed";
-import {toGeoJson} from "./app/GeoJsonConverter";
+import {strategyToGeoJson, predictionsToGeoJson} from "./app/GeoJsonConverter";
 import 'vue-material/dist/vue-material.css'
 import 'vue-material/dist/theme/default.css'
 import './css/app.css'
@@ -23,6 +23,7 @@ import {
     MdTable,
     MdCard
 } from 'vue-material/dist/components';
+import {PredictionDetails} from "./vue/prediction-details";
 require('babel-core/register');
 require('babel-polyfill');
 
@@ -42,6 +43,7 @@ Vue.component('my-map', Map);
 Vue.component('upload-button', FileUpload);
 Vue.component('toastr', Toastr);
 Vue.component('route-details', RouteDetails);
+Vue.component('prediction-details', PredictionDetails);
 
 @Component({
     template: require('./index-template.html'),
@@ -55,9 +57,15 @@ class App extends Vue {
     }
 
     strategyReceived(strategy: GasStrategy) {
-        const geojson = toGeoJson(strategy);
+        const geojson = strategyToGeoJson(strategy);
         const layer = (<Map>this.$refs.map).addRoute(geojson);
         (<RouteDetails>this.$refs.routedetails).addRoute(strategy, layer)
+    }
+
+    predictionsReceived(predictions: PricePredictions) {
+        const geojson = predictionsToGeoJson(predictions);
+        const layer = (<Map>this.$refs.map).addPredictions(geojson);
+        (<PredictionDetails>this.$refs.predictiondetails).addPrediction(predictions, layer)
     }
 
     toggleMenu() {

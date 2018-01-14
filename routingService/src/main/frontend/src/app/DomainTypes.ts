@@ -134,6 +134,24 @@ export class PricePrediction {
     }
 }
 
+export abstract class Detail<T> {
+    data: T;
+    layer: ol.layer.Vector;
+
+    constructor(data: T, layer: ol.layer.Vector) {
+        this.data = data;
+        this.layer = layer;
+    }
+
+    abstract toCsv(): string;
+
+    abstract toName(): string;
+
+    createDataUri(content: string): string {
+        return `data:text/plain;charset=utf8,${encodeURI(content)}`
+    }
+}
+
 export enum Events {
     Error = 'error',
     StrategyReceived = 'strategy_received',
