@@ -96,7 +96,7 @@ def prepare_data(con, batch_size=20):
 
     return x_train_adjusted, y_train_adjusted, x_test_adjusted, y_test_adjusted
 
-def prepare_data_2(con, batch_size=20):
+def prepare_data_2(con, batch_size=100):
     active_stations = pd.read_sql_query("""
     select id 
     from stations
@@ -109,11 +109,15 @@ def prepare_data_2(con, batch_size=20):
 
     query = """
     select 
-      ln(p.price) as ln_price,
-      p.is_vacation::int,
-      p.is_holiday::int,
+      p.price,
+      p.year,
+      p.month,
       p.day_of_week,
       p.hour_of_day,
+      p.is_vacation::int,
+      p.is_holiday::int,
+      p.days_until_vacation,
+      p.days_until_holiday,
       s.id as station_id,
       s.brand_no,
       s.bland_no,
@@ -129,7 +133,11 @@ def prepare_data_2(con, batch_size=20):
       """ % ids_param
 
     data = pd.read_sql_query(query, con)
-    return data.fillna(0)
+    data.fillna(0)
+
+    data.to_csv("data/dataset.csv")
+
+    return data
 
 
 def train_test_split(series, time_stamps, train_amount=0.8):
@@ -192,4 +200,3 @@ if __name__ == "__main__":
     t = time()
     res = prepare_data_2(con, 20)
     print(time() - t)
-    #print(res)
