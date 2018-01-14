@@ -14,7 +14,7 @@ public class Router {
     private final static Logger LOGGER = Logger.getLogger(Router.class.getName());
     private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
 
-    private StationSparkProxy stationSparkProxy = null;
+    private final StationSparkProxy stationSparkProxy;
 
     public Router(StationSparkProxy stationSparkProxy) {
         this.stationSparkProxy = stationSparkProxy;
@@ -32,11 +32,14 @@ public class Router {
             response.body(GSON.toJson(ProblemResponse.internalError()));
         });
         path("/api", () -> {
-            before("/*", (q, a) -> {LOGGER.info("Received api call");});
-            post("/simpleRoute", (q, a) -> this.stationSparkProxy.getStationsByRoute(q, a));
-            path("/gasStation", () -> {
-                get("/info/:id", (q, a) -> this.stationSparkProxy.getStationByID(q, a));
+            before("/*", (q, a) -> {
+                LOGGER.info("Received api call");
             });
+            post("/simpleRoute", this.stationSparkProxy::getStationsByRoute);
+            post("/pricePredictions", this.stationSparkProxy::getPricePredictions);
+            path("/gasStation", () ->
+                    get("/:id", this.stationSparkProxy::getStationByID)
+            );
         });
     }
 

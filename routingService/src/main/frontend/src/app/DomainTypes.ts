@@ -1,7 +1,7 @@
 export class Route {
-    capacity: number
-    routePoints: RoutePoint[]
-    name: string
+    readonly capacity: number;
+    readonly routePoints: RoutePoint[];
+    readonly name: string;
 
     constructor(capacity: number, routePoints: RoutePoint[], name: string) {
         this.capacity = capacity;
@@ -11,36 +11,36 @@ export class Route {
 }
 
 export class RoutePoint {
-    stationId: number
-    timestamp: Date
+    readonly stationId: number;
+    readonly timestamp: Date;
 
     constructor(stationId: number, timestamp: Date) {
-        this.stationId = stationId
-        this.timestamp = timestamp
+        this.stationId = stationId;
+        this.timestamp = timestamp;
     }
 }
 
 export class AppError implements DescribableError {
-    description: string
+    readonly description: string;
 
     constructor(description: string) {
-        this.description = description
+        this.description = description;
     }
 
     describe(): string {
-        return this.description
+        return this.description;
     }
 }
 
 export interface DescribableError {
-    describe(): string
+    describe(): string;
 }
 
 
 export class GasStrategy {
-    stops: GasStop[]
-    name: string
-    capacity: number
+    readonly stops: GasStop[];
+    readonly name: string;
+    readonly capacity: number;
 
     constructor(stops: GasStop[], name: string, capacity: number) {
         this.stops = stops;
@@ -50,29 +50,31 @@ export class GasStrategy {
 }
 
 export class GasStop {
-    amount: number
-    price: number
-    timestamp: Date
-    station: GasStation
+    //TODO make immutable
+    amount: number;
+    price: number;
+    timestamp: Date;
+    station: GasStation;
 }
 
 export class GasStation {
-    lat: number
-    lon: number
-    station_name: string
-    id: number
-    street: string
-    brand: string
-    house_number: string
-    zip_code: string
-    city: string
+    //TODO make immutable
+    lat: number;
+    lon: number;
+    station_name: string;
+    id: number;
+    street: string;
+    brand: string;
+    house_number: string;
+    zip_code: string;
+    city: string;
 }
 
 export class Problem implements DescribableError{
-    type: string
-    title: string
-    detail: string
-    status: number
+    readonly type: string;
+    readonly title: string;
+    readonly detail: string;
+    readonly status: number;
 
     constructor(type: string, title: string, detail: string, status: number) {
         this.type = type;
@@ -82,12 +84,77 @@ export class Problem implements DescribableError{
     }
 
     describe(): string {
-        return `${this.title}\n${this.detail}`
+        return `${this.title}\n${this.detail}`;
+    }
+}
+
+export class PricePredictionRequests {
+    readonly predictionRequests: PricePredictionRequest[];
+    readonly name: string;
+
+    constructor(predictionRequests: PricePredictionRequest[], name: string) {
+        this.predictionRequests = predictionRequests;
+        this.name = name;
+    }
+}
+
+export class PricePredictionRequest {
+    readonly momentKnownPrices: Date;
+    readonly momentPrediction: Date;
+    readonly stationId: number;
+
+    constructor(momentKnownPrices: Date, momentPrediction: Date, stationId: number) {
+        this.momentKnownPrices = momentKnownPrices;
+        this.momentPrediction = momentPrediction;
+        this.stationId = stationId;
+    }
+}
+
+export class PricePredictions {
+    readonly name: string;
+    readonly predictions: PricePrediction[];
+
+    constructor(name: string, predictions: PricePrediction[]) {
+        this.name = name;
+        this.predictions = predictions;
+    }
+}
+
+export class PricePrediction {
+    readonly momentKnownPrices: Date;
+    readonly momentPrediction: Date;
+    readonly station: GasStation;
+    readonly price: number;
+
+    constructor(momentKnownPrices: Date, momentPrediction: Date, station: GasStation, price: number) {
+        this.momentKnownPrices = momentKnownPrices;
+        this.momentPrediction = momentPrediction;
+        this.station = station;
+        this.price = price;
+    }
+}
+
+export abstract class Detail<T> {
+    data: T;
+    layer: ol.layer.Vector;
+
+    constructor(data: T, layer: ol.layer.Vector) {
+        this.data = data;
+        this.layer = layer;
+    }
+
+    abstract toCsv(): string;
+
+    abstract toName(): string;
+
+    createDataUri(content: string): string {
+        return `data:text/plain;charset=utf8,${encodeURI(content)}`
     }
 }
 
 export enum Events {
     Error = 'error',
-    StrategyReceived = 'strategy_received'
+    StrategyReceived = 'strategy_received',
+    PredictionsReceived = 'predictions_received'
 }
 

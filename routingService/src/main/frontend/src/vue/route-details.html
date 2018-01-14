@@ -6,7 +6,7 @@
             <div class="full-control">
                 <md-list>
                     <md-list-item md-expand>
-                        <span class="md-list-item-text">{{route.strategy.name}}</span>
+                        <span class="md-list-item-text">{{route.data.name}}</span>
                         <md-card slot="md-expand">
                             <md-card-content>
                                 <a v-bind:href="route.toCsv()" v-bind:download="route.toName()">
@@ -15,7 +15,7 @@
                                 </a>
                             </md-card-content>
                             <md-card-content>
-                                <span class="md-list-item-text">Tankkapazität: {{route.strategy.capacity}}</span>
+                                <span class="md-list-item-text">Tankkapazität: {{route.data.capacity}}</span>
                             </md-card-content>
                             <md-card-content>
                                 <span class="md-list-item-text">Tankstellen:</span>
@@ -23,10 +23,10 @@
                                     <md-table-row>
                                         <md-table-head md-numeric>ID</md-table-head>
                                         <md-table-head>Name</md-table-head>
-                                        <md-table-head>Preis</md-table-head>
-                                        <md-table-head>Menge</md-table-head>
+                                        <md-table-head md-numeric>Preis</md-table-head>
+                                        <md-table-head md-numeric>Menge</md-table-head>
                                     </md-table-row>
-                                    <md-table-row v-for="stop in route.strategy.stops">
+                                    <md-table-row v-for="stop in route.data.stops">
                                         <md-table-cell>{{stop.station.id}}</md-table-cell>
                                         <md-table-cell>{{stop.station.station_name}}</md-table-cell>
                                         <md-table-cell>{{(stop.price/1000).toFixed(3)}} €</md-table-cell>

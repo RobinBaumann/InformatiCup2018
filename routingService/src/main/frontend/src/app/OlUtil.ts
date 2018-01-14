@@ -28,6 +28,13 @@ export function gasStrategyStyle(feature: ol.Feature) {
     return strategyStyles[feature.getGeometry().getType()]
 }
 
+export function predictionsStyle(feature: ol.Feature) {
+    //@ts-ignore
+    return new ol.style.Style({
+        ...(circleImage(secondary))
+    });
+}
+
 const strategyStyles = {
     'Point': new ol.style.Style({
         ...(circleImage(primary))

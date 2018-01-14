@@ -1,0 +1,40 @@
+<md-list-item md-expand v-if="showPredictions">
+    <md-icon>euro_symbol</md-icon>
+    <span class="md-list-item-text">Preisvorhersagen ({{count}})</span>
+    <md-list slot="md-expand">
+        <md-list-item class="md-dense" v-for="detail in predictions">
+            <div class="full-control">
+                <md-list>
+                    <md-list-item md-expand>
+                        <span class="md-list-item-text">{{detail.data.name}}</span>
+                        <md-card slot="md-expand">
+                            <md-card-content>
+                                <a v-bind:href="detail.toCsv()" v-bind:download="detail.toName()">
+                                    <md-icon>file_download</md-icon>
+                                    Download
+                                </a>
+                            </md-card-content>
+                            <md-card-content>
+                                <span class="md-list-item-text">Preisvorhersagen:</span>
+                                <md-table>
+                                    <md-table-row>
+                                        <md-table-head md-numeric>ID</md-table-head>
+                                        <md-table-head>Name</md-table-head>
+                                        <md-table-head>Vorhersagezeitpunkt</md-table-head>
+                                        <md-table-head md-numeric>Preis</md-table-head>
+                                    </md-table-row>
+                                    <md-table-row v-for="prediction in detail.data.predictions">
+                                       <md-table-cell>{{prediction.station.id}}</md-table-cell>
+                                        <md-table-cell>{{prediction.station.station_name}}</md-table-cell>
+                                        <md-table-cell>{{prediction.momentPrediction}}</md-table-cell>
+                                        <md-table-cell>{{(prediction.price/1000).toFixed(3)}} €</md-table-cell>
+                                    </md-table-row>
+                                </md-table>
+                            </md-card-content>
+                        </md-card>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-list-item>

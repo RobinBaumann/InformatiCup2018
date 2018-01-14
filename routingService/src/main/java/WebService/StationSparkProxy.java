@@ -2,6 +2,7 @@ package WebService;
 
 import Database.Repository;
 import Model.*;
+import Routing.PricePredictionService;
 import Routing.SimpleRoutingService;
 import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
@@ -15,10 +16,16 @@ import java.util.logging.Logger;
 public class StationSparkProxy {
     private final static Logger LOGGER = Logger.getLogger(StationSparkProxy.class.getName());
     private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
-    private SimpleRoutingService simpleRoutingService;
+    private final SimpleRoutingService simpleRoutingService;
+    private final PricePredictionService pricePredictionService;
+    private Repository repository;
 
-    public StationSparkProxy(SimpleRoutingService simpleRoutingService) {
+    public StationSparkProxy(SimpleRoutingService simpleRoutingService,
+                             PricePredictionService pricePredictionService,
+                             Repository repository) {
         this.simpleRoutingService = simpleRoutingService;
+        this.pricePredictionService = pricePredictionService;
+        this.repository = repository;
     }
 
     /**
@@ -36,7 +43,7 @@ public class StationSparkProxy {
             return GSON.toJson(ProblemResponse.canNotParseParameter("GasStationId has to be an Integer"));
         }
         try {
-            return GSON.toJson(Repository.getStationById(parsedId));
+            return GSON.toJson(repository.getStationById(parsedId));
         } catch (StationNotFoundException e) {
             return GSON.toJson(ProblemResponse.stationNotFound(e));
         }
@@ -52,7 +59,8 @@ public class StationSparkProxy {
     public String getStationsByRoute(Request request, Response response) {
         RouteRequest r;
         try {
-            r = GSON.fromJson(request.body(), RouteRequest.class);
+            String body = request.body();
+            r = GSON.fromJson(body, RouteRequest.class);
         } catch (JsonSyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -67,5 +75,16 @@ public class StationSparkProxy {
             e.printStackTrace();
         }
         throw new RuntimeException("Error in getStationsByRoute, this point should never be reached.");
+    }
+
+    public String getPricePredictions(Request request, Response response) {
+        PricePredictionRequests r;
+        try {
+            String body = request.body();
+            r = GSON.fromJson(body, PricePredictionRequests.class);
+        } catch (JsonSyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        return GSON.toJson(pricePredictionService.predict(r));
     }
 }

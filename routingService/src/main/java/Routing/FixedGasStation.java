@@ -46,10 +46,13 @@ public class FixedGasStation {
      */
     public GasStrategy calculateRoute(List<GasStop> route, double capacity, double reserve) {
         int startIndex = 0;
-        //TODO check if predictAll is better perf wise
-        for (GasStop gasStop : route)
-            gasStop.setPrice(pricePredictionService.getPrice(gasStop.getStation(), gasStop.getTimestamp()));
-
+        GasStop firstStop = route.get(0);
+        for (GasStop gasStop : route) {
+            gasStop.setPrice(pricePredictionService.getPrice(
+                    gasStop.getStation(),
+                    gasStop.getTimestamp(),
+                    firstStop.getTimestamp()));
+        }
 
         while (startIndex < route.size() - 1) {
             int successorIndex = getSuccessor(new LinkedList<>(route), startIndex, capacity);
