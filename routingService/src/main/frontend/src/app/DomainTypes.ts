@@ -137,10 +137,12 @@ export class PricePrediction {
 export abstract class Detail<T> {
     data: T;
     layer: ol.layer.Vector;
+    removeHandler: (detail: Detail<T>) => void
 
-    constructor(data: T, layer: ol.layer.Vector) {
+    constructor(data: T, layer: ol.layer.Vector, removeHandler: (detail: Detail<T>) => void) {
         this.data = data;
         this.layer = layer;
+        this.removeHandler = removeHandler;
     }
 
     abstract toCsv(): string;
@@ -170,6 +172,10 @@ export abstract class Detail<T> {
         if (link) {
             link.click();
         }
+    }
+
+    remove() {
+        this.removeHandler(this);
     }
 }
 

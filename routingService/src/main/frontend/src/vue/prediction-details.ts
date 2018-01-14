@@ -14,17 +14,27 @@ export class PredictionDetails extends Vue {
     }
 
     addPrediction(prediction: PricePredictions, layer: ol.layer.Vector) {
-        this.predictions.push(new PredictionDetail(prediction, layer));
+        this.predictions.push(new PredictionDetail(prediction, layer, this.remove));
     }
 
     get showPredictions(): boolean {
         return this.predictions.length > 0;
     }
+
+    remove(predictions: Detail<PricePredictions>) {
+        for (let i = 0; i < this.predictions.length; i++) {
+            if (this.predictions[i] === predictions) {
+                this.predictions.splice(i, 1);
+                return;
+            }
+        }
+        //TODO remove layer from map
+    }
 }
 
 class PredictionDetail extends Detail<PricePredictions>{
-    constructor(predictions: PricePredictions, layer: ol.layer.Vector) {
-        super(predictions, layer);
+    constructor(predictions: PricePredictions, layer: ol.layer.Vector, removeHandler: (predictions: Detail<PricePredictions>) => void) {
+        super(predictions, layer, removeHandler);
     }
 
     toCsv(): string {

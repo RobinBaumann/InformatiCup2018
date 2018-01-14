@@ -14,17 +14,27 @@ export class RouteDetails extends Vue {
     }
 
     addRoute(strategy: GasStrategy, layer: ol.layer.Vector) {
-        this.routes.push(new RouteDetail(strategy, layer));
+        this.routes.push(new RouteDetail(strategy, layer, this.remove));
     }
 
     get showRoutes(): boolean {
         return this.routes.length > 0;
     }
+
+    remove(detail: Detail<GasStrategy>) {
+        for (let i = 0; i < this.routes.length; i++) {
+            if (this.routes[i] === detail) {
+                this.routes.splice(i, 1);
+                return;
+            }
+        }
+        //TODO remove layer from map
+    }
 }
 
 class RouteDetail extends Detail<GasStrategy>{
-    constructor(strategy: GasStrategy, layer: ol.layer.Vector) {
-        super(strategy, layer);
+    constructor(strategy: GasStrategy, layer: ol.layer.Vector, removeHandler: (strategy: Detail<GasStrategy>) => void) {
+        super(strategy, layer, removeHandler);
     }
 
     toCsv(): string {
