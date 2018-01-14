@@ -6,8 +6,10 @@ export function wgsToMap(coordinates: ol.Coordinate): ol.Coordinate {
 
 //RGBA
 type olColor = [number, number, number, number]
-const primary: olColor = [68, 138, 255, 255];
-const secondary: olColor = [255, 82, 82, 255];
+const primary: olColor = [68, 138, 255, 255]; //blue
+const secondary: olColor = [255, 82, 82, 255]; //red
+const green: olColor = [0, 200, 83, 255];
+const yellow: olColor = [255, 255, 0, 255];
 
 export function currentPositionStyle(feature: ol.Feature) {
     return new ol.style.Style({
@@ -24,25 +26,29 @@ export function currentPositionStyle(feature: ol.Feature) {
 }
 
 export function gasStrategyStyle(feature: ol.Feature) {
-    //@ts-ignore
-    return strategyStyles[feature.getGeometry().getType()]
+    if (feature.getGeometry().getType() === 'Point') {
+        let color: olColor = primary;
+        if (feature.getProperties()['isStart']) {
+            color = green;
+        } else if (feature.getProperties()['isEnd']) {
+            color = secondary;
+        }
+        return new ol.style.Style({
+            ...(circleImage(color))
+        });
+    } else {
+        return new ol.style.Style({
+            stroke: new ol.style.Stroke({color: primary})
+        })
+    }
 }
 
 export function predictionsStyle(feature: ol.Feature) {
     //@ts-ignore
     return new ol.style.Style({
-        ...(circleImage(secondary))
+        ...(circleImage(primary))
     });
 }
-
-const strategyStyles = {
-    'Point': new ol.style.Style({
-        ...(circleImage(primary))
-    }),
-    'LineString': new ol.style.Style({
-        stroke: new ol.style.Stroke({color: primary})
-    })
-};
 
 function circleImage(color: olColor): olx.style.StyleOptions {
     return {

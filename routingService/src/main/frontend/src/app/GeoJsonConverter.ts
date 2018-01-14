@@ -13,6 +13,8 @@ export function strategyToGeoJson(gasStrategy: GasStrategy): string {
         features.push(feature);
         route.push((<Point>feature.geometry).coordinates);
     }
+    features[0].properties['isStart'] = true;
+    features[features.length - 1].properties['isEnd'] = true;
     features.push(new Feature(
         new LineString(route),
         {},
