@@ -57,7 +57,7 @@ type Coordinates = [number, number]
 
 abstract class Geometry {
     readonly abstract type: string;
-    readonly abstract coordinates: Coordinates|Coordinates[];
+    readonly abstract coordinates: Coordinates | Coordinates[];
 }
 
 class Point extends Geometry {
@@ -83,9 +83,37 @@ class LineString extends Geometry {
 class FeatureCollection {
     readonly type: string = 'FeatureCollection';
     readonly features: Feature[];
+    readonly bbox: Extent;
 
     constructor(features: Feature[]) {
         this.features = features;
+        this.bbox = FeatureCollection.calculateExtent(features);
+    }
+
+    private static calculateExtent(features: Feature[]): Extent {
+        let minLat: number = Infinity;
+        let maxLat: number = -Infinity;
+        let minLon: number = Infinity;
+        let maxLon: number = -Infinity;
+        for (let feature of features) {
+            if (feature.geometry instanceof Point) {
+                const lon = feature.geometry.coordinates[0];
+                const lat = feature.geometry.coordinates[1];
+                if (lat < minLat) {
+                    minLat = lat;
+                }
+                if (lat > maxLat) {
+                    maxLat = lat
+                }
+                if (lon < minLon) {
+                    minLon = lon;
+                }
+                if (lon > maxLon) {
+                    maxLon = lon;
+                }
+            }
+        }
+        return [minLon, minLat, maxLon, maxLat]
     }
 }
 
@@ -93,13 +121,15 @@ class Feature {
     readonly type: string = 'Feature';
     readonly geometry: Geometry;
     readonly properties: any;
-    readonly id: string|number;
+    readonly id: string | number;
 
 
-    constructor(geometry: Geometry, properties: any, id: string|number) {
+    constructor(geometry: Geometry, properties: any, id: string | number) {
         this.geometry = geometry;
         this.properties = properties;
         this.id = id;
     }
 }
+
+type Extent = [number, number, number, number]
 

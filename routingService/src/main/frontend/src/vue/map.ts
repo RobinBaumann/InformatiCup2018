@@ -10,6 +10,7 @@ import {currentPositionStyle, gasStrategyStyle, predictionsStyle, wgsToMap} from
 export class Map extends Vue {
     map: ol.Map;
     currentPosition?: ol.layer.Vector = undefined;
+    private readonly animationDuration: number = 300;
 
     private readonly karlsruhe: ol.Coordinate = [8.403653, 49.00689];
 
@@ -50,11 +51,15 @@ export class Map extends Vue {
     }
 
     addRoute(geojson: string): ol.layer.Vector {
-        return this.addGeoJson(geojson, gasStrategyStyle);
+        const layer = this.addGeoJson(geojson, gasStrategyStyle);
+        this.map.getView().fit(layer.getSource().getExtent(), {duration: this.animationDuration});
+        return layer;
     }
 
     addPredictions(geojson: string): ol.layer.Vector {
-        return this.addGeoJson(geojson, predictionsStyle);
+        const layer = this.addGeoJson(geojson, predictionsStyle);
+        this.map.getView().fit(layer.getSource().getExtent(), {duration: this.animationDuration});
+        return layer;
     }
 
     removeLayer(layer: ol.layer.Vector) {
