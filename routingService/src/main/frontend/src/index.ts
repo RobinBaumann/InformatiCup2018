@@ -3,7 +3,7 @@ import {Map} from './vue/map'
 import 'material-design-icons/iconfont/material-icons.css'
 import {FileUpload} from "./vue/file-upload";
 import {Toastr} from "./vue/toastr";
-import {DescribableError, GasStrategy, PricePredictions} from "./app/DomainTypes";
+import {DescribableError, Detail, GasStrategy, PricePredictions} from "./app/DomainTypes";
 import {Component} from "vue-typed";
 import {strategyToGeoJson, predictionsToGeoJson} from "./app/GeoJsonConverter";
 import 'vue-material/dist/vue-material.css'
@@ -70,6 +70,10 @@ class App extends Vue {
 
     toggleMenu() {
         this.menuVisible = !this.menuVisible
+    }
+
+    detailsRemoved<T>(details: Detail<T>) {
+        (<Map>this.$refs.map).removeLayer(details.layer);
     }
 }
 

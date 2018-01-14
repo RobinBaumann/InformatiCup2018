@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import {Component} from "vue-typed";
-import {Detail, PricePredictions} from "../app/DomainTypes";
+import {Detail, Events, PricePredictions} from "../app/DomainTypes";
 import {CsvProcessor} from "../app/CsvProcessor";
 
 @Component({
@@ -25,10 +25,10 @@ export class PredictionDetails extends Vue {
         for (let i = 0; i < this.predictions.length; i++) {
             if (this.predictions[i] === predictions) {
                 this.predictions.splice(i, 1);
+                this.$emit(Events.PredictionDetailsRemoved, predictions)
                 return;
             }
         }
-        //TODO remove layer from map
     }
 }
 

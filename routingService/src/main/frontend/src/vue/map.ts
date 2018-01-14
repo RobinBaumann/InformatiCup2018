@@ -57,6 +57,10 @@ export class Map extends Vue {
         return this.addGeoJson(geojson, predictionsStyle);
     }
 
+    removeLayer(layer: ol.layer.Vector) {
+        this.map.removeLayer(layer);
+    }
+
     private addGeoJson(geojson: string, stylefun: (feature: ol.Feature) => any): ol.layer.Vector {
         const source = new ol.source.Vector({
             features: (new ol.format.GeoJSON()).readFeatures(geojson, {

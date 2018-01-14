@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {Component} from "vue-typed";
-import {Detail, GasStrategy, Route} from "../app/DomainTypes";
+import {Detail, Events, GasStrategy, Route} from "../app/DomainTypes";
 import {CsvProcessor} from "../app/CsvProcessor";
 
 @Component({
@@ -25,10 +25,10 @@ export class RouteDetails extends Vue {
         for (let i = 0; i < this.routes.length; i++) {
             if (this.routes[i] === detail) {
                 this.routes.splice(i, 1);
+                this.$emit(Events.RouteDetailsRemoved, detail)
                 return;
             }
         }
-        //TODO remove layer from map
     }
 }
 

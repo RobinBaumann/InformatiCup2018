@@ -182,6 +182,8 @@ export abstract class Detail<T> {
 export enum Events {
     Error = 'error',
     StrategyReceived = 'strategy_received',
-    PredictionsReceived = 'predictions_received'
+    PredictionsReceived = 'predictions_received',
+    RouteDetailsRemoved = 'route_details_removed',
+    PredictionDetailsRemoved = 'prediction_details_removed'
 }
 

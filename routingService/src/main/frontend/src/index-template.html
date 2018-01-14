@@ -17,16 +17,22 @@
             </md-toolbar>
             <div class="full-control">
                 <md-list>
-                    <route-details ref="routedetails"></route-details>
+                    <route-details
+                            ref="routedetails"
+                            @route_details_removed="detailsRemoved">
+                    </route-details>
                 </md-list>
             </div>
             <div class="full-control">
                 <md-list>
-                    <prediction-details ref="predictiondetails"></prediction-details>
+                    <prediction-details
+                            ref="predictiondetails"
+                            @prediction_details_removed="detailsRemoved">
+                    </prediction-details>
                 </md-list>
             </div>
         </md-app-drawer>
-        <md-app-content >
+        <md-app-content>
             <my-map ref="map"></my-map>
             <upload-button
                     @error="showError"
