@@ -112,6 +112,7 @@ def prepare_data_2(con, batch_size=100):
       p.price,
       p.year,
       p.month,
+      p.day_of_month,
       p.day_of_week,
       p.hour_of_day,
       p.is_vacation::int,
@@ -135,7 +136,7 @@ def prepare_data_2(con, batch_size=100):
     data = pd.read_sql_query(query, con)
     data.fillna(0)
 
-    data.to_csv("data/dataset.csv")
+    #data.to_csv("data/dataset.csv")
 
     return data
 
