@@ -128,7 +128,7 @@ def prepare_data_2(con, batch_size=100):
     from stations as s
     inner join prices_sampled as p on s.id = p.station_id
       and s.id in (%s)
-      and p.time_stamp between '2015-01-01' and '2017-09-18'
+      and p.time_stamp between '2013-10-01' and '2017-09-18'
     order by s.id, p.time_stamp
       """ % ids_param
 
@@ -198,5 +198,5 @@ def get_state_shortcut(state):
 if __name__ == "__main__":
     con = create_connection()
     t = time()
-    res = prepare_data_2(con, 20)
+    res = prepare_data_2(con, 15)
     print(time() - t)
