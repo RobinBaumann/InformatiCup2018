@@ -20,3 +20,12 @@
 .md-app-content {
     padding: 0;
 }
+
+.attribution {
+    position: absolute;
+    bottom: 70px;
+    left: 0;
+    z-index: 999;
+    color: black;
+    background-color: white;
+}
