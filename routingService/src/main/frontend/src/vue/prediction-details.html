@@ -26,13 +26,13 @@
                                 </md-table>
                             </md-card-content>
                             <md-card-actions>
-                                <md-button @click="detail.download()">
+                                <md-button @click="detail.download">
                                     <a class="display-none" v-bind:href="detail.toCsv()" v-bind:download="detail.toName()" name="link">
                                     </a>
                                     <md-icon>file_download</md-icon>
                                     Download
                                 </md-button>
-                                <md-button @click="detail.remove()">
+                                <md-button @click="detail.remove">
                                     <md-icon>remove_circle</md-icon>
                                     Entfernen
                                 </md-button>
