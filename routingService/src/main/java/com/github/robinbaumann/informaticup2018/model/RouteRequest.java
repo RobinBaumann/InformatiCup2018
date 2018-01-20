@@ -8,6 +8,14 @@ public class RouteRequest {
 
     private List<RoutePoint> routePoints;
 
+    //empty ctor for libs
+    public RouteRequest() {}
+
+    public RouteRequest(int capacity, List<RoutePoint> routePoints) {
+        this.capacity = capacity;
+        this.routePoints = routePoints;
+    }
+
     public int getCapacity() {
         return capacity;
     }

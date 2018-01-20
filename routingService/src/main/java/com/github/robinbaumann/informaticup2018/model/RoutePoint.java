@@ -8,6 +8,15 @@ public class RoutePoint {
 
     private OffsetDateTime timestamp;
 
+    // empty ctor for libs
+    public RoutePoint() {
+    }
+
+    public RoutePoint(int stationId, OffsetDateTime timestamp) {
+        this.stationId = stationId;
+        this.timestamp = timestamp;
+    }
+
     public int getStationId() {
         return stationId;
     }
