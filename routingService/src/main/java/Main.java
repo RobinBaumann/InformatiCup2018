@@ -1,10 +1,9 @@
-    import Database.Repository;
-import Model.PricePrediction;
-import Routing.FixedGasStation;
-import Routing.PricePredictionService;
-import Routing.SimpleRoutingService;
-import WebService.Router;
-import WebService.StationSparkProxy;
+import com.github.robinbaumann.informaticup2018.database.Repository;
+import com.github.robinbaumann.informaticup2018.routing.FixedGasStation;
+import com.github.robinbaumann.informaticup2018.routing.PricePredictionService;
+import com.github.robinbaumann.informaticup2018.routing.SimpleRoutingService;
+import com.github.robinbaumann.informaticup2018.webservice.Router;
+import com.github.robinbaumann.informaticup2018.webservice.StationSparkProxy;
 import spark.Spark;
 
 
