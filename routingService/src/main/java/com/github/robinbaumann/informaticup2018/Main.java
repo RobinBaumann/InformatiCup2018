@@ -1,3 +1,5 @@
+package com.github.robinbaumann.informaticup2018;
+
 import com.github.robinbaumann.informaticup2018.database.api.IRepository;
 import com.github.robinbaumann.informaticup2018.database.impl.Repository;
 import com.github.robinbaumann.informaticup2018.routing.api.IPricePredictionService;
