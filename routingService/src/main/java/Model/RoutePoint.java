@@ -1,15 +1,12 @@
 package Model;
 
-import Validation.JsonRequired;
 
 import java.time.OffsetDateTime;
 
 public class RoutePoint {
-    @JsonRequired
-    int stationId;
+    private int stationId;
 
-    @JsonRequired
-    OffsetDateTime timestamp;
+    private OffsetDateTime timestamp;
 
     public int getStationId() {
         return stationId;

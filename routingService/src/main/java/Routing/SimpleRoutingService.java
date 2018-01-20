@@ -3,6 +3,7 @@ package Routing;
 import Database.Repository;
 import Model.GasStation;
 import Model.*;
+import Validation.RouteRequestValidator;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -24,7 +25,7 @@ public class SimpleRoutingService {
     }
 
     public GasStrategy route(RouteRequest request) throws EmptyRouteException, RoutePointsOutOfOrderException, CapacityException {
-        validate(request);
+        RouteRequestValidator.validate(request);
         Map<Integer, GasStation> gasStations = repository.getStationsByIds(
                 request.getRoutePoints().stream().map(RoutePoint::getStationId).collect(Collectors.toList()))
                 .stream().collect(Collectors.toMap(GasStation::getId, Function.identity()));
@@ -34,19 +35,4 @@ public class SimpleRoutingService {
         return fixedGasStation.calculateRoute(gasStops, request.getCapacity(), STARTING_AMOUNT);
     }
 
-    private void validate(RouteRequest request) throws CapacityException, EmptyRouteException, RoutePointsOutOfOrderException {
-        if (request.getCapacity() < 1) {
-            throw new CapacityException(request.getCapacity());
-        }
-        if (request.getRoutePoints().size() < 1) {
-            throw new EmptyRouteException();
-        }
-        OffsetDateTime lastOffset = request.getRoutePoints().get(0).getTimestamp();
-        for (int i = 1; i < request.getRoutePoints().size(); i++) {
-            if (request.getRoutePoints().get(i).getTimestamp().compareTo(lastOffset) < 1) {
-                throw new RoutePointsOutOfOrderException(i);
-            }
-            lastOffset = request.getRoutePoints().get(i).getTimestamp();
-        }
-    }
 }

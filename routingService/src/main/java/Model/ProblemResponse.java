@@ -4,16 +4,32 @@ import java.text.MessageFormat;
 
 // see https://tools.ietf.org/html/draft-nottingham-http-problem-06
 public class ProblemResponse {
-    String type;
-    String title;
-    int status;
-    String detail;
+    private String type;
+    private String title;
+    private int status;
+    private String detail;
 
     public ProblemResponse(String type, String title, int status, String detail) {
         this.type = type;
         this.title = title;
         this.status = status;
         this.detail = detail;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getDetail() {
+        return detail;
     }
 
     public static ProblemResponse canNotParseParameter(String detail) {

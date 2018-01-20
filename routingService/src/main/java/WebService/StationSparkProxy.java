@@ -11,10 +11,7 @@ import com.google.gson.JsonSyntaxException;
 import spark.Request;
 import spark.Response;
 
-import java.util.logging.Logger;
-
 public class StationSparkProxy {
-    private final static Logger LOGGER = Logger.getLogger(StationSparkProxy.class.getName());
     private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
     private final SimpleRoutingService simpleRoutingService;
     private final PricePredictionService pricePredictionService;

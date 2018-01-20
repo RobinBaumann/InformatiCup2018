@@ -1,14 +1,25 @@
 package Model;
 
-import Validation.JsonRequired;
 
 public class RequestStop {
-    @JsonRequired
-    int timestamp;
+    private int timestamp;
+    private int station_id;
+    private double price;
+    private double fillIn;
 
-    @JsonRequired
-    int station_id;
+    public int getTimestamp() {
+        return timestamp;
+    }
 
-    double price = 0;
-    double fillIn = 0;
+    public int getStation_id() {
+        return station_id;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public double getFillIn() {
+        return fillIn;
+    }
 }
