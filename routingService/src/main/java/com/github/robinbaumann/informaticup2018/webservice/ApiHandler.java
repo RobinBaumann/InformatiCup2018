@@ -14,15 +14,15 @@ import com.google.gson.JsonSyntaxException;
 import spark.Request;
 import spark.Response;
 
-public class StationSparkProxy {
+public class ApiHandler {
     private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
     private final IRoutingService simpleRoutingService;
     private final IPricePredictionService pricePredictionService;
     private IRepository repository;
 
-    public StationSparkProxy(IRoutingService simpleRoutingService,
-                             IPricePredictionService pricePredictionService,
-                             IRepository repository) {
+    public ApiHandler(IRoutingService simpleRoutingService,
+                      IPricePredictionService pricePredictionService,
+                      IRepository repository) {
         this.simpleRoutingService = simpleRoutingService;
         this.pricePredictionService = pricePredictionService;
         this.repository = repository;
