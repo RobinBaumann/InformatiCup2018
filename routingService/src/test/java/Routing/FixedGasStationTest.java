@@ -18,8 +18,8 @@ public class FixedGasStationTest {
      */
     public GasStation buildGasStation(float lat, float lon) {
         GasStation station = new GasStation();
-        station.lat = lat;
-        station.lon = lon;
+        station.setLat(lat);
+        station.setLon(lon);
         return station;
     }
 

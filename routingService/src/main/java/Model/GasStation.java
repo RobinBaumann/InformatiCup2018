@@ -2,16 +2,21 @@ package Model;
 
 @SuppressWarnings("WeakerAccess")
 public class GasStation {
-    public double lon;
-    public double lat;
-    public String station_name;
-    public int id;
-    public String street;
-    public String brand;
-    public String house_number;
-    public String zip_code;
-    public String city;
-
+    private double lon;
+    private double lat;
+    private String station_name;
+    private int id;
+    private String street;
+    private String brand;
+    private String house_number;
+    private String zip_code;
+    private String city;
+    private int bland_no;
+    private int brand_no;
+    private String kreis;
+    private Integer abahn_id;
+    private Integer bstr_id;
+    private Integer sstr_id;
 
     @Override
     public String toString() {
@@ -52,5 +57,37 @@ public class GasStation {
 
     public String getCity() {
         return city;
+    }
+
+    public int getBland_no() {
+        return bland_no;
+    }
+
+    public int getBrand_no() {
+        return brand_no;
+    }
+
+    public String getKreis() {
+        return kreis;
+    }
+
+    public Integer getAbahn_id() {
+        return abahn_id;
+    }
+
+    public Integer getBstr_id() {
+        return bstr_id;
+    }
+
+    public Integer getSstr_id() {
+        return sstr_id;
+    }
+
+    public void setLon(float lon) {
+        this.lon = lon;
+    }
+
+    public void setLat(float lat) {
+        this.lat = lat;
     }
 }

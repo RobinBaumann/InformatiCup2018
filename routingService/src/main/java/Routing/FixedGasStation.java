@@ -33,7 +33,7 @@ public class FixedGasStation {
      * @return
      */
     protected static double distanceGasStation(GasStation x, GasStation y) {
-        return getDistance(x.lat, x.lon, y.lat, y.lon);
+        return getDistance(x.getLat(), x.getLon(), y.getLat(), y.getLon());
     }
 
 

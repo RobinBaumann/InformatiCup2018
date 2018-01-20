@@ -16,7 +16,8 @@ public class Repository {
     public List<GasStation> getStationsByIds(List<Integer> ids) {
         try (Connection con = sql2o.open()) {
             return con.createQuery(
-                    "SELECT id, lat, lon, station_name, street, brand, house_number, zip_code, city " +
+                    "SELECT id, lat, lon, station_name, street, brand, house_number, zip_code, city, " +
+                            "brand_no, bland_no, kreis, abahn_id, bstr_id, sstr_id " +
                             "FROM stations WHERE id IN (:ids)")
                     .addParameter("ids", ids)
                     .executeAndFetch(GasStation.class);
@@ -26,7 +27,8 @@ public class Repository {
     public GasStation getStationById(int id) throws StationNotFoundException {
         try (Connection con = sql2o.open()) {
             List<GasStation> stations = con.createQuery(
-                    "SELECT id, lat, lon, station_name, street, brand, house_number, zip_code, city " +
+                    "SELECT id, lat, lon, station_name, street, brand, house_number, zip_code, city, " +
+                            "brand_no, bland_no, kreis, abahn_id, bstr_id, sstr_id " +
                             "FROM stations WHERE id = :id")
                     .addParameter("id", id)
                     .executeAndFetch(GasStation.class);
