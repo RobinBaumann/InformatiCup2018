@@ -13,6 +13,9 @@ import java.util.logging.Logger;
 public class Router {
     private final static Logger LOGGER = Logger.getLogger(Router.class.getName());
     private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
+    public final static String API_PREFIX = "/api";
+    public final static String GASSTRAT_ROUTE = "/simpleRoute";
+    public final static String PRICEPRED_ROUTE = "/pricePredictions";
 
     private final ApiHandler apiHandler;
 
@@ -31,12 +34,12 @@ public class Router {
             response.status(500);
             response.body(GSON.toJson(ProblemResponse.internalError()));
         });
-        path("/api", () -> {
+        path(API_PREFIX, () -> {
             before("/*", (q, a) -> {
                 LOGGER.info("Received api call");
             });
-            post("/simpleRoute", this.apiHandler::getStationsByRoute);
-            post("/pricePredictions", this.apiHandler::getPricePredictions);
+            post(GASSTRAT_ROUTE, this.apiHandler::getStationsByRoute);
+            post(PRICEPRED_ROUTE, this.apiHandler::getPricePredictions);
             path("/gasStation", () ->
                     get("/:id", this.apiHandler::getStationByID)
             );

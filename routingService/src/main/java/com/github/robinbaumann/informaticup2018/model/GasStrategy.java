@@ -8,4 +8,8 @@ public class GasStrategy {
     public GasStrategy(List<GasStop> stops) {
         this.stops = stops;
     }
+
+    public List<GasStop> getStops() {
+        return stops;
+    }
 }

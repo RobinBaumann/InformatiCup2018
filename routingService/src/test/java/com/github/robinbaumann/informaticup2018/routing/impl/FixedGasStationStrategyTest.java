@@ -3,7 +3,6 @@ package com.github.robinbaumann.informaticup2018.routing.impl;
 
 import com.github.robinbaumann.informaticup2018.model.GasStation;
 import com.github.robinbaumann.informaticup2018.model.GasStop;
-import com.github.robinbaumann.informaticup2018.routing.impl.FixedGasStationStrategy;
 import org.junit.Assert;
 import org.junit.Test;
 
