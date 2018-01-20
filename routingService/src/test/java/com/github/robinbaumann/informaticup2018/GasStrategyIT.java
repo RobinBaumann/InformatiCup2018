@@ -17,7 +17,6 @@ import com.github.robinbaumann.informaticup2018.webservice.ApiHandler;
 import com.github.robinbaumann.informaticup2018.webservice.Router;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.scenario.effect.Offset;
 import org.junit.ClassRule;
 import org.junit.Test;
 import spark.servlet.SparkApplication;
@@ -26,13 +25,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -80,11 +75,12 @@ public class GasStrategyIT {
 
     private RouteRequest parseCsv(String nameWithoutExt) throws IOException {
         InputStream stream = getClass().getResourceAsStream(nameWithoutExt + ".csv");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        String readLine;
         List<String> lines = new ArrayList<>();
-        while ((readLine = reader.readLine()) != null) {
-            lines.add(readLine);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+            String readLine;
+            while ((readLine = reader.readLine()) != null) {
+                lines.add(readLine);
+            }
         }
         int capa = Integer.parseInt(lines.get(0));
         List<RoutePoint> stops = new ArrayList<>();
