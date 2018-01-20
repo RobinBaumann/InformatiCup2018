@@ -2,27 +2,24 @@ package com.github.robinbaumann.informaticup2018.webservice;
 
 import com.fatboyindustrial.gsonjavatime.Converters;
 import com.github.robinbaumann.informaticup2018.database.api.IRepository;
-import com.github.robinbaumann.informaticup2018.database.impl.Repository;
 import com.github.robinbaumann.informaticup2018.model.*;
 import com.github.robinbaumann.informaticup2018.routing.api.IPricePredictionService;
 import com.github.robinbaumann.informaticup2018.routing.api.IRoutingService;
-import com.github.robinbaumann.informaticup2018.routing.impl.PricePredictionService;
-import com.github.robinbaumann.informaticup2018.routing.impl.SimpleRoutingService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import spark.Request;
 import spark.Response;
 
-public class StationSparkProxy {
+public class ApiHandler {
     private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
     private final IRoutingService simpleRoutingService;
     private final IPricePredictionService pricePredictionService;
     private IRepository repository;
 
-    public StationSparkProxy(IRoutingService simpleRoutingService,
-                             IPricePredictionService pricePredictionService,
-                             IRepository repository) {
+    public ApiHandler(IRoutingService simpleRoutingService,
+                      IPricePredictionService pricePredictionService,
+                      IRepository repository) {
         this.simpleRoutingService = simpleRoutingService;
         this.pricePredictionService = pricePredictionService;
         this.repository = repository;

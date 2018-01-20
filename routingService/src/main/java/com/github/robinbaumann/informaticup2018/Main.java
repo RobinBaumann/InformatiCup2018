@@ -8,7 +8,7 @@ import com.github.robinbaumann.informaticup2018.routing.impl.FixedGasStationStra
 import com.github.robinbaumann.informaticup2018.routing.impl.PricePredictionService;
 import com.github.robinbaumann.informaticup2018.routing.impl.SimpleRoutingService;
 import com.github.robinbaumann.informaticup2018.webservice.Router;
-import com.github.robinbaumann.informaticup2018.webservice.StationSparkProxy;
+import com.github.robinbaumann.informaticup2018.webservice.ApiHandler;
 import spark.Spark;
 
 class Main {
@@ -17,13 +17,13 @@ class Main {
         // poor mans DI
         IRepository repository = new Repository();
         IPricePredictionService pricePredictionService = new PricePredictionService(repository);
-        StationSparkProxy stationSparkProxy =
-                new StationSparkProxy(
+        ApiHandler apiHandler =
+                new ApiHandler(
                         new SimpleRoutingService(new FixedGasStationStrategy(pricePredictionService), repository),
                         pricePredictionService,
                         repository
                 );
-        Router router = new Router(stationSparkProxy);
+        Router router = new Router(apiHandler);
         router.setupRouter();
     }
 }

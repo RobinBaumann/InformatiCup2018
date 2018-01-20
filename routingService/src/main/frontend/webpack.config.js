@@ -54,7 +54,7 @@ if (process.env.NODE_ENV === 'production') {
         [
             {
                 test: /\.ts$/,
-                loader: 'babel-loader?presets[]=es2015!ts-loader'
+                loader: 'ts-loader'
             }
         ]
     );
@@ -64,7 +64,7 @@ if (process.env.NODE_ENV === 'production') {
                 'process.env': {
                     NODE_ENV: '"production"'
                 },
-                HOST: ''
+                HOST: '""'
             }),
             new webpack.optimize.UglifyJsPlugin({
                 sourceMap: true,

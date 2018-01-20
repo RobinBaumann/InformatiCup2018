@@ -14,10 +14,10 @@ public class Router {
     private final static Logger LOGGER = Logger.getLogger(Router.class.getName());
     private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
 
-    private final StationSparkProxy stationSparkProxy;
+    private final ApiHandler apiHandler;
 
-    public Router(StationSparkProxy stationSparkProxy) {
-        this.stationSparkProxy = stationSparkProxy;
+    public Router(ApiHandler apiHandler) {
+        this.apiHandler = apiHandler;
     }
 
     //localhost:4567/api/gasStation/info/1 retrieves the first gasStation
@@ -35,10 +35,10 @@ public class Router {
             before("/*", (q, a) -> {
                 LOGGER.info("Received api call");
             });
-            post("/simpleRoute", this.stationSparkProxy::getStationsByRoute);
-            post("/pricePredictions", this.stationSparkProxy::getPricePredictions);
+            post("/simpleRoute", this.apiHandler::getStationsByRoute);
+            post("/pricePredictions", this.apiHandler::getPricePredictions);
             path("/gasStation", () ->
-                    get("/:id", this.stationSparkProxy::getStationByID)
+                    get("/:id", this.apiHandler::getStationByID)
             );
         });
     }
