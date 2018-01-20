@@ -17,7 +17,6 @@ public class NaiveStrategy extends RoutingStrategy {
 
     @Override
     public GasStrategy calculateRoute(List<GasStop> route, double capacity, double reserve) {
-        int startIndex = 0;
         GasStop firstStop = route.get(0);
         for (GasStop gasStop : route) {
             gasStop.setPrice(pricePredictionService.getPrice(
