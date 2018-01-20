@@ -74,9 +74,9 @@ public class GasStrategyIT {
     }
 
     private RouteRequest parseCsv(String nameWithoutExt) throws IOException {
-        InputStream stream = getClass().getResourceAsStream(nameWithoutExt + ".csv");
         List<String> lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+        try (InputStream stream = getClass().getResourceAsStream(nameWithoutExt + ".csv");
+             BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
             String readLine;
             while ((readLine = reader.readLine()) != null) {
                 lines.add(readLine);
