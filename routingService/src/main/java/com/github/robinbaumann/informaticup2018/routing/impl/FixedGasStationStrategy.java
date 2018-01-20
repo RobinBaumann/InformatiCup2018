@@ -1,41 +1,23 @@
 package com.github.robinbaumann.informaticup2018.routing.impl;
 
-import com.github.robinbaumann.informaticup2018.model.GasStation;
 import com.github.robinbaumann.informaticup2018.model.GasStop;
 import com.github.robinbaumann.informaticup2018.model.GasStrategy;
 import com.github.robinbaumann.informaticup2018.routing.api.IPricePredictionService;
-import com.github.robinbaumann.informaticup2018.routing.api.IRoutingStrategy;
+import com.github.robinbaumann.informaticup2018.routing.api.RoutingStrategy;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * implemented http://www.cs.umd.edu/projects/gas/gas-station.pdf Appendix B
  */
-public class FixedGasStationStrategy implements IRoutingStrategy {
-    protected static final double EARTHRADIUS = 6378.388;
-    //5.6 litre per 100km, german average 2016
-    private static final double LITREPERKM = 0.056;
+public class FixedGasStationStrategy extends RoutingStrategy {
+
     public static final int NOSUCCESSOR = -1;
 
-    private IPricePredictionService pricePredictionService;
 
-    /**
-     * @param pricePredictionService
-     */
     public FixedGasStationStrategy(IPricePredictionService pricePredictionService) {
-        this.pricePredictionService = pricePredictionService;
-    }
-
-    /**
-     * Distance from two Gas Stations
-     *
-     * @param x gasStation x
-     * @param y gasStation y
-     * @return
-     */
-    protected static double distanceGasStation(GasStation x, GasStation y) {
-        return getDistance(x.getLat(), x.getLon(), y.getLat(), y.getLon());
+        super(pricePredictionService);
     }
 
 
@@ -76,48 +58,6 @@ public class FixedGasStationStrategy implements IRoutingStrategy {
 
 
     /**
-     * @param degrees
-     * @return
-     */
-    private static double degreesToRadians(double degrees) {
-        return degrees * Math.PI / 180;
-    }
-
-
-    /**
-     * Calculate distance between two geo points
-     *
-     * @param lat1
-     * @param lon1
-     * @param lat2
-     * @param lon2
-     * @return
-     */
-    private static double getDistance(double lat1, double lon1, double lat2, double lon2) {
-
-        double dLat = degreesToRadians(lat2 - lat1);
-        double dLon = degreesToRadians(lon2 - lon1);
-
-        lat1 = degreesToRadians(lat1);
-        lat2 = degreesToRadians(lat2);
-
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return EARTHRADIUS * c;
-    }
-
-    /**
-     * Calculate kilometre you can drive given a capacity
-     *
-     * @param capacity capacity of tank
-     * @return
-     */
-    private static double capacityToKilometres(double capacity) {
-        return capacity / LITREPERKM;
-    }
-
-    /**
      * get the optimal fitting gasstation succeeding a given one
      * Implying there is always at least one reachable Gas Station you can reach with a full tank
      *
@@ -136,25 +76,6 @@ public class FixedGasStationStrategy implements IRoutingStrategy {
             return NOSUCCESSOR;
         prio.sort(new GasStopComparator(route.getLast()));
         return route.indexOf(prio.getFirst());
-    }
-
-    /**
-     * Distance from two Gas Station given a route and indices
-     *
-     * @param route
-     * @param from  start index
-     * @param to    destination index
-     * @return
-     */
-    protected static double distanceByRange(List<GasStation> route, int from, int to) {
-        double sum = 0;
-        for (int k = from; k < to; k++)
-            sum += distanceGasStation(route.get(k), route.get(k + 1));
-        return sum;
-    }
-
-    private static List<GasStation> mapStations(List<GasStop> stops) {
-        return stops.stream().map(GasStop::getStation).collect(Collectors.toList());
     }
 
 
