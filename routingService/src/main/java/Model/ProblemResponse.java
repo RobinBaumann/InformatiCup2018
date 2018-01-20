@@ -42,4 +42,33 @@ public class ProblemResponse {
                 "An internal error occurred, we are fixing it asap."
         );
     }
+
+    public static ProblemResponse emptyRoute() {
+        return new ProblemResponse(
+                "https://github.com/RobinBaumann/InformatiCup2018/EmptyRoute",
+                "A route must consist of at least two stops.",
+                400,
+                "A route must consist of at least two stops."
+        );
+    }
+
+    public static ProblemResponse routePointsOutOfOrder(RoutePointsOutOfOrderException e) {
+        return new ProblemResponse(
+                "https://github.com/RobinBaumann/InformatiCup2018/RouteStopsOutOfOrder",
+                "Some stops were out of order.",
+                400,
+                MessageFormat.format("The timestamps must be in the same order as the stops. " +
+                        "Stop {0} was out of order", e.getI())
+        );
+    }
+
+    public static ProblemResponse capacityException(CapacityException e) {
+        return new ProblemResponse(
+                "https://github.com/RobinBaumann/InformatiCup2018/CapacityException",
+                "Capacity must be a positive Integer",
+                400,
+                MessageFormat.format("Capacity must be a positive Integer, but instead was {0}",
+                        e.getCapacity())
+        );
+    }
 }

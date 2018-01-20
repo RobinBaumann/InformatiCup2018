@@ -6,4 +6,8 @@ public class CapacityException extends Exception {
     public CapacityException(int capacity) {
         this.capacity = capacity;
     }
+
+    public int getCapacity() {
+        return capacity;
+    }
 }

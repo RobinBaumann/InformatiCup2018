@@ -50,7 +50,6 @@ public class StationSparkProxy {
     }
 
     /**
-     * TODO:
      * Create Route and solve Fixed Path Station Problem
      * @param request
      * @param response
@@ -66,15 +65,13 @@ public class StationSparkProxy {
         }
         try {
             return GSON.toJson(simpleRoutingService.route(r));
-            //TODO translate to Problems
         } catch (EmptyRouteException e) {
-            e.printStackTrace();
+            return GSON.toJson(ProblemResponse.emptyRoute());
         } catch (RoutePointsOutOfOrderException e) {
-            e.printStackTrace();
+            return GSON.toJson(ProblemResponse.routePointsOutOfOrder(e));
         } catch (CapacityException e) {
-            e.printStackTrace();
+            return GSON.toJson(ProblemResponse.capacityException(e));
         }
-        throw new RuntimeException("Error in getStationsByRoute, this point should never be reached.");
     }
 
     public String getPricePredictions(Request request, Response response) {
