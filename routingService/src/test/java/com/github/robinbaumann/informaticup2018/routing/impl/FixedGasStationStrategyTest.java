@@ -1,14 +1,15 @@
-package com.github.robinbaumann.informaticup2018.routing;
+package com.github.robinbaumann.informaticup2018.routing.impl;
 
 
 import com.github.robinbaumann.informaticup2018.model.GasStation;
 import com.github.robinbaumann.informaticup2018.model.GasStop;
+import com.github.robinbaumann.informaticup2018.routing.impl.FixedGasStationStrategy;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.LinkedList;
 
-public class FixedGasStationTest {
+public class FixedGasStationStrategyTest {
 
     /**
      * GasStation builder
@@ -33,9 +34,9 @@ public class FixedGasStationTest {
     public void testGetSuccessor() {
         LinkedList<GasStop> testRoute = new LinkedList<>();
         testRoute.add(new GasStop(buildGasStation(0, 0),3));
-        Assert.assertEquals(FixedGasStation.getSuccessor(testRoute, 0, 50), -1); //no successor so -1
+        Assert.assertEquals(FixedGasStationStrategy.getSuccessor(testRoute, 0, 50), -1); //no successor so -1
         testRoute.add(new GasStop(buildGasStation(0, 1), 2));
         testRoute.add(new GasStop(buildGasStation(0, 2), 1));
-        Assert.assertEquals(FixedGasStation.getSuccessor(testRoute, 0, 50), 1); //next in list is cheaper so 1
+        Assert.assertEquals(FixedGasStationStrategy.getSuccessor(testRoute, 0, 50), 1); //next in list is cheaper so 1
     }
 }

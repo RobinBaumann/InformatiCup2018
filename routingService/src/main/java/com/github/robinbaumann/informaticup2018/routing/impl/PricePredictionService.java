@@ -1,8 +1,12 @@
-package com.github.robinbaumann.informaticup2018.routing;
+package com.github.robinbaumann.informaticup2018.routing.impl;
 
-import com.github.robinbaumann.informaticup2018.database.Repository;
+import com.github.robinbaumann.informaticup2018.database.api.IRepository;
 import com.github.robinbaumann.informaticup2018.model.*;
-import hex.genmodel.*;
+import com.github.robinbaumann.informaticup2018.routing.api.IPricePredictionService;
+import hex.genmodel.ModelMojoReader;
+import hex.genmodel.MojoModel;
+import hex.genmodel.MojoReaderBackend;
+import hex.genmodel.MojoReaderBackendFactory;
 import hex.genmodel.easy.EasyPredictModelWrapper;
 import hex.genmodel.easy.RowData;
 import hex.genmodel.easy.exception.PredictException;
@@ -17,9 +21,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class PricePredictionService {
+public class PricePredictionService implements IPricePredictionService {
 
-    private Repository repository;
+    private IRepository repository;
     private static EasyPredictModelWrapper model;
     static {
         URL url = PricePredictionService.class.getResource(
@@ -34,10 +38,11 @@ public class PricePredictionService {
         }
     }
 
-    public PricePredictionService(Repository repository) {
+    public PricePredictionService(IRepository repository) {
         this.repository = repository;
     }
 
+    @Override
     public int getPrice(GasStation station, OffsetDateTime timestamp, OffsetDateTime momentKnown) {
         if (timestamp.isBefore(momentKnown)) {
             //can use historic price
@@ -71,6 +76,7 @@ public class PricePredictionService {
         }
     }
 
+    @Override
     public PricePredictions predict(PricePredictionRequests requests) {
         List<Integer> ids = requests.getPredictionRequests().stream()
                 .map(PricePredictionRequest::getStationId)

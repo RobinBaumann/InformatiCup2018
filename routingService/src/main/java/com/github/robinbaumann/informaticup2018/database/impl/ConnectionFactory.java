@@ -1,4 +1,4 @@
-package com.github.robinbaumann.informaticup2018.database;
+package com.github.robinbaumann.informaticup2018.database.impl;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

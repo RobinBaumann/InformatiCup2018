@@ -1,4 +1,4 @@
-package com.github.robinbaumann.informaticup2018.routing;
+package com.github.robinbaumann.informaticup2018.routing.impl;
 
 import com.github.robinbaumann.informaticup2018.model.GasStop;
 
@@ -15,12 +15,12 @@ class GasStopComparator implements Comparator<GasStop> {
     @Override
     public int compare(GasStop x, GasStop y) {
         if (x.getPrice() > y.getPrice() || x.getPrice() == y.getPrice()
-                && FixedGasStation.distanceGasStation(x.getStation(), last.getStation())
-                > FixedGasStation.distanceGasStation(y.getStation(), last.getStation()))
+                && FixedGasStationStrategy.distanceGasStation(x.getStation(), last.getStation())
+                > FixedGasStationStrategy.distanceGasStation(y.getStation(), last.getStation()))
             return 1;
         else if (x.getPrice() < y.getPrice() || x.getPrice() == y.getPrice()
-                && FixedGasStation.distanceGasStation(x.getStation(), last.getStation())
-                < FixedGasStation.distanceGasStation(y.getStation(), last.getStation()))
+                && FixedGasStationStrategy.distanceGasStation(x.getStation(), last.getStation())
+                < FixedGasStationStrategy.distanceGasStation(y.getStation(), last.getStation()))
             return -1;
         else
             return 0;

@@ -1,8 +1,10 @@
-package com.github.robinbaumann.informaticup2018.routing;
+package com.github.robinbaumann.informaticup2018.routing.impl;
 
 import com.github.robinbaumann.informaticup2018.model.GasStation;
 import com.github.robinbaumann.informaticup2018.model.GasStop;
 import com.github.robinbaumann.informaticup2018.model.GasStrategy;
+import com.github.robinbaumann.informaticup2018.routing.api.IPricePredictionService;
+import com.github.robinbaumann.informaticup2018.routing.api.IRoutingStrategy;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,18 +12,18 @@ import java.util.stream.Collectors;
 /**
  * implemented http://www.cs.umd.edu/projects/gas/gas-station.pdf Appendix B
  */
-public class FixedGasStation {
+public class FixedGasStationStrategy implements IRoutingStrategy {
     protected static final double EARTHRADIUS = 6378.388;
     //5.6 litre per 100km, german average 2016
     private static final double LITREPERKM = 0.056;
     public static final int NOSUCCESSOR = -1;
 
-    private PricePredictionService pricePredictionService;
+    private IPricePredictionService pricePredictionService;
 
     /**
      * @param pricePredictionService
      */
-    public FixedGasStation(PricePredictionService pricePredictionService) {
+    public FixedGasStationStrategy(IPricePredictionService pricePredictionService) {
         this.pricePredictionService = pricePredictionService;
     }
 
@@ -44,6 +46,7 @@ public class FixedGasStation {
      * @param capacity capacity of tank
      * @param reserve  start fuel of tank
      */
+    @Override
     public GasStrategy calculateRoute(List<GasStop> route, double capacity, double reserve) {
         int startIndex = 0;
         GasStop firstStop = route.get(0);
