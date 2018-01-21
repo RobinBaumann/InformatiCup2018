@@ -79,7 +79,7 @@ public class GasStrategyIT {
         }
         assertEquals(fuel,0,0.0001);
     }
-    
+
 
     @Test
     public void fails_gracefully_with_negative_capacity() throws IOException, HttpClientException {
