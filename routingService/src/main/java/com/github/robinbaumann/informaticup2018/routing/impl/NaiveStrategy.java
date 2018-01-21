@@ -29,7 +29,7 @@ public class NaiveStrategy extends RoutingStrategy {
                 route.get(i).setAmount(capacity - reserve);
             } else {
                 double amount = distanceGasStation(stations.get(i), stations.get(i - 1)) * LITREPERKM;
-                route.get(i).setAmount(capacity - amount);
+                route.get(i).setAmount(amount);
             }
         }
         return new GasStrategy(route);
