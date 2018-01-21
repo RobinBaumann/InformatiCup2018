@@ -9,6 +9,19 @@ public class ProblemResponse {
     private int status;
     private String detail;
 
+    public final static String PARAMETER_FORMAT =
+            "https://github.com/RobinBaumann/InformatiCup2018/ParameterFormat";
+    public final static String STATION_NOT_FOUND =
+            "https://github.com/RobinBaumann/InformatiCup2018/StationNotFound";
+    public final static String INTERNAL_ERROR =
+            "https://github.com/RobinBaumann/InformatiCup2018/InternalError";
+    public final static String EMPTY_ROUTE =
+            "https://github.com/RobinBaumann/InformatiCup2018/EmptyRoute";
+    public final static String STOPS_OUT_OF_ORDER =
+            "https://github.com/RobinBaumann/InformatiCup2018/RouteStopsOutOfOrder";
+    public final static String CAPACITY_INVALID =
+            "https://github.com/RobinBaumann/InformatiCup2018/CapacityException";
+
     public ProblemResponse(String type, String title, int status, String detail) {
         this.type = type;
         this.title = title;
@@ -34,16 +47,16 @@ public class ProblemResponse {
 
     public static ProblemResponse canNotParseParameter(String detail) {
         return new ProblemResponse(
-                "https://github.com/RobinBaumann/InformatiCup2018/ParameterFormat",
+                PARAMETER_FORMAT,
                 "Malformed request parameter.",
-                 400,
+                400,
                 detail
         );
     }
 
     public static ProblemResponse stationNotFound(StationNotFoundException e) {
         return new ProblemResponse(
-                "https://github.com/RobinBaumann/InformatiCup2018/StationNotFound",
+                STATION_NOT_FOUND,
                 "Requested GasStation not found.",
                 404,
                 MessageFormat.format("The GasStation with id {0} could not be found.", e.getId())
@@ -52,7 +65,7 @@ public class ProblemResponse {
 
     public static ProblemResponse internalError() {
         return new ProblemResponse(
-                "https://github.com/RobinBaumann/InformatiCup2018/InternalError",
+                INTERNAL_ERROR,
                 "An internal error occurred.",
                 500,
                 "An internal error occurred, we are fixing it asap."
@@ -61,7 +74,7 @@ public class ProblemResponse {
 
     public static ProblemResponse emptyRoute() {
         return new ProblemResponse(
-                "https://github.com/RobinBaumann/InformatiCup2018/EmptyRoute",
+                EMPTY_ROUTE,
                 "A route must consist of at least two stops.",
                 400,
                 "A route must consist of at least two stops."
@@ -70,7 +83,7 @@ public class ProblemResponse {
 
     public static ProblemResponse routePointsOutOfOrder(RoutePointsOutOfOrderException e) {
         return new ProblemResponse(
-                "https://github.com/RobinBaumann/InformatiCup2018/RouteStopsOutOfOrder",
+                STOPS_OUT_OF_ORDER,
                 "Some stops were out of order.",
                 400,
                 MessageFormat.format("The timestamps must be in the same order as the stops. " +
@@ -80,7 +93,7 @@ public class ProblemResponse {
 
     public static ProblemResponse capacityException(CapacityException e) {
         return new ProblemResponse(
-                "https://github.com/RobinBaumann/InformatiCup2018/CapacityException",
+                CAPACITY_INVALID,
                 "Capacity must be a positive Integer",
                 400,
                 MessageFormat.format("Capacity must be a positive Integer, but instead was {0}",

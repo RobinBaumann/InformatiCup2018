@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.lessThan;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class FixedVsNaive {
+public class FixedVsNaiveIT {
     private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
 
     private static ApiHandler fixedHandler;

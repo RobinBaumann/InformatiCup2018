@@ -63,11 +63,17 @@ public class ApiHandler {
         try {
             return GSON.toJson(simpleRoutingService.route(r));
         } catch (EmptyRouteException e) {
+            response.status(400);
             return GSON.toJson(ProblemResponse.emptyRoute());
         } catch (RoutePointsOutOfOrderException e) {
+            response.status(400);
             return GSON.toJson(ProblemResponse.routePointsOutOfOrder(e));
         } catch (CapacityException e) {
+            response.status(400);
             return GSON.toJson(ProblemResponse.capacityException(e));
+        } catch (StationNotFoundException e) {
+            response.status(404);
+            return GSON.toJson(ProblemResponse.stationNotFound(e));
         }
     }
 
