@@ -8,6 +8,15 @@ public class PricePredictionRequest {
     private OffsetDateTime momentPrediction;
     private int stationId;
 
+    public PricePredictionRequest(OffsetDateTime momentKnownPrices, OffsetDateTime momentPrediction, int stationId) {
+        this.momentKnownPrices = momentKnownPrices;
+        this.momentPrediction = momentPrediction;
+        this.stationId = stationId;
+    }
+
+    public PricePredictionRequest() {
+    }
+
     public OffsetDateTime getMomentKnownPrices() {
         return momentKnownPrices;
     }

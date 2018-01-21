@@ -47,7 +47,7 @@ public class GasStrategyIT {
 
     @Test
     public void a_ok_with_bertha_benz() throws IOException, HttpClientException {
-        RouteRequest request = CsvParsing.parseCsv("Bertha Benz Memorial Route", getClass());
+        RouteRequest request = CsvParsing.parseRouteCsv("Bertha Benz Memorial Route", getClass());
         HttpResponse response = postRequest(request);
         assertThat(response.code(), is(200));
         String json = new String(response.body());
@@ -102,7 +102,7 @@ public class GasStrategyIT {
     }
 
     private HttpResponse postCsv(String csvName) throws HttpClientException, IOException {
-        RouteRequest request = CsvParsing.parseCsv(csvName, getClass());
+        RouteRequest request = CsvParsing.parseRouteCsv(csvName, getClass());
         return postRequest(request);
     }
 

@@ -42,7 +42,7 @@ public class FixedVsNaiveIT {
 
     @Test
     public void fixed_knows_bertha_better_than_naive() throws IOException {
-        RouteRequest request = CsvParsing.parseCsv("Bertha Benz Memorial Route", getClass());
+        RouteRequest request = CsvParsing.parseRouteCsv("Bertha Benz Memorial Route", getClass());
         Request mock = mock(Request.class);
         when(mock.body()).thenReturn(GSON.toJson(request));
         GasStrategy fixed = GSON.fromJson(fixedHandler.getStationsByRoute(mock, null), GasStrategy.class);
