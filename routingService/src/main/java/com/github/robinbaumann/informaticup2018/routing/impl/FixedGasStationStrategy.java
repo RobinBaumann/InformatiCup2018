@@ -3,6 +3,7 @@ package com.github.robinbaumann.informaticup2018.routing.impl;
 import com.github.robinbaumann.informaticup2018.model.GasStop;
 import com.github.robinbaumann.informaticup2018.model.GasStrategy;
 import com.github.robinbaumann.informaticup2018.model.StationNotReachableException;
+import com.github.robinbaumann.informaticup2018.model.StationWithoutPricesException;
 import com.github.robinbaumann.informaticup2018.routing.api.IPricePredictionService;
 
 import java.util.LinkedList;
@@ -29,7 +30,7 @@ public class FixedGasStationStrategy extends RoutingStrategy {
      * @param reserve  start fuel of tank
      */
     @Override
-    public GasStrategy calculateRoute(List<GasStop> route, double capacity, double reserve) throws StationNotReachableException {
+    public GasStrategy calculateRoute(List<GasStop> route, double capacity, double reserve) throws StationNotReachableException, StationWithoutPricesException {
         int startIndex = 0;
         GasStop firstStop = route.get(0);
         for (GasStop gasStop : route) {

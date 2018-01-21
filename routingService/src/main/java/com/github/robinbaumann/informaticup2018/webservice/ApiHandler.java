@@ -77,10 +77,13 @@ public class ApiHandler {
         } catch (StationNotReachableException e) {
             response.status(400);
             return GSON.toJson(ProblemResponse.stationNotReachable());
+        } catch (StationWithoutPricesException e) {
+            response.status(400);
+            return GSON.toJson(ProblemResponse.stationWithoutPrices(e.getUnknownLevel()));
         }
     }
 
-    public String getPricePredictions(Request request, Response response) {
+    public String getPricePredictions(Request request, Response response) throws StationWithoutPricesException {
         PricePredictionRequests r;
         try {
             String body = request.body();

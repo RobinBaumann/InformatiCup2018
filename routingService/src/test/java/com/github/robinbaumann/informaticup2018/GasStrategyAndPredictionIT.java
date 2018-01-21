@@ -7,10 +7,7 @@ import com.despegar.http.client.PostMethod;
 import com.despegar.sparkjava.test.SparkServer;
 import com.fatboyindustrial.gsonjavatime.Converters;
 import com.github.robinbaumann.informaticup2018.database.impl.Repository;
-import com.github.robinbaumann.informaticup2018.model.GasStation;
-import com.github.robinbaumann.informaticup2018.model.GasStrategy;
-import com.github.robinbaumann.informaticup2018.model.ProblemResponse;
-import com.github.robinbaumann.informaticup2018.model.RouteRequest;
+import com.github.robinbaumann.informaticup2018.model.*;
 import com.github.robinbaumann.informaticup2018.routing.impl.FixedGasStationStrategy;
 import com.github.robinbaumann.informaticup2018.routing.impl.PricePredictionService;
 import com.github.robinbaumann.informaticup2018.routing.impl.RoutingStrategy;
@@ -27,12 +24,13 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
-public class GasStrategyIT {
-    private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
+public class GasStrategyAndPredictionIT {
+    protected final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
 
     public static class TestSparkApp implements SparkApplication {
         @Override
@@ -48,7 +46,7 @@ public class GasStrategyIT {
 
     @ClassRule
     public static SparkServer<TestSparkApp> testServer
-            = new SparkServer<>(GasStrategyIT.TestSparkApp.class, 9090);
+            = new SparkServer<>(GasStrategyAndPredictionIT.TestSparkApp.class, 9090);
 
     @Test
     public void a_ok_with_bertha_benz() throws IOException, HttpClientException {
@@ -108,6 +106,11 @@ public class GasStrategyIT {
     }
 
     @Test
+    public void fixme() throws IOException, HttpClientException {
+        fails_gracefully("bertha_stations_without_prices", 400, ProblemResponse.STATION_WITHOUT_PRICE);
+    }
+
+    @Test
     public void fails_gracefully_with_invalid_data() throws HttpClientException {
         PostMethod post = testServer.post(
                 Router.API_PREFIX + Router.GASSTRAT_ROUTE,
@@ -119,6 +122,67 @@ public class GasStrategyIT {
         ProblemResponse problem = GSON.fromJson(new String(response.body()), ProblemResponse.class);
         assertThat(problem.getStatus(), is(500));
         assertThat(problem.getType(), is(ProblemResponse.INTERNAL_ERROR));
+    }
+
+    @Test
+    public void a_ok_with_price_prediction() throws IOException, HttpClientException {
+        PricePredictionRequests requests = CsvParsing.parsePredictionCsv("price-prediction", getClass());
+        HttpResponse response = postRequest(requests);
+        assertThat(response.code(), is(200));
+        String json = new String(response.body());
+        PricePredictions pricePredictions = GSON.fromJson(json, PricePredictions.class);
+        assertThat(pricePredictions.getPredictions().size(), is(4));
+        for (int i = 0; i < requests.getPredictionRequests().size(); i++) {
+            assertThat(
+                    pricePredictions.getPredictions().get(i).getMomentKnownPrices(),
+                    is(requests.getPredictionRequests().get(i).getMomentKnownPrices()));
+            assertThat(
+                    pricePredictions.getPredictions().get(i).getMomentPrediction(),
+                    is(requests.getPredictionRequests().get(i).getMomentPrediction()));
+            assertThat(
+                    pricePredictions.getPredictions().get(i).getStation().getId(),
+                    is(requests.getPredictionRequests().get(i).getStationId()));
+            assertThat(
+                    pricePredictions.getPredictions().get(i).getPrice(),
+                    is(lessThan(2000)));
+            assertThat(
+                    pricePredictions.getPredictions().get(i).getPrice(),
+                    is(greaterThan(900)));
+        }
+    }
+
+    @Test
+    public void uses_actual_price_if_allowed() throws IOException, HttpClientException {
+        HttpResponse response = postPredCsv("price-prediction-historic");
+        assertThat(response.code(), is(200));
+        String json = new String(response.body());
+        PricePredictions predictions = GSON.fromJson(json, PricePredictions.class);
+        assertThat(predictions.getPredictions().size(), is(1));
+        assertThat(predictions.getPredictions().get(0).getPrice(), is(1309));
+    }
+
+    @Test
+    public void uses_actual_price_if_momentKnown_close_to_predictionMoment() throws IOException, HttpClientException {
+        HttpResponse response = postPredCsv("price-prediction-very-close");
+        assertThat(response.code(), is(200));
+        String json = new String(response.body());
+        PricePredictions predictions = GSON.fromJson(json, PricePredictions.class);
+        assertThat(predictions.getPredictions().size(), is(1));
+        assertThat(predictions.getPredictions().get(0).getPrice(), is(1309));
+    }
+
+    private HttpResponse postPredCsv(String csvName) throws IOException, HttpClientException {
+        PricePredictionRequests requests = CsvParsing.parsePredictionCsv(csvName, getClass());
+        return postRequest(requests);
+    }
+
+    private HttpResponse postRequest(PricePredictionRequests request) throws HttpClientException {
+        PostMethod post = testServer.post(
+                Router.API_PREFIX + Router.PRICEPRED_ROUTE,
+                GSON.toJson(request),
+                false
+        );
+        return testServer.execute(post);
     }
 
     private void fails_gracefully(String csvName, int status, String type) throws IOException, HttpClientException {

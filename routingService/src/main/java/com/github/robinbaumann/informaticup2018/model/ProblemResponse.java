@@ -23,6 +23,8 @@ public class ProblemResponse {
             "https://github.com/RobinBaumann/InformatiCup2018/CapacityException";
     public final static String STATION_NOT_REACHABLE =
             "https://github.com/RobinBaumann/InformatiCup2018/StationNotReachable";
+    public final static String STATION_WITHOUT_PRICE =
+            "https://github.com/RobinBaumann/InformatiCup2018/StationWithoutPrice";
 
     public ProblemResponse(String type, String title, int status, String detail) {
         this.type = type;
@@ -109,6 +111,15 @@ public class ProblemResponse {
                 "Capacity is not high enough.",
                 400,
                 "The given capacity is not high enough to reach all stations."
+        );
+    }
+
+    public static ProblemResponse stationWithoutPrices(String unknownLevel) {
+        return new ProblemResponse(
+                STATION_WITHOUT_PRICE,
+                MessageFormat.format("No Prices for station {0}.", unknownLevel),
+                400,
+                MessageFormat.format("No Prices for station {0}.", unknownLevel)
         );
     }
 }

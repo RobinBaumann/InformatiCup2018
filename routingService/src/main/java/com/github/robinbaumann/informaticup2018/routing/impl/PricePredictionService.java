@@ -10,6 +10,7 @@ import hex.genmodel.MojoReaderBackendFactory;
 import hex.genmodel.easy.EasyPredictModelWrapper;
 import hex.genmodel.easy.RowData;
 import hex.genmodel.easy.exception.PredictException;
+import hex.genmodel.easy.exception.PredictUnknownCategoricalLevelException;
 import hex.genmodel.easy.prediction.RegressionModelPrediction;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class PricePredictionService implements IPricePredictionService {
     }
 
     @Override
-    public int getPrice(GasStation station, OffsetDateTime timestamp, OffsetDateTime momentKnown) {
+    public int getPrice(GasStation station, OffsetDateTime timestamp, OffsetDateTime momentKnown) throws StationWithoutPricesException {
         if (timestamp.isBefore(momentKnown)) {
             //can use historic price
             return repository.getPrice(station.getId(), timestamp);
@@ -78,6 +79,12 @@ public class PricePredictionService implements IPricePredictionService {
                 }
                 RegressionModelPrediction regressionModelPrediction = model.predictRegression(rowData);
                 return (int)regressionModelPrediction.value;
+            } catch (PredictUnknownCategoricalLevelException e) {
+                if (e.columnName.equals("station_id")) {
+                    throw new StationWithoutPricesException(e.unknownLevel);
+                } else {
+                    throw new RuntimeException(e);
+                }
             } catch (PredictException e) {
                 throw new RuntimeException(e);
             }
@@ -85,7 +92,7 @@ public class PricePredictionService implements IPricePredictionService {
     }
 
     @Override
-    public PricePredictions predict(PricePredictionRequests requests) {
+    public PricePredictions predict(PricePredictionRequests requests) throws StationWithoutPricesException {
         List<Integer> ids = requests.getPredictionRequests().stream()
                 .map(PricePredictionRequest::getStationId)
                 .collect(Collectors.toList());

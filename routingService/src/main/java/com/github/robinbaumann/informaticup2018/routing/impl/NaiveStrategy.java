@@ -3,6 +3,7 @@ package com.github.robinbaumann.informaticup2018.routing.impl;
 import com.github.robinbaumann.informaticup2018.model.GasStation;
 import com.github.robinbaumann.informaticup2018.model.GasStop;
 import com.github.robinbaumann.informaticup2018.model.GasStrategy;
+import com.github.robinbaumann.informaticup2018.model.StationWithoutPricesException;
 import com.github.robinbaumann.informaticup2018.routing.api.IPricePredictionService;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class NaiveStrategy extends RoutingStrategy {
     }
 
     @Override
-    public GasStrategy calculateRoute(List<GasStop> route, double capacity, double reserve) {
+    public GasStrategy calculateRoute(List<GasStop> route, double capacity, double reserve) throws StationWithoutPricesException {
         GasStop firstStop = route.get(0);
         for (GasStop gasStop : route) {
             gasStop.setPrice(pricePredictionService.getPrice(

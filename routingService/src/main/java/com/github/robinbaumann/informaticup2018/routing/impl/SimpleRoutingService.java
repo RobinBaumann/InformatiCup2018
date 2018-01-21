@@ -26,7 +26,7 @@ public class SimpleRoutingService implements IRoutingService {
     }
 
     @Override
-    public GasStrategy route(RouteRequest request) throws EmptyRouteException, RoutePointsOutOfOrderException, CapacityException, StationNotFoundException, StationNotReachableException {
+    public GasStrategy route(RouteRequest request) throws EmptyRouteException, RoutePointsOutOfOrderException, CapacityException, StationNotFoundException, StationNotReachableException, StationWithoutPricesException {
         RouteRequestValidator.validate(request);
         List<Integer> requestedIds =
                 request.getRoutePoints().stream().map(RoutePoint::getStationId).collect(Collectors.toList());
