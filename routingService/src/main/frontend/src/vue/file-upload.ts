@@ -77,8 +77,12 @@ export class FileUpload extends Vue {
     }
 
     private apiErrorHandler(reason: any) {
-        if (reason.response && reason.response.data && reason.response.data instanceof Problem) {
-            this.$emit(Events.Error, reason.response.data);
+        if (reason.response && reason.response.data && reason.response.data.type && reason.response.data.status && reason.response.data.title) {
+            this.$emit(Events.Error, new Problem(
+                reason.response.data.type,
+                reason.response.data.title,
+                reason.response.data.detail,
+                reason.response.data.status));
         } else {
             this.$emit(Events.Error, new Problem(
                 "https://github.com/RobinBaumann/InformatiCup2018/InternalError",
