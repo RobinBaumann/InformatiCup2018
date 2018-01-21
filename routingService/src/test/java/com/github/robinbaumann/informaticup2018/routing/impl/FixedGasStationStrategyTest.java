@@ -3,6 +3,7 @@ package com.github.robinbaumann.informaticup2018.routing.impl;
 
 import com.github.robinbaumann.informaticup2018.model.GasStation;
 import com.github.robinbaumann.informaticup2018.model.GasStop;
+import com.github.robinbaumann.informaticup2018.model.StationNotReachableException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,7 +31,7 @@ public class FixedGasStationStrategyTest {
     /*
       Test if we get the correct succeeding GasStation
      */
-    public void testGetSuccessor() {
+    public void testGetSuccessor() throws StationNotReachableException {
         LinkedList<GasStop> testRoute = new LinkedList<>();
         testRoute.add(new GasStop(buildGasStation(0, 0),3));
         Assert.assertEquals(FixedGasStationStrategy.getSuccessor(testRoute, 0, 50), -1); //no successor so -1

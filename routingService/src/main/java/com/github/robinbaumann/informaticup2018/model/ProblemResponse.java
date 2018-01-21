@@ -21,6 +21,8 @@ public class ProblemResponse {
             "https://github.com/RobinBaumann/InformatiCup2018/RouteStopsOutOfOrder";
     public final static String CAPACITY_INVALID =
             "https://github.com/RobinBaumann/InformatiCup2018/CapacityException";
+    public final static String STATION_NOT_REACHABLE =
+            "https://github.com/RobinBaumann/InformatiCup2018/StationNotReachable";
 
     public ProblemResponse(String type, String title, int status, String detail) {
         this.type = type;
@@ -98,6 +100,15 @@ public class ProblemResponse {
                 400,
                 MessageFormat.format("Capacity must be a positive Integer, but instead was {0}",
                         e.getCapacity())
+        );
+    }
+
+    public static ProblemResponse stationNotReachable() {
+        return new ProblemResponse(
+                STATION_NOT_REACHABLE,
+                "Capacity is not high enough.",
+                400,
+                "The given capacity is not high enough to reach all stations."
         );
     }
 }

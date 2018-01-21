@@ -29,6 +29,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 public class GasStrategyIT {
     private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
@@ -99,6 +100,11 @@ public class GasStrategyIT {
     @Test
     public void fails_gracefully_with_empty_route() throws IOException, HttpClientException {
         fails_gracefully("bertha_empty", 400, ProblemResponse.EMPTY_ROUTE);
+    }
+
+    @Test
+    public void fails_gracefully_with_too_small_capacity() throws IOException, HttpClientException {
+        fails_gracefully("not-reachable", 400, ProblemResponse.STATION_NOT_REACHABLE);
     }
 
     @Test

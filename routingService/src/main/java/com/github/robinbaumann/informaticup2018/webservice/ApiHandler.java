@@ -74,6 +74,9 @@ public class ApiHandler {
         } catch (StationNotFoundException e) {
             response.status(404);
             return GSON.toJson(ProblemResponse.stationNotFound(e));
+        } catch (StationNotReachableException e) {
+            response.status(400);
+            return GSON.toJson(ProblemResponse.stationNotReachable());
         }
     }
 
