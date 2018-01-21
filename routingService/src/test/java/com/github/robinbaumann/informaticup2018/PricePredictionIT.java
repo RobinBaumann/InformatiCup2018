@@ -71,6 +71,31 @@ public class PricePredictionIT {
         }
     }
 
+    @Test
+    public void uses_actual_price_if_allowed() throws IOException, HttpClientException {
+        HttpResponse response = postCsv("price-prediction-historic");
+        assertThat(response.code(), is(200));
+        String json = new String(response.body());
+        PricePredictions predictions = GSON.fromJson(json, PricePredictions.class);
+        assertThat(predictions.getPredictions().size(), is(1));
+        assertThat(predictions.getPredictions().get(0).getPrice(), is(1309));
+    }
+
+    @Test
+    public void uses_actual_price_if_momentKnown_close_to_predictionMoment() throws IOException, HttpClientException {
+        HttpResponse response = postCsv("price-prediction-very-close");
+        assertThat(response.code(), is(200));
+        String json = new String(response.body());
+        PricePredictions predictions = GSON.fromJson(json, PricePredictions.class);
+        assertThat(predictions.getPredictions().size(), is(1));
+        assertThat(predictions.getPredictions().get(0).getPrice(), is(1309));
+    }
+
+    private HttpResponse postCsv(String csvName) throws IOException, HttpClientException {
+        PricePredictionRequests requests = CsvParsing.parsePredictionCsv(csvName, getClass());
+        return postRequest(requests);
+    }
+
     private HttpResponse postRequest(PricePredictionRequests request) throws HttpClientException {
         PostMethod post = testServer.post(
                 Router.API_PREFIX + Router.PRICEPRED_ROUTE,

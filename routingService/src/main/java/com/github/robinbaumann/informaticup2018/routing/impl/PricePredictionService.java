@@ -15,6 +15,8 @@ import hex.genmodel.easy.prediction.RegressionModelPrediction;
 import java.io.IOException;
 import java.net.URL;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,13 @@ public class PricePredictionService implements IPricePredictionService {
         if (timestamp.isBefore(momentKnown)) {
             //can use historic price
             return repository.getPrice(station.getId(), timestamp);
-        } else {
+        } else if (lessThanAnHourApart(momentKnown, timestamp)) {
+            //can use prices until momentKnown
+            //if momentKnown is less than an hour before timestamp
+            //use actual price at momentKnown
+            return repository.getPrice(station.getId(), momentKnown);
+        }
+        else {
             try {
                 RowData rowData = new RowData();
                 rowData.put("year", Integer.toString(timestamp.getYear()));
@@ -94,5 +102,11 @@ public class PricePredictionService implements IPricePredictionService {
             ));
         }
         return new PricePredictions(predictions);
+    }
+
+    private boolean lessThanAnHourApart(OffsetDateTime first, OffsetDateTime second) {
+        long firstSecond = first.toEpochSecond();
+        long secondSecond = second.toEpochSecond();
+        return firstSecond < secondSecond && ((secondSecond - firstSecond) < 60 * 60);
     }
 }
