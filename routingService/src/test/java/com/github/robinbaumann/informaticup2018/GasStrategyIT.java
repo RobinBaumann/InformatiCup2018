@@ -7,11 +7,13 @@ import com.despegar.http.client.PostMethod;
 import com.despegar.sparkjava.test.SparkServer;
 import com.fatboyindustrial.gsonjavatime.Converters;
 import com.github.robinbaumann.informaticup2018.database.impl.Repository;
+import com.github.robinbaumann.informaticup2018.model.GasStation;
 import com.github.robinbaumann.informaticup2018.model.GasStrategy;
 import com.github.robinbaumann.informaticup2018.model.ProblemResponse;
 import com.github.robinbaumann.informaticup2018.model.RouteRequest;
 import com.github.robinbaumann.informaticup2018.routing.impl.FixedGasStationStrategy;
 import com.github.robinbaumann.informaticup2018.routing.impl.PricePredictionService;
+import com.github.robinbaumann.informaticup2018.routing.impl.RoutingStrategy;
 import com.github.robinbaumann.informaticup2018.routing.impl.SimpleRoutingService;
 import com.github.robinbaumann.informaticup2018.webservice.ApiHandler;
 import com.github.robinbaumann.informaticup2018.webservice.Router;
@@ -22,8 +24,10 @@ import org.junit.Test;
 import spark.servlet.SparkApplication;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class GasStrategyIT {
@@ -57,6 +61,25 @@ public class GasStrategyIT {
             assertThat(gasStrategy.getStops().get(i).getTimestamp(), is(request.getRoutePoints().get(i).getTimestamp()));
         }
     }
+
+    @Test
+    public void last_station_empty_bertha_benz() throws IOException, HttpClientException {
+        RouteRequest request = CsvParsing.parseRouteCsv("Bertha Benz Memorial Route", getClass());
+        HttpResponse response = postRequest(request);
+        assertThat(response.code(), is(200));
+        String json = new String(response.body());
+        GasStrategy gasStrategy = GSON.fromJson(json, GasStrategy.class);
+        List<GasStation> stations = RoutingStrategy.mapStations(gasStrategy.getStops());
+        double fuel = 0;
+        for (int i = 0; i < stations.size(); i++) {
+            fuel += gasStrategy.getStops().get(i).getAmount();
+            if (i > 0) {
+                fuel -= RoutingStrategy.distanceGasStation(stations.get(i - 1), stations.get(i)) * RoutingStrategy.LITREPERKM;
+            }
+        }
+        assertEquals(fuel,0,0.0001);
+    }
+    
 
     @Test
     public void fails_gracefully_with_negative_capacity() throws IOException, HttpClientException {

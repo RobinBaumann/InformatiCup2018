@@ -13,7 +13,7 @@ public abstract class RoutingStrategy implements IRoutingStrategy {
     protected IPricePredictionService pricePredictionService;
     protected static final double EARTHRADIUS = 6378.388;
     //5.6 litre per 100km, german average 2016
-    protected static final double LITREPERKM = 0.056;
+    public static final double LITREPERKM = 0.056;
 
     /**
      * @param pricePredictionService
@@ -29,7 +29,7 @@ public abstract class RoutingStrategy implements IRoutingStrategy {
      * @param y gasStation y
      * @return
      */
-    protected static double distanceGasStation(GasStation x, GasStation y) {
+    public static double distanceGasStation(GasStation x, GasStation y) {
         return getDistance(x.getLat(), x.getLon(), y.getLat(), y.getLon());
     }
 
@@ -60,7 +60,7 @@ public abstract class RoutingStrategy implements IRoutingStrategy {
         return sum;
     }
 
-    protected static List<GasStation> mapStations(List<GasStop> stops) {
+    public static List<GasStation> mapStations(List<GasStop> stops) {
         return stops.stream().map(GasStop::getStation).collect(Collectors.toList());
     }
 
