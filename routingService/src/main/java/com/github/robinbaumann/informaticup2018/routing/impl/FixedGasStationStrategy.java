@@ -3,7 +3,6 @@ package com.github.robinbaumann.informaticup2018.routing.impl;
 import com.github.robinbaumann.informaticup2018.model.GasStop;
 import com.github.robinbaumann.informaticup2018.model.GasStrategy;
 import com.github.robinbaumann.informaticup2018.routing.api.IPricePredictionService;
-import com.github.robinbaumann.informaticup2018.routing.api.RoutingStrategy;
 
 import java.util.LinkedList;
 import java.util.List;

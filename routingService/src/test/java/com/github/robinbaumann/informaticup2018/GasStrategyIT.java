@@ -26,19 +26,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class GasStrategyIT {
     private final static Gson GSON = Converters.registerOffsetDateTime(new GsonBuilder()).create();
-    private final static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ssZ")
-            .withLocale(Locale.GERMANY).withZone(ZoneId.systemDefault());
 
     public static class TestSparkApp implements SparkApplication {
         @Override
@@ -58,7 +53,7 @@ public class GasStrategyIT {
 
     @Test
     public void a_ok_with_bertha_benz() throws IOException, HttpClientException {
-        RouteRequest request = parseCsv("Bertha Benz Memorial Route");
+        RouteRequest request = CsvParsing.parseCsv("Bertha Benz Memorial Route", getClass());
         PostMethod post = testServer.post(
                 Router.API_PREFIX + Router.GASSTRAT_ROUTE,
                 GSON.toJson(request),
@@ -73,28 +68,6 @@ public class GasStrategyIT {
         }
     }
 
-    private RouteRequest parseCsv(String nameWithoutExt) throws IOException {
-        List<String> lines = new ArrayList<>();
-        try (InputStream stream = getClass().getResourceAsStream(nameWithoutExt + ".csv");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-            String readLine;
-            while ((readLine = reader.readLine()) != null) {
-                lines.add(readLine);
-            }
-        }
-        int capa = Integer.parseInt(lines.get(0));
-        List<RoutePoint> stops = new ArrayList<>();
-        for (int i = 1; i < lines.size(); i++) {
-            String line = lines.get(i);
-            String[] parts = line.split(";");
-            //can't handle this format otherwise...
-            String date = parts[0].replace(" ", "T") + ":00";
-            OffsetDateTime time = OffsetDateTime.parse(date);
-            int stationId = Integer.parseInt(parts[1]);
-            stops.add(new RoutePoint(stationId, time));
-        }
-        return new RouteRequest(capa, stops);
-    }
 }
 
 

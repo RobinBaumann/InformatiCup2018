@@ -1,12 +1,14 @@
-package com.github.robinbaumann.informaticup2018.routing.api;
+package com.github.robinbaumann.informaticup2018.routing.impl;
 
 import com.github.robinbaumann.informaticup2018.model.GasStation;
 import com.github.robinbaumann.informaticup2018.model.GasStop;
+import com.github.robinbaumann.informaticup2018.routing.api.IPricePredictionService;
+import com.github.robinbaumann.informaticup2018.routing.api.IRoutingStrategy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class RoutingStrategy implements IRoutingStrategy{
+public abstract class RoutingStrategy implements IRoutingStrategy {
 
     protected IPricePredictionService pricePredictionService;
     protected static final double EARTHRADIUS = 6378.388;
