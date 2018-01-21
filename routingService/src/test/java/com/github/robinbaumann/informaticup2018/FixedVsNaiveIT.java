@@ -42,75 +42,27 @@ public class FixedVsNaiveIT {
 
     @Test
     public void fixed_knows_bertha_better_than_naive() throws IOException {
-        RouteRequest request = CsvParsing.parseRouteCsv("Bertha Benz Memorial Route", getClass());
-        Request mock = mock(Request.class);
-        when(mock.body()).thenReturn(GSON.toJson(request));
-        GasStrategy fixed = GSON.fromJson(fixedHandler.getStationsByRoute(mock, null), GasStrategy.class);
-        GasStrategy naive = GSON.fromJson(naiveHandler.getStationsByRoute(mock, null), GasStrategy.class);
-        double fixedPrice = 0;
-        double naivePrice = 0;
-        for (GasStop stop : fixed.getStops()) {
-            fixedPrice += stop.getPrice() * stop.getAmount();
-        }
-        for (GasStop stop : naive.getStops()) {
-            naivePrice += stop.getPrice() * stop.getAmount();
-        }
-        assertThat(fixedPrice, lessThan(naivePrice));
+        test_route("Bertha Benz Memorial Route");
     }
     @Test
     public void fixed_knows_a_better_than_naive() throws IOException {
-        RouteRequest request = CsvParsing.parseRouteCsv("test2", getClass());
-        Request mock = mock(Request.class);
-        when(mock.body()).thenReturn(GSON.toJson(request));
-        GasStrategy fixed = GSON.fromJson(fixedHandler.getStationsByRoute(mock, null), GasStrategy.class);
-        GasStrategy naive = GSON.fromJson(naiveHandler.getStationsByRoute(mock, null), GasStrategy.class);
-        double fixedPrice = 0;
-        double naivePrice = 0;
-        for (GasStop stop : fixed.getStops()) {
-            fixedPrice += stop.getPrice() * stop.getAmount();
-        }
-        for (GasStop stop : naive.getStops()) {
-            naivePrice += stop.getPrice() * stop.getAmount();
-        }
-        assertThat(fixedPrice, lessThan(naivePrice));
+        test_route("test1");
     }
     @Test
     public void fixed_knows_b_better_than_naive() throws IOException {
-        RouteRequest request = CsvParsing.parseRouteCsv("test5", getClass());
-        Request mock = mock(Request.class);
-        when(mock.body()).thenReturn(GSON.toJson(request));
-        GasStrategy fixed = GSON.fromJson(fixedHandler.getStationsByRoute(mock, null), GasStrategy.class);
-        GasStrategy naive = GSON.fromJson(naiveHandler.getStationsByRoute(mock, null), GasStrategy.class);
-        double fixedPrice = 0;
-        double naivePrice = 0;
-        for (GasStop stop : fixed.getStops()) {
-            fixedPrice += stop.getPrice() * stop.getAmount();
-        }
-        for (GasStop stop : naive.getStops()) {
-            naivePrice += stop.getPrice() * stop.getAmount();
-        }
-        assertThat(fixedPrice, lessThan(naivePrice));
+        test_route("test2");
     }
     @Test
     public void fixed_knows_c_better_than_naive() throws IOException {
-        RouteRequest request = CsvParsing.parseRouteCsv("test6", getClass());
-        Request mock = mock(Request.class);
-        when(mock.body()).thenReturn(GSON.toJson(request));
-        GasStrategy fixed = GSON.fromJson(fixedHandler.getStationsByRoute(mock, null), GasStrategy.class);
-        GasStrategy naive = GSON.fromJson(naiveHandler.getStationsByRoute(mock, null), GasStrategy.class);
-        double fixedPrice = 0;
-        double naivePrice = 0;
-        for (GasStop stop : fixed.getStops()) {
-            fixedPrice += stop.getPrice() * stop.getAmount();
-        }
-        for (GasStop stop : naive.getStops()) {
-            naivePrice += stop.getPrice() * stop.getAmount();
-        }
-        assertThat(fixedPrice, lessThan(naivePrice));
+        test_route("test3");
     }
     @Test
     public void fixed_knows_d_better_than_naive() throws IOException {
-        RouteRequest request = CsvParsing.parseRouteCsv("test8", getClass());
+        test_route("test4");
+    }
+
+    private void test_route(String name) throws IOException {
+        RouteRequest request = CsvParsing.parseRouteCsv(name, getClass());
         Request mock = mock(Request.class);
         when(mock.body()).thenReturn(GSON.toJson(request));
         GasStrategy fixed = GSON.fromJson(fixedHandler.getStationsByRoute(mock, null), GasStrategy.class);
