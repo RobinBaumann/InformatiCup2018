@@ -2,6 +2,7 @@ package com.github.robinbaumann.informaticup2018.routing.impl;
 
 import com.github.robinbaumann.informaticup2018.model.GasStop;
 import com.github.robinbaumann.informaticup2018.model.GasStrategy;
+import com.github.robinbaumann.informaticup2018.model.StationNotReachableException;
 import com.github.robinbaumann.informaticup2018.routing.api.IPricePredictionService;
 
 import java.util.LinkedList;
@@ -28,7 +29,7 @@ public class FixedGasStationStrategy extends RoutingStrategy {
      * @param reserve  start fuel of tank
      */
     @Override
-    public GasStrategy calculateRoute(List<GasStop> route, double capacity, double reserve) {
+    public GasStrategy calculateRoute(List<GasStop> route, double capacity, double reserve) throws StationNotReachableException {
         int startIndex = 0;
         GasStop firstStop = route.get(0);
         for (GasStop gasStop : route) {
@@ -65,14 +66,19 @@ public class FixedGasStationStrategy extends RoutingStrategy {
      * @param capacity   capacity of tank
      * @return
      */
-    protected static int getSuccessor(LinkedList<GasStop> route, int startIndex, double capacity) {
+    protected static int getSuccessor(LinkedList<GasStop> route, int startIndex, double capacity) throws StationNotReachableException {
         LinkedList<GasStop> prio = new LinkedList<>();
+        int potentialNextStations = 0;
         for (int successorIndex = startIndex + 1; successorIndex < route.size() - 1; successorIndex++) {
+            potentialNextStations++;
             if (distanceByRange(mapStations(route), startIndex, successorIndex) * LITREPERKM < (capacity))
                 prio.add(route.get(successorIndex));
         }
-        if (prio.size() <= 0)
+        if (prio.size() <= 0 && potentialNextStations == 0) {
             return NOSUCCESSOR;
+        } else if (prio.size() <= 0 && potentialNextStations > 0) {
+            throw new StationNotReachableException();
+        }
         prio.sort(new GasStopComparator(route.getLast()));
         return route.indexOf(prio.getFirst());
     }
