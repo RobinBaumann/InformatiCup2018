@@ -7,3 +7,11 @@ Solution/__pycache__/
 /routingService/main/frontend/node_modules
 /routingService/main/frontend/resources
 /model/data
+/docs/*.log
+/docs/*.gz
+/docs/*.bbl
+/docs/*.blg
+/docs/*.fdb_latexmk
+/docs/*.fls
+/docs/*.ilg
+/docs/*.ind

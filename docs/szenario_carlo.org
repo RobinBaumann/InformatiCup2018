@@ -1,0 +1,26 @@
+* Anwendungsszenario
+Die im Rahmen der Studienarbeit implementierte Anwendung stellt ein \ac{POC} dar. Es wurden einige Annahmen getroffen, die die Anwendung für den Einsatz unter realen Bedingungen ungeeignet machen. So erwartet die Anwendung eine Route als Eingabe, die aus einzelnen Tankstellen, sowie der Ankunftszeit an diesen Tankstellen besteht. Auch wurde keine Rücksicht darauf genommen, dass sich die Daten, die der Preisberechnung zugrunde liegen ständig ändern. Dieses Kapitel ist ein Gedankenexperiment, um die Schritte aufzuzeigen, die im Falle einer realen Verwendung der Anwendung nötig wären. Um dies zu erreichen wird zuerst ein reales Einsatzszenarion definiert und anschließend werden die erforderlichen Schritte näher erläutert.
+
+** Definition des Szenarios
+Es ist recht unrealistisch, dass ein Benutzer Autoreisen plant indem er sämtliche Tankstellen entlang seiner Route ermittelt und die jeweilige Ankunftszeit an den Tankstellen berechnet. Eine bessere \ac{UX} wäre es die Kalenderdaten des Benutzers abzufragen. Auf Basis der Termine im Kalender kann eine optimale Route berechnet werden.
+
+Es wird die Annahme getroffen, dass die Termine im Kalender jeweils mit einer Adresse versehen sind und dass die Strecke von Termin zu Termin jeweils mit dem Auto bewältigt wird. Die Anwendung könnte so die optimale Route und Tankstrategie für einen gewissen Planungshorizont berechnen.
+
+Dieser Anwendungsfall könnte auch von Privatpersonen auf Speditionen übertragen werden, um die Treibstoffkosten im Güterverkehr zu senken.
+
+** Erweiterung der Anwendung
+
+
+* outline todo remove
+- Einleitung/Motivation für Kapitel
+- Definition von realen Bedingungen
+- Gedankenexperiment zur Erfüllung der realen Bedingungen
+  - reales Anwendungsszenario mit Einschränkung (kein Logging, Usermanagement etc)
+  - Definition der benötigten Daten und festlegen der Updatehäufigkeit
+  - Abhängigkeiten der Anwendung auf diese Daten
+  - Strategie zur Neuberechnung/Änderung von Teilen der Anwendung
+  - Skalierbarkeit
+- Ausblick: Probleme an 'realem Szenario'
+- weitere Möglichkeiten zur Verbesserung
+  - realer Verbrauch mit Feedback
+  - reale Preise mit Feedback
