@@ -1,94 +1,158 @@
-\documentclass[12pt]{report}
-\usepackage[a4paper]{geometry}
-\usepackage[myheadings]{fullpage}
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage{graphicx, wrapfig, subcaption, setspace, booktabs}
-\usepackage[T1]{fontenc}
-\usepackage[font=small, labelfont=bf]{caption}
-\usepackage{fourier}
-\usepackage[protrusion=true, expansion=true]{microtype}
-\usepackage[ngerman]{babel}
-\usepackage{sectsty}
-\usepackage{url, lipsum}
-\usepackage[utf8]{inputenc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Descr:       Vorlage für Berichte der DHBW-Karlsruhe
+%% Author:      Prof. Dr. Jürgen Vollmer, vollmer@dhbw-karlsruhe.de
+%% $Id: bericht.tex,v 1.19 2016/03/16 16:59:41 vollmer Exp $
+%%  -*- coding: utf-8 -*-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[
+ngerman          % neue deutsche Rechtschreibung
+,a4paper          % Papiergrösse
+% ,twoside          % Zweiseitiger Druck (rechts/links)
+% ,10pt             % Schriftgrösse
+,11pt
+% ,12pt
+,pdftex
+%  ,disable         % Todo-Markierungen auschalten
+]{report}
+
+% Bitte die Codierung Ihrer Dateien auswählen:
+% \usepackage[latin1]{inputenc}    % Für UNIX mit ISO-LATIN-codierten Dateien
+% \usepackage[applemac]{inputenc}  % Für Apple Mac
+% \usepackage[ansinew]{inputenc}   % Für Microsoft Windows
+\usepackage[utf8]{inputenc}        % UTF-8 codierte Dateien
+% Dieses Dokument ist unter Unix erstellt, daher
+% wird diese Input-Codierung benutzt.
+\usepackage{setspace}
+\usepackage{bericht}
+\usepackage{titlesec} 
 \usepackage{amsmath}
-\usepackage{listings}
-\usepackage{float}
-\usepackage{hyperref}
 \usepackage{multirow}
-\usepackage{hyperref}
-\usepackage{graphicx}
-\usepackage{acronym}
+\usepackage{eurosym}
+\titleformat{\chapter}{\bfseries\Huge}{\thechapter.\quad}{0em}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Angaben zur Arbeit
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Autor}{Robin Baumann, Carlo Götz, Tom Ganz}
+\newcommand{\MatrikelNummer}{}
+\newcommand{\Kursbezeichnung}{TINF15B5}
+
+\newcommand{\FirmenName}{}
+\newcommand{\FirmenStadt}{}
+\newcommand{\FirmenLogoDeckblatt}{}
+
+% Falls es kein Firmenlogo gibt:
+%  \newcommand{\FirmenLogoDeckblatt}{}
+
+\newcommand{\BetreuerFirma}{}
+\newcommand{\BetreuerDHBW}{Prof. Dr. Johannes Freudenmann}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Was}{Studienarbeit}
+% Wird auf dem Deckblatt in der Erklärung benutzt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Titel}{InformatiCup 2018 - IntelliTank}
+\newcommand{\AbgabeDatum}{22. Mai 2018}
+
+\newcommand{\Dauer}{3. Studienjahr}
+
+% \newcommand{\Abschluss}{Bachelor of Engineering}
+\newcommand{\Abschluss}{Bachelor of Science}
+
+% \newcommand{\Studiengang}{Informationstechnik}
+\newcommand{\Studiengang}{Angewandte Informatik}
+
+\hypersetup{%%
+	pdfauthor={\Autor},
+	pdftitle={\Titel},
+	pdfsubject={\Was}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Wenn \includeonly{..} benutzt wird, werden nur diese Kaptitel ausgegeben.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Benutzt man das "biblatex"-Paket, dann muß das hier stehen:
+% siehe auch die mit BIBLATEX markierten Zeilen in bericht.sty
+%\addbibresource{}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\Titel}
+\renewcommand{\headrulewidth}{0.4pt} %obere Trennlinie
+\renewcommand{\footrulewidth}{0.4pt} %untere Trennlinie
+\fancyfoot[R]{\thepage} %Seitennummer
+\fancyfoot[L]{\Autor \vspace{1ex} | TINF15B5}
+\fancypagestyle{plain}{}% damit auch "plain" Seiten fancy werden
 
 % argmin command for math env
 \DeclareMathOperator*{\argmin}{arg\,min}
 
-
-\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
-\onehalfspacing
-\setcounter{tocdepth}{5}
-\setcounter{secnumdepth}{5}
-
-%-------------------------------------------------------------------------------
-% HEADER & FOOTER
-%-------------------------------------------------------------------------------
-\pagestyle{fancy}
-\fancyhf{}
-\setlength\headheight{15pt}
-\fancyhead[L]{Robin Baumann, Tom Ganz, Carlo Götz}
-\fancyhead[R]{DHBW Karlsruhe}
-\fancyfoot[C]{\thepage}
-%-------------------------------------------------------------------------------
-% TITLE PAGE
-%-------------------------------------------------------------------------------
-
 \begin{document}
+\pagenumbering{Roman}
 
-\title{ \normalsize \textsc{InformatiCup 2018}
-		\\ [2.0cm]
-		\HRule{0.5pt} \\
-		\LARGE \textbf{\uppercase{Intellitank}}
-		\HRule{2pt} \\ [0.5cm]
-		\normalsize \today \vspace*{5\baselineskip}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\date{}
+\begin{titlepage}
+	\begin{center}
+		\vspace*{-2cm}
+		\FirmenLogoDeckblatt\hfill\includegraphics[width=4cm]{images/dhbw-logo}\\[2cm]
+		{\Huge \Titel}\\[2cm]
+		{\Huge\scshape \Was}\\[2cm]
+		{\large für die Prüfung zum}\\[0.5cm]
+		{\Large \Abschluss}\\[0.5cm]
+		{\large des Studienganges \Studiengang}\\[0.5cm]
+		{\large an der}\\[0.5cm]
+		{\large Dualen Hochschule Baden-Württemberg Karlsruhe}\\[0.5cm]
+		{\large von}\\[0.5cm]
+		{\large\bfseries \Autor}\\[1cm]
+		{\large Abgabedatum \AbgabeDatum}
+		\vfill
+	\end{center}
+	\begin{tabular}{l@{\hspace{2cm}}l}
+		Zeitraum	         & \Dauer 			\\
+		Kurs			         & \Kursbezeichnung		\\
+		%Betreuer der Ausbildungsfirma	 & \BetreuerFirma		\\
+		Gutachter der Studienakademie	 & \BetreuerDHBW		\\
+	\end{tabular}
+\end{titlepage}
 
-\author{
-		Robin Baumann, Tom Ganz, Carlo Götz \\
-        robin-baumann@outlook.com, \\
-        tomganzka@gmail.com, \\
-        carlo.goetz@gmail.com \\
-		Duale Hochschule Baden-Württemberg, Karlsruhe}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\maketitle
-\clearpage
-\pagenumbering{roman} 
+% Nur für Bachelorarbeiten einfügen:
+\input{includes/erklaerung.tex}
+
+\newpage
+
+\begingroup
+\parskip=-1pt
 \tableofcontents
-\newpage
-\section*{Abkürzungen}
-\begin{acronym}
-\acro{API}{Application Programming Interface}
-\acro{ARMA}{Autoregressive-Moving Average}
-\acro{CLI}{Command Line Interface}
-\acro{CORS}{Cross-Origin Resource Sharing}
-\acro{CSV}{Comma Separated Values}
-\acro{DI}{Dependency Injection}
-\acro{HTTP}{Hypertext Transfer Protocol}
-\acro{IOC}{Inversion Of Control}
-\acro{JSF}{Java Server Faces}
-\acro{JSON}{Javascript Object Notation}
-\acro{MAE}{Mean Absolute Error}
-\acro{OSM}{Open Street Map}
-\acro{RDBMS}{Relational Database Management System}
-\acro{RMSE}{Root Mean Squared Error}
-\acro{SPA}{Single Page Application}
-\end{acronym}
-\newpage
-%-------------------------------------------------------------------------------
-% Section title formatting
-\sectionfont{\scshape}
-%-------------------------------------------------------------------------------
+\endgroup
+
+\begingroup
+\renewcommand\clearpage{\relax}
+\listoffigures
+\listoftables
+\endgroup              % Liste der Tabellen
+% \lstlistoflistings         % Liste der Listings
+%\listofequations           % Liste der Formeln
+
+% Jetzt kommt der "eigentliche" Text
+\include{includes/abk}              % Abkürzungsverzeichnis
+
+
+
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
 
 %-------------------------------------------------------------------------------
 % BODY
@@ -570,9 +634,9 @@ Zusätzlich zu den oben genannten Routen wurden noch vier weitere erstellt zur E
     	\hline
 		\textbf{Typ} & Tankstrategie \\ 
 		\textbf{Dateiname} & test1.csv \\
-        \textbf{Naive Strategie} & 50.96€ \\
-        \textbf{Optimale Strategie} & 25.70€ \\
-  		\textbf{Günstiger} & 25.26€ \\
+        \textbf{Naive Strategie} & 50.96 \euro{} \\
+        \textbf{Optimale Strategie} & 25.70\euro{} \\
+  		\textbf{Günstiger} & 25.26\euro{} \\
         \textbf{\% günstiger} & 50\% \\
 		\hline 
 	\end{tabular}
@@ -584,9 +648,9 @@ Zusätzlich zu den oben genannten Routen wurden noch vier weitere erstellt zur E
     	\hline
 		\textbf{Typ} & Tankstrategie \\ 
 		\textbf{Dateiname} & test2.csv \\
-        \textbf{Naive Strategie} & 138.08€ \\
-        \textbf{Optimale Strategie} & 56.02€ \\
-  		\textbf{Günstiger} & 82.06€ \\
+        \textbf{Naive Strategie} & 138.08\euro{} \\
+        \textbf{Optimale Strategie} & 56.02\euro{} \\
+  		\textbf{Günstiger} & 82.06\euro{} \\
         \textbf{\% günstiger} & 40\% \\
 		\hline 
 	\end{tabular}
@@ -598,9 +662,9 @@ Zusätzlich zu den oben genannten Routen wurden noch vier weitere erstellt zur E
     	\hline
 		\textbf{Typ} & Tankstrategie \\ 
 		\textbf{Dateiname} & test3.csv \\
-        \textbf{Naive Strategie} & 118.01€ \\
-        \textbf{Optimale Strategie} & 68.17€ \\
-  		\textbf{Günstiger} & 49.84€ \\
+        \textbf{Naive Strategie} & 118.01\euro{} \\
+        \textbf{Optimale Strategie} & 68.17\euro{} \\
+  		\textbf{Günstiger} & 49.84\euro{} \\
         \textbf{\% günstiger} & 57\% \\
 		\hline 
 	\end{tabular}
@@ -612,9 +676,9 @@ Zusätzlich zu den oben genannten Routen wurden noch vier weitere erstellt zur E
     	\hline
 		\textbf{Typ} & Tankstrategie \\ 
 		\textbf{Dateiname} & test4.csv \\
-        \textbf{Naive Strategie} & 46.36€ \\
-        \textbf{Optimale Strategie} & 28.08€ \\
-  		\textbf{Differenz} & 18.28€ \\
+        \textbf{Naive Strategie} & 46.36\euro{} \\
+        \textbf{Optimale Strategie} & 28.08\euro{} \\
+  		\textbf{Differenz} & 18.28\euro{} \\
         \textbf{\% günstiger} & 60\% \\
 		\hline 
 	\end{tabular}
