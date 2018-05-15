@@ -8,8 +8,24 @@ Es wird die Annahme getroffen, dass die Termine im Kalender jeweils mit einer Ad
 
 Dieser Anwendungsfall könnte auch von Privatpersonen auf Speditionen übertragen werden, um die Treibstoffkosten im Güterverkehr zu senken.
 
-** Erweiterung der Anwendung
+** Anpassung des Algorithmus
+Damit die Anwendung für dieses Szenario geeignet ist, müssen mehrere Teile angepasst werden. Die Anwendung verwendet bereits \ac{OSM} Daten, um weitere Features für die einzelnen Tankstellen zu ermitteln. Momentan werden hierfür lediglich Daten für Autobahnen, Schnell- und Bundesstraßen, Landes- und Kreisgrenzen verwendet. Diese Daten reichen für die erweiterten Anforderungen des Szenarios nicht aus.
 
+Um die Routen zwischen den einzelnen Terminen zu ermitteln kann /PostgreSQL/PostGIS/ durch /pgRouting/ [fn::http://www.pgrouting.org] erweitert werden. Diese Erweiterung benötigt als Grundlage einen gewichteten Graphen. Dieser Graph kann aus \ac{OSM}-Daten erstellt werden.
+
+Um eine Route zu ermitteln benötigt /pgRouting/ jeweils die Id des Start- und Endknoten des Graphen. Deshalb muss es möglich sein von \ac{OSM}-Geometrien auf die entsprechende Id des Knoten zu schließen. Da der Benutzer seine Route anhand von Adressen in das System eingibt müssen diese zuerst in Geokoordinaten umgewandelt werden. Dieser Vorgang nennt sich /reverse geocoding/ und ist auch auf Basis von \ac{OSM}-Daten möglich. Dazu kann die Software /Nominatim/ [fn::http://www.nominatim.org] verwendet werden. Die Geokoordinaten der Adresse genügen zur Ermittlung der Ids jedoch noch nicht. In einem weiteren Schritt muss die nächste Geometrie, die eine Repräsentierung im Graphen besitzt, ermittelt werden. Zur Beschleunigung dieser Query empfiehlt sich der Einsatz eines spatial index.
+
+Um den Suchraum für die Route einzuschränken, empfiehlt es sich nur einen Teil des Graphen auszuwerten. Dies kann erreicht werden indem nur Knoten und Kanten verwendet werden, deren Geometrie innerhalb einer Bounding Box liegen. Eine einfache Lösung zur Ermittlung der Bounding Box wäre es die Koordinaten des Start- und Endpunktes zu ermitteln und ein Rechteck um diese zu legen und anschließend um einen Puffer zu erweitern.
+
+Nachdem die optimale Route zwischen den Terminen ermittelt wurde geht es im nächsten Schritt darum Tankstellen entlang dieser Route zu finden. Die Route besteht aus Kanten des gewichteten Graphen und muss zuerst wieder in eine Geometrie übersetzt werden. Mit dieser Geometrie ist es möglich Tankstellen in einer gewissen Entfernung über einen Join der Tankstellen Tabelle zu ermitteln. Die gewünschte maximale Entfernung kann dabei im Join-Prädikat angegeben werden.
+
+Im nächsten Schritt werden für die Tankstellen die entsprechenden Knoten der Routing-Datenbasis ermittelt. Es kann sein, dass diese Knoten noch nicht im Subgraphen, der für die Ermittlung der Route verwendet wurde enthalten sind. In diesem Fall muss der Subgraph erweitert werden. Mit diesen Daten kann nun die zu erwartende Ankunftszeit an den Tankstellen ermittelt werden. Über die Ankunftszeit kann anschließend der Preis vorhergesagt werden.
+
+Der Graph mit der Route, Tankstellen und Preisen kann anschließend ausgewertet werden, um eine optimale Tankstrategie zu ermitteln. Dazu kann der Algorithmus von Lin \cite{transnet} verwendet werden. Der Algorithmus weist eine Zeitkomplexität von $O(n^3)$ auf, wobei $n$ die Anzahl an Knoten im Graphen bezeichnet. Dies kann bei langen Routen zu einer sehr hohen Laufzeit führen. Es wäre zu prüfen, ob eine Optimierung durch die Verwendung von evolutionären Algorithmen zu schnelleren Ergebnissen ähnlicher Güte führt.
+
+Im nächsten Abschnitt wird aufgezeigt welche Daten, für den angepassten Algorithmus verwendet werden und wie diese aktuell gehalten werden können.
+
+** Daten und ihre Änderungen
 
 * outline todo remove
 - Einleitung/Motivation für Kapitel
@@ -24,3 +40,6 @@ Dieser Anwendungsfall könnte auch von Privatpersonen auf Speditionen übertrage
 - weitere Möglichkeiten zur Verbesserung
   - realer Verbrauch mit Feedback
   - reale Preise mit Feedback
+* Todos
+** TODO checken, ob orgmode footnotes in tex ankommen
+** TODO bild erstellen, um routing, geocoding, bbox etc. zu erklären. im text bezug auf grafik einbauen
