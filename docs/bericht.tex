@@ -81,7 +81,7 @@ ngerman          % neue deutsche Rechtschreibung
 
 % Benutzt man das "biblatex"-Paket, dann muß das hier stehen:
 % siehe auch die mit BIBLATEX markierten Zeilen in bericht.sty
-%\addbibresource{}
+\addbibresource{bericht.bib}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -163,17 +163,19 @@ ngerman          % neue deutsche Rechtschreibung
 
 \section{InformatiCup}
 
-Die hier beschriebene Arbeit behandelt die Lösung der Aufgabe Intellitank. Diese ist Bestandteil des 13. InformatiCup-Wettbewerbs welcher von der Gesellschaft für Informatik e.V. organisiert wird.
-Anlässlich des InformatiCup's treten Teams aus verschiedenen Universitäten gegeneinander an um Ihre Lösungen vorzustellen. Die besten vier werden durch eine Jury gekürt und erhalten einen Preis.
+Die hier beschriebene Arbeit behandelt die Lösung der Aufgabe IntelliTank. Diese ist Bestandteil des 13. InformatiCup-Wettbewerbs, welcher von der Gesellschaft für Informatik e.V. jährlich organisiert wird.
+Anlässlich des InformatiCups treten Teams aus verschiedenen Universitäten gegeneinander an, um Ihre Lösungen vorzustellen. Die besten vier werden durch eine Jury gekürt und erhalten einen Preis, sowie eine Einladung zu einer Fachtagung der Gesellschaft für Informatik, auf welcher sie ihre Lösung einem Publikum präsentieren dürfen.
 
 \section{Aufgabenstellung}
 
-Das diesjährige Problem, welches es zu lösen gilt wurde 'Intellitank' getauft. Aufgabe ist es ein Modell zu entwerfen, welches es ermöglicht zukünftige Benzinpreis(Superkraftstoff E5)-Entwicklungen an allen Tankstellen Deutschlands mit einer gewissen Signifikanz - aber mindestens einen Monat voraus, vorhersagen zu können. Als Grundlage dieser Arbeit wird von 'Tankerkönig.de' eine Datenbasis zur Verfügung gestellt. Diese beinhaltet die unbereinigten historischen Benzinpreise von rund 15.000 Tankstellen in Deutschland seit 2014. Mithilfe dieser Grundlage ist es möglich eine Korrelationsanalyse durchzuführen. Jedoch ist gefordert, weitere Datenquellen, für ein besseres Ergebnis, mit in das Modell einzubeziehen.\\
-Abhängig davon soll eine Anwendung entworfen werden, welche auf Basis des Vorhersage Modells einer gegebenen Route eine optimale Tankstrategie liefert.
-Zur Einfachheit wird eine Route definiert durch verschiedene Stopps an Tankstellen und den jeweiligen Zeitpunkt an den man ihn erreicht. Die Anwendung soll also zu diesen Zeitpunkten der jeweiligen Tankstelle einen vorhergesagten Preis festlegen und als Ergebnis zu jeder Tankstelle eine optimale Tankmenge Benzin ermitteln.
+Die diesjährige Problemstellung trägt den Namen IntelliTank. Aufgabe ist es, ein Modell zur Vorhersage zukünftiger Benzinpreis(Superkraftstoff E5)-Entwicklungen an allen Tankstellen Deutschlands zu entwickeln. Die Vorhersagen sollen dabei bis zu einem Monat voraus mit einer gewissen Signifikanz berechnet werden. Als Grundlage dieser Arbeit wird von Tankerkönig.de eine Datenbasis zur Verfügung gestellt. Diese beinhaltet die unbereinigten historischen Benzinpreise von rund 15.000 Tankstellen in Deutschland seit 2013. Mithilfe dieser Grundlage ist es möglich eine Korrelationsanalyse durchzuführen. Zusätzlich können weitere Datenquellen mit in das Modell einbezogen werden, um die allgemeine Vorhersagegüte des statistischen Modells zu verbessern.\\
+
+%TODO: Bitte nochmal umformulieren. Sonst einfach Copy Paste aus der Aufgabenstellung der GI.
+Abhängig davon soll eine Anwendung entworfen werden, welche auf Basis des Vorhersagemodells zu einer gegebenen Route eine optimale Tankstrategie liefert.
+Zur Einfachheit wird eine Route definiert durch verschiedene Stopps an Tankstellen und dem jeweiligen Zeitpunkt an den man ihn erreicht. Die Anwendung soll also zu diesen Zeitpunkten der jeweiligen Tankstelle einen vorhergesagten Preis festlegen und als Ergebnis zu jeder Tankstelle eine optimale Menge Benzin ermitteln.
 
 \section{Motivation}
-Das Auto ist in Deutschland das Fortbewegungsmittel Nummer 1. Einer Umfrage des Umweltbundesamtes (UBA) zufolge sind 37 Prozent der Menschen in Deutschland (ab 14 Jahre) täglich mit dem Kfz unterwegs \cite{fortbewegung}. Außerdem gibt ein Privathaushalt in Deutschland jeden Monat rund 100 Euro für Autokraftstoff aus. Auch wenn die Elektromobilität stark auf dem Vormarsch ist, besitzen die meisten Deutschen noch ein Fahrzeug mit einem Verbrennungsmotor. 
+Das Auto ist in Deutschland das Fortbewegungsmittel Nummer 1. Einer Umfrage des Umweltbundesamtes (UBA) zufolge sind 37 Prozent der Menschen in Deutschland (ab 14 Jahre) täglich mit dem Kfz unterwegs \cite{fortbewegung}. Außerdem gibt ein Privathaushalt in Deutschland jeden Monat rund 100 Euro für Autokraftstoff aus. Auch wenn die Elektromobilität stark auf dem Vormarsch ist, besitzen die meisten Deutschen noch ein Fahrzeug mit einem Verbrennungsmotor. Durch eine intelligente, vorausschauende Tankstrategie lässt sich bares Geld sparen. 
 
 
 \chapter{Theoretische Grundlagen}
@@ -813,43 +815,12 @@ Durch Klick auf die Top-Navigation, um den Reiter zu öffnen, werden die vorherg
 
 Zusätzlich bietet der Reiter die Möglichkeit die Routen zu löschen oder herunterzuladen.
 
-
-
-
-
-%-------------------------------------------------------------------------------
-% REFRENCES
-%-------------------------------------------------------------------------------
-
-\begin{thebibliography}{1}
-
-\bibitem{fortbewegung} Brandt, Mathias {\em Auto ist in Deutschland immer noch die Nummer 1. statista.com \url{https://de.statista.com/infografik/9162/nutzung-von-verkehrsmitteln-in-deutschland/} (letzter Zugriff: 21.01.2018). 28.04.2017}.
-
-\bibitem{holidays} {\em \texttt{holidays} Python Package, \url{https://pypi.python.org/pypi/holidays} (letzter Zugriff: 18.01.2018) }.
-
-\bibitem{ferien} {\em Schulferien.org Website, \url{https://www.schulferien.org/} (letzter Zugriff: 18.01.2018) }.
-
-\bibitem{osm} {\em OpenStreetMap.org Website \url{http://www.openstreetmap.org/} (letzter Zugriff: 18.01.2018)}.
-
-\bibitem{faz} Siedenbeidel, Christian {\em Das Wunder des billigen Öls. Frankfurter allgemeine Zeitung. \url{http://www.faz.net/aktuell/finanzen/devisen-rohstoffe/wie-lange-autofahrer-noch-so-billig-tanken-koennen-13363092.html} (letzter Zugriff: 19.01.2018). 10.01.2015}.
-
-\bibitem{stat} {\em statista.com Website \url{https://de.statista.com/statistik/daten/studie/776/umfrage/durchschnittspreis-fuer-superbenzin-seit-dem-jahr-1972/} (letzter Zugriff: 19.01.2018)}.
-
-\bibitem{fixedgas} Khuller, Samir et. al {\em To Fill or not to Fill: The Gas Station Problem}.
-
-\bibitem{nottingham} {\em Problem Details for HTTP APIs \url{https://tools.ietf.org/html/draft-nottingham-http-problem-06} (letzter Zugriff: 19.01.2018)}
-
-\bibitem{gof} Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides  {\em Design Patterns: Elements of Reusable Object-Oriented Software}  (10 November 1994)
-
-\bibitem{haversine} {\em Haversine-Formel \url{https://rosettacode.org/wiki/Haversine_formula} (letzter Zugriff: 19.01.2018)}.
-
-\bibitem{gbm} Friedmann, Jerome H. {\em Greedy Function Approximation: A Gradient Boosting Machine. The Annals of Statistics. 2001}
-
-\bibitem{ladestations-planung} Schwarzer, Christoph M. {\em Das Ladeelend hat ein Ende. Zeit Online: \url{http://www.zeit.de/mobilitaet/2017-03/elektroauto-infrastruktur-bundesverkehrsministerium-foerdergeld-schnell-ladestationen} (letzter Zugriff: 20.01.2018). }
-
-\bibitem{oel-strom} {\em Energiemarkt-Kommentar: Ölpreis dominiert alle Energiepreise. ISPEX AG Website \url{https://www.ispex.de/energiemarkt-kommentar-02-2016-oelpreis-dominiert-alle-energiepreise/} (letzter Zugriff: 20.01.2018).}
-
-\end{thebibliography}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+% BIBLATEX
+% Benutzt man das "biblatex"-Paket, muß man folgendes schreiben:
+\def\refname{Literaturverzeichnis}
+\printbibliography[sorting=none]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
 \end{document}
 
