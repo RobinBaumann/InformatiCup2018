@@ -23,9 +23,23 @@ Im nächsten Schritt werden für die Tankstellen die entsprechenden Knoten der R
 
 Der Graph mit der Route, Tankstellen und Preisen kann anschließend ausgewertet werden, um eine optimale Tankstrategie zu ermitteln. Dazu kann der Algorithmus von Lin \cite{transnet} verwendet werden. Der Algorithmus weist eine Zeitkomplexität von $O(n^3)$ auf, wobei $n$ die Anzahl an Knoten im Graphen bezeichnet. Dies kann bei langen Routen zu einer sehr hohen Laufzeit führen. Es wäre zu prüfen, ob eine Optimierung durch die Verwendung von evolutionären Algorithmen zu schnelleren Ergebnissen ähnlicher Güte führt.
 
-Im nächsten Abschnitt wird aufgezeigt welche Daten, für den angepassten Algorithmus verwendet werden und wie diese aktuell gehalten werden können.
+Im nächsten Abschnitt wird aufgezeigt welche Daten für den angepassten Algorithmus verwendet werden und wie diese aktuell gehalten werden können
 
 ** Daten und ihre Änderungen
+Zur Berechnung der optimalen Route werden die \ac{OSM}-Daten Deutschlands benötigt. Damit /pgRouting/ mit den Daten umgehen kann müssen sie in einen gewichteten Graphen umgewandelt werden. Dies kann mit der Funktion =pgr_createTopology= erledigt werden. Abbildung \ref{fig:osminitial} veranschaulicht diesen Vorgang.
+
+#+CAPTION: Initiales Laden von OSM Daten in die Datenbank und Erstellung eines gewichteten Graphen zur Routenberechnung
+#+NAME: fig:osminitial
+[[file:osm-data-initial.png]]
+
+Die \ac{OSM}-Daten können inkrementell geupdatet werden. Hierzu stellt \ac{OSM} sogenannte /change sets/ zur Verfügung. Diese /changesets/ können mit einem Werkzeug wie /osmosis/ [fn::https://wiki.openstreetmap.org/wiki/Osmosis] in die Datenbank eingelesen werden. Der gewichtete Graph muss bei jeder Änderung der Ursprungsdaten komplett neu berechnet werden.
+
+Die /changesets/ sind zum Beispiel als \ac{XML}-Dateien mit einer minütlichen Auflösung erhältlich. Da eine minütliche Neuberechnung des gewichteten Graphen nicht praktikabel erscheint, können die /changesets/ gesammelt und in einem täglichen oder wöchentlichen Intervall aufgespielt werden. Dieser Vorgang wird in Abbildung \ref{fig:osmdata} gezeigt. Die /changesets/ werden im /changeset buffer/ zwischengespeichert. Täglich oder wöchentlich werden sie mit /Osmosis/ in die Geometrie-Tabelle übernommen. Daraufhin wird der /changeset buffer/ geleert und der gewichtete Graph wird durch =pgr_createTopology= neu erstellt. Der Parameter =clean= sorgt dafür, dass die entsprechende Tabelle davor geleert wird.
+
+#+CAPTION: Update der OSM Geometrien und Neuberechnung des gewichteten Graphen
+#+NAME: fig:osmdata
+[[file:osm-data-update.png]]
+
 
 * outline todo remove
 - Einleitung/Motivation für Kapitel
