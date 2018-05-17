@@ -13,80 +13,88 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.1}Fixed-Path-Gas-Station Problem}{2}{section.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.2}Zeitreihenanalyse}{2}{section.2.2}
+\contentsline {section}{\numberline {2.2}Zeitreihenanalyse}{3}{section.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.3}Regression in Machine Learning}{2}{section.2.3}
+\contentsline {subsection}{\numberline {2.2.1}Gleitende Durchschnitte}{3}{subsection.2.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}Implementierungsdetails}{3}{chapter.3}
+\contentsline {subsection}{\numberline {2.2.2}Autokorrelation}{3}{subsection.2.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}Backend}{3}{section.3.1}
+\contentsline {subsection}{\numberline {2.2.3}\acl {ARMA}-Modelle}{3}{subsection.2.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1.1}Architektur}{3}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {2.2.4}Stationarit\IeC {\"a}t}{4}{subsection.2.2.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{model}{4}{figure.caption.8}
+\contentsline {section}{\numberline {2.3}Regressionsanalyse}{4}{section.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{webservice}{4}{figure.caption.8}
+\contentsline {chapter}{\numberline {3}Implementierungsdetails}{5}{chapter.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{routing}{5}{figure.caption.8}
+\contentsline {section}{\numberline {3.1}Backend}{5}{section.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{database}{5}{figure.caption.8}
+\contentsline {subsection}{\numberline {3.1.1}Architektur}{5}{subsection.3.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1.2}Persistenz}{5}{subsection.3.1.2}
+\contentsline {subsubsection}{model}{6}{figure.caption.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Geodaten}{6}{table.caption.14}
+\contentsline {subsubsection}{webservice}{6}{figure.caption.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1.3}Tests}{7}{subsection.3.1.3}
+\contentsline {subsubsection}{routing}{7}{figure.caption.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Frontend}{8}{section.3.2}
+\contentsline {subsubsection}{database}{7}{figure.caption.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2.1}Design}{8}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.1.2}Persistenz}{7}{subsection.3.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2.2}Implementierung}{8}{subsection.3.2.2}
+\contentsline {subsubsection}{Geodaten}{8}{table.caption.15}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2.3}Tests}{10}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.1.3}Tests}{9}{subsection.3.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2.4}Einschr\IeC {\"a}nkungen}{11}{subsection.3.2.4}
+\contentsline {section}{\numberline {3.2}Frontend}{10}{section.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.3}Datenverarbeitung / Preisvorhersage}{11}{section.3.3}
+\contentsline {subsection}{\numberline {3.2.1}Design}{10}{subsection.3.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.1}Feature Engineering}{11}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.2.2}Implementierung}{10}{subsection.3.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.2}Modellauswahl}{12}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.2.3}Tests}{12}{subsection.3.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.3}Training}{14}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.2.4}Einschr\IeC {\"a}nkungen}{13}{subsection.3.2.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.4}CLI}{15}{section.3.4}
+\contentsline {section}{\numberline {3.3}Datenverarbeitung / Preisvorhersage}{13}{section.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Besonderheiten / Vorteile bei bestimmten Routen / Preisvorhersagen}{16}{chapter.4}
+\contentsline {subsection}{\numberline {3.3.1}Feature Engineering}{13}{subsection.3.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Fehlerf\IeC {\"a}lle}{16}{section.4.1}
+\contentsline {subsection}{\numberline {3.3.2}Modellauswahl}{14}{subsection.3.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.1}Nicht existierende Tankstellen}{16}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {3.3.3}Training}{16}{subsection.3.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.2}Leere Tankstrategie}{16}{subsection.4.1.2}
+\contentsline {section}{\numberline {3.4}CLI}{17}{section.3.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.3}Negative Tankkapazit\IeC {\"a}t}{16}{subsection.4.1.3}
+\contentsline {chapter}{\numberline {4}Besonderheiten / Vorteile bei bestimmten Routen / Preisvorhersagen}{18}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.4}Tankstops sind nicht in zeitlicher Reihenfolge}{17}{subsection.4.1.4}
+\contentsline {section}{\numberline {4.1}Fehlerf\IeC {\"a}lle}{18}{section.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.5}Routen mit Tankstellen ohne Preisinformationen}{17}{subsection.4.1.5}
+\contentsline {subsection}{\numberline {4.1.1}Nicht existierende Tankstellen}{18}{subsection.4.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.6}Daten nach angefragtem Zeitpunkt verf\IeC {\"u}gbar}{17}{subsection.4.1.6}
+\contentsline {subsection}{\numberline {4.1.2}Leere Tankstrategie}{18}{subsection.4.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.7}Daten bis kurz vor angefragtem Zeitpunkt verf\IeC {\"u}gbar}{17}{subsection.4.1.7}
+\contentsline {subsection}{\numberline {4.1.3}Negative Tankkapazit\IeC {\"a}t}{18}{subsection.4.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.8}Routen Stops nicht erreichbar mit vollem Tank}{17}{subsection.4.1.8}
+\contentsline {subsection}{\numberline {4.1.4}Tankstops sind nicht in zeitlicher Reihenfolge}{19}{subsection.4.1.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Evaluation}{17}{section.4.2}
+\contentsline {subsection}{\numberline {4.1.5}Routen mit Tankstellen ohne Preisinformationen}{19}{subsection.4.1.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Ausblick}{19}{chapter.5}
+\contentsline {subsection}{\numberline {4.1.6}Daten nach angefragtem Zeitpunkt verf\IeC {\"u}gbar}{19}{subsection.4.1.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {A}Anleitungen}{20}{appendix.A}
+\contentsline {subsection}{\numberline {4.1.7}Daten bis kurz vor angefragtem Zeitpunkt verf\IeC {\"u}gbar}{19}{subsection.4.1.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Installationsanleitung}{20}{section*.39}
+\contentsline {subsection}{\numberline {4.1.8}Routen Stops nicht erreichbar mit vollem Tank}{19}{subsection.4.1.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Bedienungsanleitung}{20}{lstnumber.-4.1}
+\contentsline {section}{\numberline {4.2}Evaluation}{19}{section.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.0.1}Routen-Berechnung}{22}{subsection.A.0.1}
+\contentsline {chapter}{\numberline {5}Ausblick}{21}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.0.2}Preisvorhersage}{23}{subsection.A.0.2}
+\contentsline {chapter}{\numberline {A}Anleitungen}{22}{appendix.A}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Installationsanleitung}{22}{section*.39}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Bedienungsanleitung}{22}{lstnumber.-4.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.0.1}Routen-Berechnung}{24}{subsection.A.0.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.0.2}Preisvorhersage}{25}{subsection.A.0.2}

@@ -179,6 +179,9 @@ Das Auto ist in Deutschland das Fortbewegungsmittel Nummer 1. Einer Umfrage des 
 
 
 \chapter{Theoretische Grundlagen}
+
+In diesem Kapitel werden die Theoretischen Grundlagen zur in dieser Arbeit vorgestellten Lösung zum 13. InformatiCup der Gesellschaft für Informatik e.V. vorgestellt. Zunächst wird das Fixed-Path-Gas-Station Problem erklärt, welches die Basis des zu entwerfenden Routing-Algorithmus darstellt. Anschließend werden die Grundlagen der Zeitreihenanalyse und Regressionsanalyse vorgestellt.
+
 \section{Fixed-Path-Gas-Station Problem}
 
 Die hier verwendete Tankstrategie wurde implementiert nach dem Algorithmus aus der Publikation 'To Fill or Not To Fill'\cite{fixedgas}.
@@ -206,11 +209,45 @@ Ebenfalls benutzen wir eine naive Tankstrategie (immer volltanken) um sie mit un
 Die Distanz zwischen zwei Tankstellen wird mittels der Haversine-Formel zwischen zwei Geo-Punkten berechnet \cite{haversine}.
 
 \section{Zeitreihenanalyse}
+Bei einer Zeitreihe handelt es sich um eine zeitlich geordnete Sequenz von Messungen eines Systems \cite[145]{thinkstats}. Das in dieser Arbeit behandelte Problem kann als eine Zeitreihenanalyse betrachtet werden. Viele Algorithmen zur Analyse von Zeitreihen funktionieren stabiler, wenn die zu untersuchende Zeitreihe mit einer gleichmäßigen Frequenz vorliegt \cite[146]{thinkstats}. Dies ist nicht immer gegeben. In dem verwendeten Datensatz sind die Benzinpreise zu den jeweiligen Änderungszeitpunkten in der Datenbank gespeichert. Aus diesem Grund wechseln die Abstände zwischen zwei aufeinanderfolgenden Messungen von wenigen Minuten bis zu mehreren Stunden. Manche Tankstellen weisen sogar Lücken von mehreren Tagen auf. Aus diesem Grund ist eine Vorverarbeitung des Datensatzes notwendig, um die Messungen auf eine einheitliche Frequenz zu bringen. Genaueres hierzu wird in Abschnitt \ref{feng} erläutert. Auf den vorbereiteten Daten lassen sich nun unterschiedliche Methoden zur Analyse der Zeitreihe anwenden, welche nachfolgend beschrieben werden.
 
+\subsection{Gleitende Durchschnitte}
+Die meisten Zeitreihen setzen sich aus den folgenden drei Komponenten zusammen \cite[151]{thinkstats}:
 
+\begin{enumerate}
+	\item \textit{Trend}: Systematische zu- oder Abnahme.
+	\item \textit{Saisonalität}: Periodische Schwankungen.
+	\item \textit{Fluktuation}: Zufällige Abweichungen vom Langzeittrend.
+\end{enumerate}
+Zur Analyse der zugrundeliegenden Zeitreihe werden diese einzelnen Komponenten sukzessive, nicht simultan eliminiert \cite[397]{lippe}. Bei der Methode der gleitenden Durchschnitte wird dabei der Trend der zugrundeliegenden Zeitreihe berechnet. Gleitende Durchschnitte werden dabei als eine Folge arithmetischer Mittel von jeweils $p$ aufeinanderfolgenden Werten der Zeitreihe gebildet werden \cite[403]{lippe}. Durch den p-gliedrigen gleitenden Durchschnitt entsteht eine geglättete Zeitreihe, die mit größerem p immer glatter wird. 
 
-\section{Regression in Machine Learning}
+\subsection{Autokorrelation}
+Autokorrelation beschreibt die Korrelation einer Funktion mit sich selber zu einem früheren Zeitpunkt \cite[155]{thinkstats}. Um die Saisonalität herauszufinden wird die Funktion um ein sogenanntes \textit{lag}-Intervall verschoben und auf Korrelation mit der originalen Funktion geprüft. Dies wird mit unterschiedlichen Intervallen wiederholt, um entsprechend auf tägliche, wöchentliche oder monatliche Trends schließen zu können. Für jede dieser Verschiebungen wird dann der Korrelationskoeffizient im Wertebereich [0,1] berechnet. Anhand der berechneten Werte kann eine statistische Signifikanz der eventuell enthaltenen Saisonalitäten bestimmt werden.
 
+\subsection{\acl{ARMA}-Modelle}
+Ein \ac{ARMA}(p, q)- Modell setzt sich aus einem Autoregressiven AR(p) - und einem Moving Average MA(q)-Modell zusammen \cite[18]{timeseries}. Die Autoregressive Komponente berechnet zukünftige Werte aus der Linearkombination von p historischen Messwerten, einem zufälligen Fehler $\epsilon$ und einer Konstante $c$. Mathematisch wird das wie folgt formuliert:
+
+\begin{equation}
+	y_t = c + \sum_{i=1}^{p}\phi_i y_{t-i} + \epsilon_t
+\end{equation}
+
+Die Werte $\phi_i$\ $(i = 1, 2, ..., p)$ sind Modellparameter. Das MA(q)-Modell benutzt vergangene Fehler des Modells als erklärende Variable \cite[19]{timeseries} und ist wie folgt definiert:
+
+\begin{equation}
+	y_t = \mu + \sum_{i=1}^{q} \Theta_i \epsilon_{t-i} + \epsilon_t
+\end{equation}
+
+In dieser Definition beschreibt $\mu$ den Mittelwert über $q$ gleitende Durchschnitte und $\Theta_i$\ $(i=1, 2, ..., q)$ sind Modellparameter. Die Fluktuationen werden als standardnormalverteilt angenommen. Konzeptuell entspricht das Moving-Average Modell also einer linearen Regression des aktuell betrachteten Messwertes gegen die Fluktuationen eines oder mehrerer früherer Messwerte(s) \cite[19]{timeseries}. Die Kombination der beiden Einzelmodelle liefert dann das gewünschte \ac{ARMA}(p,q)-Modell, welches eine Vorhersage nach folgender mathematischen Vorschrift berechnet:
+
+\begin{equation}
+	y_t = c + \epsilon_t + \sum_{i=1}^{p}\phi_i y_{t-i} + \sum_{i=1}^{q} \Theta_i \epsilon_{t-i}
+\end{equation} 
+
+\subsection{Stationarität}
+%TODO: ARIMA kurz erklären
+
+\section{Regressionsanalyse}
+%TODO: Regression allgemein und explizit für Zeitreihenanalyse.
 
 \chapter{Implementierungsdetails}
 Zur Lösung der Aufgabenstellung wurde eine Software entwickelt, deren Aufbau im Folgenden beschrieben wird. Das Design und die Implementierung der Anwendung kann in die Teile Backend, Frontend, Fixed-Path-Gas-Station-Problem und Preisvorhersage unterteilt werden. Die einzelnen Teile werden in den nächsten Abschnitten jeweils erläutert.
@@ -392,9 +429,9 @@ Während der Entwicklung wurde der aktuellste Chrome Browser von Google verwende
 
 
 
-\section{Datenverarbeitung / Preisvorhersage}
+\section{Datenverarbeitung / Preisvorhersage} \label{feng}
 In diesem Kapitel werden unsere Entscheidungen bezüglich der verwendeten Lernalgorithmen und der Datenverarbeitung dokumentiert. 
-\subsection{Feature Engineering}
+\subsection{Feature Engineering} 
 Der erste Vorbereitungsschritt war, die vorhandenen Daten auf eine einheitliche Frequenz zu bringen. Um dies zu erreichen, wurde eine Datenbanktabelle mit stündlichen Zeitstempeln von Beginn der Aufzeichnung an bemustert. Anschließend wurde für jeden Zeitstempel ein Preis $p(t)$ nach folgendem Kriterium eingetragen:
 \begin{equation*}
 p(t) = \begin{cases}
