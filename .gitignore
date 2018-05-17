@@ -15,3 +15,6 @@ Solution/__pycache__/
 /docs/*.fls
 /docs/*.ilg
 /docs/*.ind
+/docs/.auctex-auto/
+/docs/szenario_carlo.tex
+/docs/szenario_carlo.pdf
