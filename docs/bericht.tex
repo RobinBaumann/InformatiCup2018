@@ -224,7 +224,7 @@ Zur Analyse der zugrundeliegenden Zeitreihe werden diese einzelnen Komponenten s
 \subsection{Autokorrelation}
 Autokorrelation beschreibt die Korrelation einer Funktion mit sich selber zu einem früheren Zeitpunkt \cite[155]{thinkstats}. Um die Saisonalität herauszufinden wird die Funktion um ein sogenanntes \textit{lag}-Intervall verschoben und auf Korrelation mit der originalen Funktion geprüft. Dies wird mit unterschiedlichen Intervallen wiederholt, um entsprechend auf tägliche, wöchentliche oder monatliche Trends schließen zu können. Für jede dieser Verschiebungen wird dann der Korrelationskoeffizient im Wertebereich [0,1] berechnet. Anhand der berechneten Werte kann eine statistische Signifikanz der eventuell enthaltenen Saisonalitäten bestimmt werden.
 
-\subsection{\acl{ARMA}-Modelle}
+\subsection{\acf{ARMA}-Modelle}
 Ein \ac{ARMA}(p, q)- Modell setzt sich aus einem Autoregressiven AR(p) - und einem Moving Average MA(q)-Modell zusammen \cite[18]{timeseries}. Die Autoregressive Komponente berechnet zukünftige Werte aus der Linearkombination von p historischen Messwerten, einem zufälligen Fehler $\epsilon$ und einer Konstante $c$. Mathematisch wird das wie folgt formuliert:
 
 \begin{equation}
@@ -244,7 +244,47 @@ In dieser Definition beschreibt $\mu$ den Mittelwert über $q$ gleitende Durchsc
 \end{equation} 
 
 \subsection{Stationarität}
-%TODO: ARIMA kurz erklären
+Üblicherweise werden \ac{ARMA}-Modelle mit dem Lag-Operator definiert \cite[19]{timeseries}, welcher mathematisch als $Ly_t = y_{t-1}$ definiert ist. Somit lassen sich \ac{ARMA}-Modelle mittels Lag-Polynomen wie folgt definieren:
+
+\begin{equation*}
+	AR(p)-Modell: \epsilon_t = \phi(L)y_t 
+\end{equation*}
+\begin{equation*}	
+	MA(q)-Modell: y_t = \Theta(L)\epsilon_t \
+\end{equation*}
+\begin{equation}
+	ARMA(p, q)-Modell: \phi(L)y_t = \Theta(L)\epsilon_t
+\end{equation}
+
+In diesem Fall gilt:
+\begin{equation*}
+	\phi(L) = 1-\sum_{i=1}^{p}\phi_i L_i \text{\hspace{2em} und \hspace{2em}}
+	\Theta(L) = 1 + \sum_{j=1}^{q} \Theta_j L_j
+\end{equation*}
+
+Ein solches Modell wird als stationär bezeichnet, genau dann wenn die Modellparameter Zeitunabhängig sind \cite[160]{thinkstats}. Ein \ac{ARMA}(p,q)-Modell ist stationär, wenn für alle Wurzeln aus der charakteristischen Gleichung $\phi(L) = 0$ außerhalb des Einheitskreises liegen \cite[20]{timeseries}. \ac{ARMA}-Modelle arbeiten nur auf stationären Zeitreihen zuverlässig. \\
+\par 
+
+Von Natur aus besitzen viele Zeitreihen ein nicht-stationäres Verhalten. Dies ist inhärent durch den Trend und die Saisonalität einer Zeitreihe gegeben. Aus diesem Grund können für den in dieser Arbeit verwendeten Datensatz keine einfachen \ac{ARMA}-Modelle verwendet werden. Es gibt jedoch Erweiterungen dieser \ac{ARMA}-Modelle, welche mit nicht stationären Zeitreihen umgehen können. Eine dieser Erweiterungen stellen die \ac{ARIMA}-Modelle dar, welche nachfolgend kurz beschrieben werden.
+
+\subsection{\acf{ARIMA}-Modelle}
+In \ac{ARIMA}-Modellen wird die Stationarität der Zeitreihe durch finite-Differenzierung erreicht. Mathematisch ist ein \ac{ARIMA}(p, d, q)-Modell wie folgt mit Hilfe der oben definierten Lag-Polynome definiert:
+
+\begin{equation*}
+	\phi(L)(1-L)^d y_t = \Theta(L)\epsilon_t
+\end{equation*}
+Das heißt ausformuliert:
+\begin{equation}
+	\left(1-\sum_{i=1}^{p}\phi_i L_i \right) (1-L)^d y_t = \left(1 + \sum_{j=1}^{q} \Theta_j L_j \right) \epsilon_t
+\end{equation}
+
+\begin{itemize}
+	\item $p$, $d$ und $q$ sind dabei Integer $\geq$ 0 und bezeichnen die Ordnung der Autoregressiven- , Integrierten- und gleitenden Durchschnitts-Komponente des Modells.
+	\item $d$ beschreibt das Differenziationslevel. Im Umkehrschluss erhält man durch $d$-fache Integration die Werte der ursprünglichen Zeitreihe zurück.
+\end{itemize}
+
+Durch ein geeignetes \ac{ARIMA}-Modell können auf Basis der vorhandenen Benzinpreise bereits Vorhersagen getroffen werden. Jedoch besteht der größte Nachteil dieser Modell-Klasse darin, dass Vorhersagen allein aus den historischen Daten generiert werden. Für die Lösung der Benzinpreisvorhersage sollen jedoch zusätzliche Parameter in das Vorhersagemodell eingebunden werden, um die allgemeine Vorhersagegüte zu verbessern. Aus diesem Grund wurden noch andere Modelle untersucht, mit deren Hilfe Feature-Vektoren mit zusätzlichen Parametern für die Benzinpreisvorhersage verwendet werden können. Diese Modelle nutzen Regressionsanalyse zur Vorhersage, welche nachfolgend beschrieben wird.
+
 
 \section{Regressionsanalyse}
 %TODO: Regression allgemein und explizit für Zeitreihenanalyse.
