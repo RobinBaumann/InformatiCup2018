@@ -5,34 +5,36 @@
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
-\addvspace {10\p@ }
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Abh\IeC {\"a}ngigkeiten der einzelnen Packages des Backends\relax }}{7}{figure.caption.10}
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Start Ansicht des Frontends\relax }}{12}{figure.caption.19}
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Frontend w\IeC {\"a}hrend Verwendung\relax }}{12}{figure.caption.20}
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Relative Relevanz der einzelnen Merkmale f\IeC {\"u}r die Vorhersage von Benzinpreisen.\relax }}{15}{figure.caption.23}
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Entwicklung der Jahresdurchschnittspreise f\IeC {\"u}r einen Liter Super Benzin in den Jahren 2012 bis 2017. Die Daten stammen von statista.com \cite {stat}.\relax }}{16}{figure.caption.24}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Anpassungsgrad der Regressionsfunktion.}}{6}{figure.caption.7}
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Abh\IeC {\"a}ngigkeiten der einzelnen Packages des Backends\relax }}{9}{figure.caption.11}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Start Ansicht des Frontends\relax }}{14}{figure.caption.20}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Frontend w\IeC {\"a}hrend Verwendung\relax }}{14}{figure.caption.21}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Relative Relevanz der einzelnen Merkmale f\IeC {\"u}r die Vorhersage von Benzinpreisen.\relax }}{17}{figure.caption.24}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Entwicklung der Jahresdurchschnittspreise f\IeC {\"u}r einen Liter Super Benzin in den Jahren 2012 bis 2017. Die Daten stammen von statista.com \cite {stat}.\relax }}{18}{figure.caption.25}
+\defcounter {refsection}{0}\relax 
+\addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
 \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {A.1}{\ignorespaces Server-Log beim Starten des Projekts\relax }}{24}{figure.caption.41}
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Server-Log beim Starten des Projekts\relax }}{26}{figure.caption.42}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {A.2}{\ignorespaces grundlegende Oberfl\IeC {\"a}che der Webanwendung\relax }}{24}{figure.caption.42}
+\contentsline {figure}{\numberline {A.2}{\ignorespaces grundlegende Oberfl\IeC {\"a}che der Webanwendung\relax }}{26}{figure.caption.43}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {A.3}{\ignorespaces die Benutzer-Interaktionsm\IeC {\"o}glichkeiten\relax }}{25}{figure.caption.43}
+\contentsline {figure}{\numberline {A.3}{\ignorespaces die Benutzer-Interaktionsm\IeC {\"o}glichkeiten\relax }}{27}{figure.caption.44}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {A.4}{\ignorespaces Anzeige einer Tankroute\relax }}{25}{figure.caption.44}
+\contentsline {figure}{\numberline {A.4}{\ignorespaces Anzeige einer Tankroute\relax }}{27}{figure.caption.45}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {A.5}{\ignorespaces die errechneten Tankf\IeC {\"u}llungen f\IeC {\"u}r die Route\relax }}{26}{figure.caption.45}
+\contentsline {figure}{\numberline {A.5}{\ignorespaces die errechneten Tankf\IeC {\"u}llungen f\IeC {\"u}r die Route\relax }}{28}{figure.caption.46}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {A.6}{\ignorespaces die Tankstellen auf der Karte bei einer Preisvorhersage\relax }}{27}{figure.caption.46}
+\contentsline {figure}{\numberline {A.6}{\ignorespaces die Tankstellen auf der Karte bei einer Preisvorhersage\relax }}{29}{figure.caption.47}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {A.7}{\ignorespaces die errechneten Preise zu den jeweiligen Daten\relax }}{27}{figure.caption.47}
+\contentsline {figure}{\numberline {A.7}{\ignorespaces die errechneten Preise zu den jeweiligen Daten\relax }}{29}{figure.caption.48}

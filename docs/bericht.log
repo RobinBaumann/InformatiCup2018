@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2018.4.3)  18 MAY 2018 13:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Arch Linux) (preloaded format=pdflatex 2018.4.3)  18 MAY 2018 16:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1605,12 +1605,12 @@ Package biblatex Info: ... file 'bericht.bbl' found.
 Package biblatex Info: Reference section=0 on input line 99.
 Package biblatex Info: Reference segment=0 on input line 99.
 \c@lstlisting=\count376
-<images/GI_InformatiCup.jpg, id=187, 142.3719pt x 56.8524pt>
+<images/GI_InformatiCup.jpg, id=195, 142.3719pt x 56.8524pt>
 File: images/GI_InformatiCup.jpg Graphic file (type jpg)
 <use images/GI_InformatiCup.jpg>
 Package pdftex.def Info: images/GI_InformatiCup.jpg  used on input line 107.
 (pdftex.def)             Requested size: 113.81102pt x 45.44814pt.
-<images/dhbw-logo.png, id=188, 130.086pt x 62.8749pt>
+<images/dhbw-logo.png, id=196, 130.086pt x 62.8749pt>
 File: images/dhbw-logo.png Graphic file (type png)
 <use images/dhbw-logo.png>
 Package pdftex.def Info: images/dhbw-logo.png  used on input line 107.
@@ -1720,11 +1720,7 @@ Package babel Info: Redefining ngerman shorthand "~
 \tf@lof=\write9
 \openout9 = `bericht.lof'.
 
- (./bericht.lot)
-\tf@lot=\write10
-\openout10 = `bericht.lot'.
-
-
+ (./bericht.lot
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1732,14 +1728,18 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 147.
+(babel)             in language  on input line 12.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 147.
+(babel)             in language  on input line 12.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 147.
+(babel)             in language  on input line 12.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 147.
-[3]
+(babel)             in language  on input line 12.
+[3])
+\tf@lot=\write10
+\openout10 = `bericht.lot'.
+
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1928,6 +1928,10 @@ Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 289.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 289.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 293.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 293.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1936,41 +1940,84 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 292.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 292.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 292.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 292.
+(babel)             in language  on input line 295.
 [5]
+Underfull \hbox (badness 10000) in paragraph at lines 299--300
+
+ []
+
+<images/overfit.png, id=456, 621.32124pt x 317.185pt>
+File: images/overfit.png Graphic file (type png)
+<use images/overfit.png>
+Package pdftex.def Info: images/overfit.png  used on input line 305.
+(pdftex.def)             Requested size: 317.07614pt x 161.86867pt.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 313.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 313.
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 318.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 318.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 318.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 318.
+[6 <./images/overfit.png>]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 325.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 325.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 325.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 325.
+[7]
 Kapitel 3.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 292.
+(babel)             in language  on input line 325.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 292.
+(babel)             in language  on input line 325.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 295.
+(babel)             in language  on input line 328.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 295.
+(babel)             in language  on input line 328.
 Package acronym Info: Label `acro:HTTP' newly defined as it shall be overridden
 
-although it is yet undefined on input line 296.
+although it is yet undefined on input line 329.
 Package acronym Info: Label `acro:JSON' newly defined as it shall be overridden
 
-although it is yet undefined on input line 296.
+although it is yet undefined on input line 329.
 Package acronym Info: Label `acro:JSF' newly defined as it shall be overridden
-although it is yet undefined on input line 296.
+although it is yet undefined on input line 329.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 304.
+(babel)             in language  on input line 337.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 304.
-<architecture.png, id=441, 553.06625pt x 260.975pt>
+(babel)             in language  on input line 337.
+<architecture.png, id=481, 553.06625pt x 260.975pt>
 File: architecture.png Graphic file (type png)
 <use architecture.png>
-Package pdftex.def Info: architecture.png  used on input line 308.
+Package pdftex.def Info: architecture.png  used on input line 341.
 (pdftex.def)             Requested size: 452.9679pt x 213.74205pt.
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 313.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 346.
 
 (/usr/share/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -1980,9 +2027,9 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 Package acronym Info: Label `acro:IOC' newly defined as it shall be overridden
-although it is yet undefined on input line 315.
+although it is yet undefined on input line 348.
 Package acronym Info: Label `acro:DI' newly defined as it shall be overridden
-although it is yet undefined on input line 315.
+although it is yet undefined on input line 348.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1991,21 +2038,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 318.
+(babel)             in language  on input line 351.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 318.
+(babel)             in language  on input line 351.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 318.
+(babel)             in language  on input line 351.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 318.
-[6
+(babel)             in language  on input line 351.
+[8
 
 ]
 Package acronym Info: Label `acro:API' newly defined as it shall be overridden
-although it is yet undefined on input line 324.
+although it is yet undefined on input line 357.
 Package acronym Info: Label `acro:CORS' newly defined as it shall be overridden
 
-although it is yet undefined on input line 333.
+although it is yet undefined on input line 366.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2014,21 +2061,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 334.
+(babel)             in language  on input line 367.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 334.
+(babel)             in language  on input line 367.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 334.
+(babel)             in language  on input line 367.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 334.
-[7 <./architecture.png (PNG copy)>]
+(babel)             in language  on input line 367.
+[9 <./architecture.png (PNG copy)>]
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 351.
+(babel)             in language  on input line 384.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 351.
+(babel)             in language  on input line 384.
 Package acronym Info: Label `acro:RDBMS' newly defined as it shall be overridde
 n
-although it is yet undefined on input line 353.
+although it is yet undefined on input line 386.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2037,78 +2084,78 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 356.
+(babel)             in language  on input line 389.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 356.
+(babel)             in language  on input line 389.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 356.
+(babel)             in language  on input line 389.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 356.
-[8]
-Package acronym Info: Label `acro:OSM' newly defined as it shall be overridden
-although it is yet undefined on input line 385.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 392.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 392.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 392.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 392.
-[9]
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 395.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 395.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 403.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 403.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 403.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 403.
+(babel)             in language  on input line 389.
 [10]
+Package acronym Info: Label `acro:OSM' newly defined as it shall be overridden
+although it is yet undefined on input line 418.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 404.
+(babel)             in language  on input line 425.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 404.
+(babel)             in language  on input line 425.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 425.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 425.
+[11]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 428.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 428.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 436.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 436.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 436.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 436.
+[12]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 437.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 437.
 Package acronym Info: Label `acro:CSV' newly defined as it shall be overridden
-although it is yet undefined on input line 406.
+although it is yet undefined on input line 439.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 408.
+(babel)             in language  on input line 441.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 408.
-<startview.png, id=489, 512.91624pt x 343.2825pt>
+(babel)             in language  on input line 441.
+<startview.png, id=528, 512.91624pt x 343.2825pt>
 File: startview.png Graphic file (type png)
 <use startview.png>
-Package pdftex.def Info: startview.png  used on input line 416.
+Package pdftex.def Info: startview.png  used on input line 449.
 (pdftex.def)             Requested size: 317.07614pt x 212.21484pt.
-<draweropen.png, id=491, 512.91624pt x 392.46625pt>
+<draweropen.png, id=529, 512.91624pt x 392.46625pt>
 File: draweropen.png Graphic file (type png)
 <use draweropen.png>
-Package pdftex.def Info: draweropen.png  used on input line 423.
+Package pdftex.def Info: draweropen.png  used on input line 456.
 (pdftex.def)             Requested size: 317.07614pt x 242.61989pt.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 428.
+(babel)             in language  on input line 461.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 428.
+(babel)             in language  on input line 461.
 Package acronym Info: Label `acro:SPA' newly defined as it shall be overridden
-although it is yet undefined on input line 432.
+although it is yet undefined on input line 465.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2117,65 +2164,65 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 438.
+(babel)             in language  on input line 471.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 438.
+(babel)             in language  on input line 471.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 438.
+(babel)             in language  on input line 471.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 438.
-[11]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 438.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 438.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 438.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 438.
-[12 <./startview.png> <./draweropen.png>]
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 442.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 442.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 466.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 466.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 472.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 472.
-Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 472.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 472.
+(babel)             in language  on input line 471.
 [13]
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 472.
+(babel)             in language  on input line 471.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 472.
+(babel)             in language  on input line 471.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 474.
+(babel)             in language  on input line 471.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 474.
-<features720p.png, id=533, 1284.8pt x 722.7pt>
+(babel)             in language  on input line 471.
+[14 <./startview.png> <./draweropen.png>]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 475.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 475.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 499.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 499.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 505.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 505.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 505.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 505.
+[15]
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 505.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 505.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 507.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 507.
+<features720p.png, id=571, 1284.8pt x 722.7pt>
 File: features720p.png Graphic file (type png)
 <use features720p.png>
-Package pdftex.def Info: features720p.png  used on input line 506.
+Package pdftex.def Info: features720p.png  used on input line 539.
 (pdftex.def)             Requested size: 452.9679pt x 254.79037pt.
 
 
@@ -2185,26 +2232,26 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 510.
+(babel)             in language  on input line 543.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 510.
+(babel)             in language  on input line 543.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 510.
+(babel)             in language  on input line 543.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 510.
-[14]
-<Benzinpreisentwicklung_2012-2017.png, id=541, 642.4pt x 481.8pt>
+(babel)             in language  on input line 543.
+[16]
+<Benzinpreisentwicklung_2012-2017.png, id=579, 642.4pt x 481.8pt>
 File: Benzinpreisentwicklung_2012-2017.png Graphic file (type png)
 <use Benzinpreisentwicklung_2012-2017.png>
 Package pdftex.def Info: Benzinpreisentwicklung_2012-2017.png  used on input li
-ne 513.
+ne 546.
 (pdftex.def)             Requested size: 317.07614pt x 237.81169pt.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 519.
+(babel)             in language  on input line 552.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 519.
+(babel)             in language  on input line 552.
 
-Underfull \hbox (badness 10000) in paragraph at lines 520--521
+Underfull \hbox (badness 10000) in paragraph at lines 553--554
 
  []
 
@@ -2215,14 +2262,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 526.
+(babel)             in language  on input line 559.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 526.
+(babel)             in language  on input line 559.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 526.
+(babel)             in language  on input line 559.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 526.
-[15 <./features720p.png>]
+(babel)             in language  on input line 559.
+[17 <./features720p.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2230,32 +2277,32 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 549.
+(babel)             in language  on input line 582.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 549.
+(babel)             in language  on input line 582.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 549.
+(babel)             in language  on input line 582.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 549.
-[16 <./Benzinpreisentwicklung_2012-2017.png>]
+(babel)             in language  on input line 582.
+[18 <./Benzinpreisentwicklung_2012-2017.png>]
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 576.
+(babel)             in language  on input line 609.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 576.
+(babel)             in language  on input line 609.
 
-Underfull \hbox (badness 10000) in paragraph at lines 577--578
+Underfull \hbox (badness 10000) in paragraph at lines 610--611
 
  []
 
 Package acronym Info: Label `acro:RMSE' newly defined as it shall be overridden
 
-although it is yet undefined on input line 580.
+although it is yet undefined on input line 613.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 582.
+(babel)             in language  on input line 615.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 582.
+(babel)             in language  on input line 615.
 Package acronym Info: Label `acro:CLI' newly defined as it shall be overridden
-although it is yet undefined on input line 584.
+although it is yet undefined on input line 617.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2263,14 +2310,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 585.
+(babel)             in language  on input line 618.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 585.
+(babel)             in language  on input line 618.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 585.
+(babel)             in language  on input line 618.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 585.
-[17]
+(babel)             in language  on input line 618.
+[19]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2278,39 +2325,39 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 598.
+(babel)             in language  on input line 631.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 598.
+(babel)             in language  on input line 631.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 598.
+(babel)             in language  on input line 631.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 598.
-[18]
+(babel)             in language  on input line 631.
+[20]
 Kapitel 4.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 598.
+(babel)             in language  on input line 631.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 598.
+(babel)             in language  on input line 631.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 603.
+(babel)             in language  on input line 636.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 603.
+(babel)             in language  on input line 636.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 604.
+(babel)             in language  on input line 637.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 604.
+(babel)             in language  on input line 637.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 618.
+(babel)             in language  on input line 651.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 618.
+(babel)             in language  on input line 651.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 632.
+(babel)             in language  on input line 665.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 632.
+(babel)             in language  on input line 665.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 646.
+(babel)             in language  on input line 679.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 646.
+(babel)             in language  on input line 679.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2318,46 +2365,46 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 660.
+(babel)             in language  on input line 693.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 660.
+(babel)             in language  on input line 693.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 660.
+(babel)             in language  on input line 693.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 660.
-[19
+(babel)             in language  on input line 693.
+[21
 
 ]
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 661.
+(babel)             in language  on input line 694.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 661.
+(babel)             in language  on input line 694.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 676.
+(babel)             in language  on input line 709.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 676.
+(babel)             in language  on input line 709.
 
-Overfull \hbox (55.4945pt too wide) in paragraph at lines 680--689
+Overfull \hbox (55.4945pt too wide) in paragraph at lines 713--722
  [][] 
  []
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 692.
+(babel)             in language  on input line 725.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 692.
+(babel)             in language  on input line 725.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 707.
+(babel)             in language  on input line 740.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 707.
+(babel)             in language  on input line 740.
 
-Overfull \hbox (138.31895pt too wide) in paragraph at lines 711--719
+Overfull \hbox (138.31895pt too wide) in paragraph at lines 744--752
  [][] 
  []
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 722.
+(babel)             in language  on input line 755.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 722.
+(babel)             in language  on input line 755.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2365,14 +2412,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 725.
+(babel)             in language  on input line 758.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 725.
+(babel)             in language  on input line 758.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 725.
+(babel)             in language  on input line 758.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 725.
-[20]
+(babel)             in language  on input line 758.
+[22]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2380,26 +2427,26 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 784.
+(babel)             in language  on input line 817.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 784.
+(babel)             in language  on input line 817.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 784.
+(babel)             in language  on input line 817.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 784.
-[21]
+(babel)             in language  on input line 817.
+[23]
 Kapitel 5.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 784.
+(babel)             in language  on input line 817.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 784.
+(babel)             in language  on input line 817.
 
-Underfull \hbox (badness 10000) in paragraph at lines 785--786
+Underfull \hbox (badness 10000) in paragraph at lines 818--819
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 787--788
+Underfull \hbox (badness 10000) in paragraph at lines 820--821
 
  []
 
@@ -2410,37 +2457,37 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 794.
+(babel)             in language  on input line 827.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 794.
+(babel)             in language  on input line 827.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 794.
+(babel)             in language  on input line 827.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 794.
-[22
+(babel)             in language  on input line 827.
+[24
 
 ]
 Anhang A.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 797.
+(babel)             in language  on input line 830.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 797.
+(babel)             in language  on input line 830.
 
 Package hyperref Warning: The anchor of a bookmark and its parent's must not
-(hyperref)                be the same. Added a new anchor on input line 799.
+(hyperref)                be the same. Added a new anchor on input line 832.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 799.
+(babel)             in language  on input line 832.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 799.
+(babel)             in language  on input line 832.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 823.
+(babel)             in language  on input line 856.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 823.
-<install1.jpg, id=618, 708.39656pt x 268.75406pt>
+(babel)             in language  on input line 856.
+<install1.jpg, id=656, 708.39656pt x 268.75406pt>
 File: install1.jpg Graphic file (type jpg)
 <use install1.jpg>
-Package pdftex.def Info: install1.jpg  used on input line 839.
+Package pdftex.def Info: install1.jpg  used on input line 872.
 (pdftex.def)             Requested size: 452.9679pt x 171.85028pt.
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2449,20 +2496,20 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 842.
+(babel)             in language  on input line 875.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 842.
+(babel)             in language  on input line 875.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 842.
+(babel)             in language  on input line 875.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 842.
-[23
+(babel)             in language  on input line 875.
+[25
 
 ]
-<install2.jpg, id=632, 706.13812pt x 701.62125pt>
+<install2.jpg, id=671, 706.13812pt x 701.62125pt>
 File: install2.jpg Graphic file (type jpg)
 <use install2.jpg>
-Package pdftex.def Info: install2.jpg  used on input line 847.
+Package pdftex.def Info: install2.jpg  used on input line 880.
 (pdftex.def)             Requested size: 271.7835pt x 270.04471pt.
 
 
@@ -2472,32 +2519,32 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 851.
+(babel)             in language  on input line 884.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 851.
+(babel)             in language  on input line 884.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 851.
+(babel)             in language  on input line 884.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 851.
-[24 <./install1.jpg> <./install2.jpg>]
-<install3.jpg, id=639, 68.50594pt x 140.02313pt>
+(babel)             in language  on input line 884.
+[26 <./install1.jpg> <./install2.jpg>]
+<install3.jpg, id=677, 68.50594pt x 140.02313pt>
 File: install3.jpg Graphic file (type jpg)
 <use install3.jpg>
-Package pdftex.def Info: install3.jpg  used on input line 857.
+Package pdftex.def Info: install3.jpg  used on input line 890.
 (pdftex.def)             Requested size: 50.18768pt x 102.58351pt.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 862.
+(babel)             in language  on input line 895.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 862.
-<install4.jpg, id=641, 702.37407pt x 568.37344pt>
+(babel)             in language  on input line 895.
+<install4.jpg, id=679, 702.37407pt x 568.37344pt>
 File: install4.jpg Graphic file (type jpg)
 <use install4.jpg>
-Package pdftex.def Info: install4.jpg  used on input line 866.
+Package pdftex.def Info: install4.jpg  used on input line 899.
 (pdftex.def)             Requested size: 271.7835pt x 219.93889pt.
-<install5.jpg, id=643, 836.3747pt x 642.90187pt>
+<install5.jpg, id=681, 836.3747pt x 642.90187pt>
 File: install5.jpg Graphic file (type jpg)
 <use install5.jpg>
-Package pdftex.def Info: install5.jpg  used on input line 873.
+Package pdftex.def Info: install5.jpg  used on input line 906.
 (pdftex.def)             Requested size: 362.37569pt x 278.55153pt.
 
 
@@ -2507,24 +2554,24 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 877.
+(babel)             in language  on input line 910.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 877.
+(babel)             in language  on input line 910.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 877.
+(babel)             in language  on input line 910.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 877.
-[25
+(babel)             in language  on input line 910.
+[27
 
  <./install3.jpg> <./install4.jpg>]
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 878.
+(babel)             in language  on input line 911.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 878.
-<install6.jpg, id=650, 529.22719pt x 444.15938pt>
+(babel)             in language  on input line 911.
+<install6.jpg, id=687, 529.22719pt x 444.15938pt>
 File: install6.jpg Graphic file (type jpg)
 <use install6.jpg>
-Package pdftex.def Info: install6.jpg  used on input line 884.
+Package pdftex.def Info: install6.jpg  used on input line 917.
 (pdftex.def)             Requested size: 271.7835pt x 228.0974pt.
 
 
@@ -2534,18 +2581,18 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 888.
+(babel)             in language  on input line 921.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 888.
+(babel)             in language  on input line 921.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 888.
+(babel)             in language  on input line 921.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 888.
-[26 <./install5.jpg>]
-<install7.jpg, id=656, 660.96938pt x 432.86719pt>
+(babel)             in language  on input line 921.
+[28 <./install5.jpg>]
+<install7.jpg, id=693, 660.96938pt x 432.86719pt>
 File: install7.jpg Graphic file (type jpg)
 <use install7.jpg>
-Package pdftex.def Info: install7.jpg  used on input line 891.
+Package pdftex.def Info: install7.jpg  used on input line 924.
 (pdftex.def)             Requested size: 362.37569pt x 237.3247pt.
 
 
@@ -2560,14 +2607,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 902.
+(babel)             in language  on input line 935.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 902.
+(babel)             in language  on input line 935.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 902.
+(babel)             in language  on input line 935.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 902.
-[27 <./install6.jpg> <./install7.jpg>]
+(babel)             in language  on input line 935.
+[29 <./install6.jpg> <./install7.jpg>]
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -2579,14 +2626,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 902.
+(babel)             in language  on input line 935.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 902.
+(babel)             in language  on input line 935.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 902.
+(babel)             in language  on input line 935.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 902.
-[28
+(babel)             in language  on input line 935.
+[30
 
 ]
 
@@ -2596,31 +2643,31 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 905.
+(babel)             in language  on input line 938.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 905.
+(babel)             in language  on input line 938.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 905.
+(babel)             in language  on input line 938.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 905.
-[29]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 905.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 905.
+(babel)             in language  on input line 938.
+[31]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 938.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 938.
  (./bericht.aux (./includes/abk.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 905.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 905.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 938.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 938.
 Package rerunfilecheck Info: File `bericht.out' has not changed.
-(rerunfilecheck)             Checksum: A523EF4F0914BFC0B6493FAE06083D0F;3363.
+(rerunfilecheck)             Checksum: 7CC570401026E420366F683049BB1F48;3534.
 Package logreq Info: Writing requests to 'bericht.run.xml'.
 \openout1 = `bericht.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 32749 strings out of 492982
- 581414 string characters out of 6138580
- 1065949 words of memory out of 5000000
- 35339 multiletter control sequences out of 15000+600000
- 66297 words of font info for 109 fonts, out of 8000000 for 9000
+ 32781 strings out of 492982
+ 581889 string characters out of 6138580
+ 1066171 words of memory out of 5000000
+ 35352 multiletter control sequences out of 15000+600000
+ 66817 words of font info for 113 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
  80i,17n,77p,1727b,3103s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf-dis
@@ -2637,11 +2684,12 @@ are/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/typ
 e1/public/lm/lmr17.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></
 usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf-dist/fo
 nts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lms
-y8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on bericht.pdf (36 pages, 1286498 bytes).
+y8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></usr/share/texm
+f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on bericht.pdf (38 pages, 1322697 bytes).
 PDF statistics:
- 795 PDF objects out of 1000 (max. 8388607)
- 714 compressed objects within 8 object streams
- 211 named destinations out of 1000 (max. 500000)
- 17339 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 842 PDF objects out of 1000 (max. 8388607)
+ 756 compressed objects within 8 object streams
+ 221 named destinations out of 1000 (max. 500000)
+ 17360 words of extra memory for PDF output out of 20736 (max. 10000000)
 

@@ -221,7 +221,7 @@ Die meisten Zeitreihen setzen sich aus den folgenden drei Komponenten zusammen \
 \end{enumerate}
 Zur Analyse der zugrundeliegenden Zeitreihe werden diese einzelnen Komponenten sukzessive, nicht simultan eliminiert \cite[397]{lippe}. Bei der Methode der gleitenden Durchschnitte wird dabei der Trend der zugrundeliegenden Zeitreihe berechnet. Gleitende Durchschnitte werden dabei als eine Folge arithmetischer Mittel von jeweils $p$ aufeinanderfolgenden Werten der Zeitreihe gebildet werden \cite[403]{lippe}. Durch den p-gliedrigen gleitenden Durchschnitt entsteht eine geglättete Zeitreihe, die mit größerem p immer glatter wird. 
 
-\subsection{Autokorrelation}
+\subsection{Autokorrelation} \label{autokorr}
 Autokorrelation beschreibt die Korrelation einer Funktion mit sich selber zu einem früheren Zeitpunkt \cite[155]{thinkstats}. Um die Saisonalität herauszufinden wird die Funktion um ein sogenanntes \textit{lag}-Intervall verschoben und auf Korrelation mit der originalen Funktion geprüft. Dies wird mit unterschiedlichen Intervallen wiederholt, um entsprechend auf tägliche, wöchentliche oder monatliche Trends schließen zu können. Für jede dieser Verschiebungen wird dann der Korrelationskoeffizient im Wertebereich [0,1] berechnet. Anhand der berechneten Werte kann eine statistische Signifikanz der eventuell enthaltenen Saisonalitäten bestimmt werden.
 
 \subsection{\acf{ARMA}-Modelle}
@@ -288,6 +288,39 @@ Durch ein geeignetes \ac{ARIMA}-Modell können auf Basis der vorhandenen Benzinp
 
 \section{Regressionsanalyse}
 %TODO: Regression allgemein und explizit für Zeitreihenanalyse.
+Das Ziel der Regressionsanalyse ist die Beschreibung der Beziehung von einem Variablensatz, genannt \textit{abhängige Variablen}, zu den sogenannten \textit{erklärenden Variablen} \cite[129]{thinkstats}. Die Regression liefert also für einen mehrdimensionalen Eingabevektor einen konkreten numerischen Wert. Der Algorithmus soll also eine Funktion $f: \mathbb{R}^n \rightarrow\ \mathbb{R}$ entwickeln. Für den Fall, dass jeweils genau eine abhängige und erklärende Variable für die Regression verwendet wird, spricht man von einer \textit{einfachen Regresssion}, bei mehr als einer erklärenden Variable wird von \textit{Multipler Regression} gesprochen \cite[129]{thinkstats}. Entsprechend dem Grad der Regressionsfunktion wird in unterschiedliche Methoden unterschieden, welche nachfolgend erläutert werden.
+
+\subsection{Lineare Regression}
+Lineare Modelle sind die einfachsten parametrischen Methoden und sollten für jede Problemstellung zunächst in Betracht gezogen werden, da sie oft auch intrinsisch nicht-lineare Probleme einfach lösen können \cite[72]{mlalgos}. Die zentrale Annahme eines linearen Modells ist dabei, dass alle Werte im Datensatz und alle anderen unbekannten Punkte auf einer Hyperebene liegen und der maximale Fehler proportional zur Trainingsqualität und Adaptivität ist \cite[73]{mlalgos}. Bei einem linearen Zusammenhang der untersuchten Variablen wird die Regressionsgerade über zwei Parameter, die sogenannten Korrelationskoeffizienten bestimmt:
+\begin{equation}
+	\bar{y} = \alpha + \beta x
+\end{equation}
+
+Der Parameter $\alpha$ denotiert dabei den Achsenabschnitt und $\beta$ die Steigung der Regressionsgeraden. \\
+\par
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/overfit}
+	\caption[Anpassungsgrad der Regressionsfunktion.]{\textit{Die hellblauen Datenpunkte werden durch die drei Regressionsfunktionen approximiert. Hier ist zu beachten, dass die lineare Funktion (Orange gepunktet) die Daten nicht gut approximiert. Die quadratische Funktion (Grün gestrichelt) approximiert den Zusammenhang gut, die höhergradige Funktion passt sich den Datenpunkten \glqq zu gut\grqq an. Man spricht hier von Overfitting. }}
+	\label{fig:overfit}
+\end{figure}
+
+
+Gesucht ist eine möglichst gute Approximation der vorhandenen Datenpunkte durch die Regressionsfunktion. In \autoref{fig:overfit} sind drei mögliche Regressionsfunktionen zu einem Beispieldatensatz abgebildet. Es ist zu beachten, dass die lineare Funktion hier keine gute Approximation des Zusammenhangs darstellt. Die beste Approximation wird durch die höhergradige Funktion erzielt. Dies ist jedoch nicht immer das Ziel, da mit diesem Modell sehr schlecht zukünftige Werte vorhergesagt werden können. Anschaulich wird dies, wenn man sich das rechte Ende des Funktionsgraphen anschaut. Nach dem Verlauf der roten Kurve müssten alle weiteren Werte der Messreihe plötzlich stark abfallen, obwohl eigentlich ein weiterer Anstieg zu erwarten wäre. Die beste Approximation im Kontext einer Regressionsanalyse liefert daher die quadratische Funktion.
+
+\subsection{Regression für Zeitreihenanalyse}
+Wie in \cite[72]{mlalgos} erwähnt wird, stellen lineare Modelle oft einen guten Startpunkt für die Analyse vieler Probleme dar. So kann theoretisch auch eine Zeitreihenanalyse mit Hilfe eines Regressionsmodells durchgeführt werden. Jedoch ist hierbei Vorsicht geboten, denn es sprechen einige Gründe gegen die Verwendung eines Regressionsmodells bei Zeitreihenanalysen. Die folgenden drei Punkte sind \cite[150]{thinkstats} entnommen:
+
+\begin{enumerate}
+	\item Es ist in keinster Weise garantiert, dass der Langzeittrend bei einem realen Vorgang, welcher durch die Zeitreihe dokumentiert wird, einem linearen - oder höhergradigen - Modell folgt. Bezogen auf diese Arbeit bedeutet dies, dass die Benzinpreisentwicklung stark von anderen Faktoren als der Zeit abhängt. Das gebildete Modell kann somit zu einem späteren Zeitpunkt seine Gültigkeit verlieren.
+	\item Die Lineare Regression gewichtet alle historischen Daten gleich stark. Die Gewichtung sollte jedoch stärker von den jüngsten Messwerten abhängen, da diese die aktuelle Entwicklung der Messreihe genauer beschreiben.
+	\item Eine der Annahmen Linearer Regression ist, dass die Messfehler unkorrelierte Störungen sind. In Zeitreihenanalyse ist diese Annahme oft falsch, da aufeinanderfolgende Werte oft korrelieren. Dies wurde bereits in \autoref{autokorr} erläutert.
+\end{enumerate}
+
+Die Stärke der Regressionsanalyse gegenüber den vorgestellten \ac{ARMA}-Modellen liegt hingegen darin, dass zusätzliche Merkmale in den Merkmalsvektor zur Vorhersage künftiger Ereignisse hinzugezogen werden können. Dies kann die allgemeine Vorhersagegüte des Modells deutlich verbessern.
+
 
 \chapter{Implementierungsdetails}
 Zur Lösung der Aufgabenstellung wurde eine Software entwickelt, deren Aufbau im Folgenden beschrieben wird. Das Design und die Implementierung der Anwendung kann in die Teile Backend, Frontend, Fixed-Path-Gas-Station-Problem und Preisvorhersage unterteilt werden. Die einzelnen Teile werden in den nächsten Abschnitten jeweils erläutert.

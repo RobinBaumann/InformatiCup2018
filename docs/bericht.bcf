@@ -1939,17 +1939,23 @@
     <bcf:citekey order="14">timeseries</bcf:citekey>
     <bcf:citekey order="15">thinkstats</bcf:citekey>
     <bcf:citekey order="16">timeseries</bcf:citekey>
-    <bcf:citekey order="17">nottingham</bcf:citekey>
-    <bcf:citekey order="18">gof</bcf:citekey>
-    <bcf:citekey order="19">holidays</bcf:citekey>
-    <bcf:citekey order="20">ferien</bcf:citekey>
-    <bcf:citekey order="21">osm</bcf:citekey>
-    <bcf:citekey order="22">faz</bcf:citekey>
-    <bcf:citekey order="23">stat</bcf:citekey>
-    <bcf:citekey order="24">stat</bcf:citekey>
-    <bcf:citekey order="25">gbm</bcf:citekey>
-    <bcf:citekey order="26">ladestations-planung</bcf:citekey>
-    <bcf:citekey order="27">oel-strom</bcf:citekey>
+    <bcf:citekey order="17">thinkstats</bcf:citekey>
+    <bcf:citekey order="18">thinkstats</bcf:citekey>
+    <bcf:citekey order="19">mlalgos</bcf:citekey>
+    <bcf:citekey order="20">mlalgos</bcf:citekey>
+    <bcf:citekey order="21">mlalgos</bcf:citekey>
+    <bcf:citekey order="22">thinkstats</bcf:citekey>
+    <bcf:citekey order="23">nottingham</bcf:citekey>
+    <bcf:citekey order="24">gof</bcf:citekey>
+    <bcf:citekey order="25">holidays</bcf:citekey>
+    <bcf:citekey order="26">ferien</bcf:citekey>
+    <bcf:citekey order="27">osm</bcf:citekey>
+    <bcf:citekey order="28">faz</bcf:citekey>
+    <bcf:citekey order="29">stat</bcf:citekey>
+    <bcf:citekey order="30">stat</bcf:citekey>
+    <bcf:citekey order="31">gbm</bcf:citekey>
+    <bcf:citekey order="32">ladestations-planung</bcf:citekey>
+    <bcf:citekey order="33">oel-strom</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
