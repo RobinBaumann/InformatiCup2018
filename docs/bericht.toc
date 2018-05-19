@@ -69,7 +69,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.3.3}Training}{19}{subsection.3.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.4}CLI}{20}{section.3.4}
+\contentsline {section}{\numberline {3.4}CLI}{19}{section.3.4}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {4}Besonderheiten / Vorteile bei bestimmten Routen / Preisvorhersagen}{21}{chapter.4}
 \defcounter {refsection}{0}\relax 
@@ -93,14 +93,16 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4.2}Evaluation}{22}{section.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Ausblick}{24}{chapter.5}
+\contentsline {subsection}{\numberline {4.2.1}Allgemeine Vorhersageg\IeC {\"u}te des Modells}{23}{subsection.4.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {A}Anleitungen}{25}{appendix.A}
+\contentsline {chapter}{\numberline {5}Ausblick}{26}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Installationsanleitung}{25}{section*.41}
+\contentsline {chapter}{\numberline {A}Anleitungen}{27}{appendix.A}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Bedienungsanleitung}{25}{lstnumber.-4.1}
+\contentsline {section}{Installationsanleitung}{27}{section*.45}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.0.1}Routen-Berechnung}{27}{subsection.A.0.1}
+\contentsline {section}{Bedienungsanleitung}{27}{lstnumber.-4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.0.2}Preisvorhersage}{28}{subsection.A.0.2}
+\contentsline {subsection}{\numberline {A.0.1}Routen-Berechnung}{29}{subsection.A.0.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.0.2}Preisvorhersage}{30}{subsection.A.0.2}

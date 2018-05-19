@@ -552,10 +552,10 @@ Mit dem eingesetzten Analysewerkzeug H2O können die für das Training verwendet
 \subsection{Modellauswahl}
 Als erster Ansatz wurden unterschiedliche \ac{ARMA}-Modelle untersucht. Diese lassen jedoch keine Verwendung exogener Variablen zu, welche, wie später gezeigt, eine hohe Relevanz für die Vorhersage von Benzinpreisen besitzen. Anschließend wurden unterschiedliche maschinelle Lernverfahren untersucht, darunter auch einfache Deep-Learning Ansätze. Die manuelle Untersuchung dieser Algorithmen beansprucht jedoch viel Zeit. Um nicht unter Zeitdruck zu geraten, wurde die Modellsuche mit Hilfe der Open-Source Software H2O automatisiert. H2O implementiert Algorithmen aus den Bereichen Statistik, Data Mining und Maschinellem Lernen. Die Software basiert auf dem Hadoop Distributed File System, sodass ein Performance-Gewinn gegenüber anderen Analysewerkzeugen erzielt wird. \\
 \par 
-H2O kann mehrere Modelle des gleichen Typs mit anderen Modellen vergleichen und so das beste Modell für die gegebene Problemstellung finden. Durch ein Grid-Search werden die Hyperparameter der Modelle optimiert. Somit ist es möglich, in relativ kurzer Zeit ein wettbewerbsfähiges Modell zu erstellen. Für die gegebene Problemstellung hat sich ein Gradient Boosting Machine (GBM) Modell als besonders potent herausgestellt. Die Eigenschaften dieses Modells werden nachfolgend kurz erläutert.
+H2O kann mehrere Modelle des gleichen Typs mit anderen Modellen vergleichen und so das beste Modell für die gegebene Problemstellung finden. Durch ein Grid-Search werden die Hyperparameter der Modelle optimiert. Somit ist es möglich, in relativ kurzer Zeit ein wettbewerbsfähiges Modell zu erstellen. Für die gegebene Problemstellung hat sich ein \ac{GBM}-Modell als besonders potent herausgestellt. Die Eigenschaften dieses Modells werden nachfolgend kurz erläutert.
 
 \subsubsection*{Gradient Boosting Machine}
-Die Erklärung der Gradient Boosting Machines erfolgt nach Friedmann \cite{gbm}. Durch Gradient Boosting wird ein Ensemble aus mehreren einfachen Modellen gebildet, welche als Aggregat ein neues und stärkeres Modell bilden. Die beinhalteten Modelle werden dabei so gebildet, dass der Gesamtfehler aller Modelle, inklusive des neu erstellten Modells, minimiert wird. Dies geschieht über den Gradienten der Fehlerfunktion unter Berücksichtigung der Vorhersage. Der Algorithmus funktioniert dabei wie folgt:
+Die Erklärung der \ac{GBM} erfolgt nach Friedmann \cite{gbm}. Durch Gradient Boosting wird ein Ensemble aus mehreren einfachen Modellen gebildet, welche als Aggregat ein neues und stärkeres Modell bilden. Die beinhalteten Modelle werden dabei so gebildet, dass der Gesamtfehler aller Modelle, inklusive des neu erstellten Modells, minimiert wird. Dies geschieht über den Gradienten der Fehlerfunktion unter Berücksichtigung der Vorhersage. Der Algorithmus funktioniert dabei wie folgt:
 
 \begin{enumerate}
 \item Ein Modell, üblicherweise ein Entscheidungsbaum, wird auf die Daten angepasst: 
@@ -609,8 +609,6 @@ Die Hyperparameter der implementierten GBM wurden durch eine Grid Search optimie
 \subsection{Training}
 Da die ursprünglich als Zeitreihenvorhersage gedachte Aufgabenstellung durch eine Regressionsaufgabe substituiert werden konnte, trainiert das implementierte Modell mit dem gesamten Datensatz. Dies ist insbesondere für Preisvorhersagen, welche weit außerhalb der vorhandenen Datenbasis liegen von Vorteil. Der größte Nachteil an dieser Methode ist die benötigte Rechenpower. Die Trainingsmenge umfasst beinahe 15 Gigabyte. Da H2O den Datensatz komplett in den Arbeitsspeicher lädt, wird für das Training eine dementsprechend starke Rechenmaschine benötigt. Um dieses Modell zu trainieren, wurde daher auf eine Deep Learning Workstation mit 64 Gigabyte Arbeitsspeicher zurückgegriffen.\\
 \par
-
-Das Training des Modells erfolgte in einer fünffachen Kreuzvalidierung und dauerte etwas mehr als drei Stunden. Im Mittel besitzt das Modell noch einen \ac{RMSE} von 42.5 zehntel Cent auf den Testdaten. Dieser Wert ist durchaus passabel, da das Modell Preise unabhängig von deren vorheriger Entwicklung vorhersagen kann. In anderen Worten bedeutet dies, dass wir einen konstanten Fehler auf unseren Vorhersagen haben, welcher sich nicht bei schrittweisen Vorhersagen aufaddiert. 
 
 \section{CLI}
 
@@ -753,14 +751,14 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 
 
 \section{Evaluation}
-
-Zusätzlich zu den oben genannten Routen wurden noch vier weitere erstellt zur Evaluierung der hier implementierten Tankstrategie gegen die oben definierte naive Tankstrategie. Es werden nun vier Routen verglichen anhand der tatsächlichen Kosten, die nach den zwei Tankstrategien jeweils anfallen würden. Die Euro-Beträge sind auf die zweite Dezimalstelle und die Prozentwerte auf eine ganze Zahl gerundet.
+In diesem Abschnitt wird die allgemeine Vorhersagegüte des erstellten Modells zur Benzinpreisvorhersage diskutiert. Zusätzlich zu den im vorherigen Abschnitt genannten Routen wurden noch vier weitere zur Evaluierung der hier implementierten Tankstrategie gegen die oben definierte naive Tankstrategie erstellt. Es werden nun vier Routen verglichen anhand der tatsächlichen Kosten, die nach den zwei Tankstrategien jeweils anfallen würden. Die Euro-Beträge sind auf die zweite Dezimalstelle und die Prozentwerte auf eine ganze Zahl gerundet.
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-    	\hline
 		\textbf{Typ} & Tankstrategie \\ 
+		\hline
+		\hline
 		\textbf{Dateiname} & test1.csv \\
         \textbf{Naive Strategie} & 50.96 \euro{} \\
         \textbf{Optimale Strategie} & 25.70\euro{} \\
@@ -773,8 +771,9 @@ Zusätzlich zu den oben genannten Routen wurden noch vier weitere erstellt zur E
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-    	\hline
 		\textbf{Typ} & Tankstrategie \\ 
+		\hline
+		\hline
 		\textbf{Dateiname} & test2.csv \\
         \textbf{Naive Strategie} & 138.08\euro{} \\
         \textbf{Optimale Strategie} & 56.02\euro{} \\
@@ -787,8 +786,9 @@ Zusätzlich zu den oben genannten Routen wurden noch vier weitere erstellt zur E
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-    	\hline
 		\textbf{Typ} & Tankstrategie \\ 
+		\hline
+		\hline
 		\textbf{Dateiname} & test3.csv \\
         \textbf{Naive Strategie} & 118.01\euro{} \\
         \textbf{Optimale Strategie} & 68.17\euro{} \\
@@ -801,8 +801,9 @@ Zusätzlich zu den oben genannten Routen wurden noch vier weitere erstellt zur E
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-    	\hline
 		\textbf{Typ} & Tankstrategie \\ 
+		\hline
+		\hline
 		\textbf{Dateiname} & test4.csv \\
         \textbf{Naive Strategie} & 46.36\euro{} \\
         \textbf{Optimale Strategie} & 28.08\euro{} \\
@@ -813,6 +814,62 @@ Zusätzlich zu den oben genannten Routen wurden noch vier weitere erstellt zur E
 \end{table} 
 
 Im Schnitt ist bei unseren vier Testversuchen die optimale Tankstrategie 51.75\% günstiger als die naive.
+
+\subsection{Allgemeine Vorhersagegüte des Modells}
+
+Um die allgemeine Vorhersagegüte des erstellten Modells diskutieren zu können, müssen zunächst die einzelnen Fehlermaße erläutert werden. Dies ist mit folgender Übersicht gegeben, wobei die Definitionen an \cite{maermse} angelehnt sind ($n$ := Anzahl der Vorhersagewerte, $\hat{y}_i$ := Vorhersagewerte, $y_i$ := Beobachtungswerte):
+
+\begin{itemize}
+	\item \textbf{\acf{MAE}}: 
+	\begin{itemize}
+		\item Mathematische Definition: $MAE = \frac{1}{n} \sum_{i=1}^{n}|y_i - \hat{y}_i|$
+		\item Der \ac{MAE} ist ein größenabhängiges Fehlermaß, der die mittlere absolute Abweichung von der Grundwahrheit ermittelt. 
+	\end{itemize}
+	\item \textbf{\acf{RMSE}}:
+	\begin{itemize}
+		\item Mathematische Definition: $RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n}(y_i - \hat{y}_i)^2} $
+		\item Der \ac{RMSE} gewichtet im Gegensatz zum \ac{MAE} die Größe der einzelnen Abweichungen durch Quadrierung. Für einen gleichmäßig verteilten Fehler sind beide Fehlermaße gleich, einzelne Ausreißer werden jedoch durch den \ac{RMSE} stärker gewichtet.
+	\end{itemize}
+	\item \textbf{Bestimmtheitsmaß $R^2$}:
+	\begin{itemize}
+		\item Mathematische Definition: $ R^2 = \frac{\sum_{i=1}^{n} (\hat{y}_i - \bar{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y}_i)^2}$
+		\item Das Bestimmtheitsmaß liegt im Wertebereich [0,1] und ist ein Maß für die Anpassungsgüte einer Regression. Es beschreibt, wie viel Variation in den Daten durch das verwendete Regressionsmodell erklärt werden kann. 
+	\end{itemize}
+\end{itemize}
+
+\begin{table}
+	\centering
+	\begin{tabular}{l l}
+		\textbf{Fehlermaß} & \textbf{Wert} \\ 
+		\hline 
+		\hline
+		\ac{MAE} & 2.98 cent/Liter \\ 
+		\ac{RMSE} & 4.24 cent/Liter \\ 
+		$R^2$ & 78.12 \% \\ 
+		\hline
+	\end{tabular} 
+	\caption{Vergleich der drei Kennzahlen MAE, RMSE und $R^2$}
+	\label{tab:eval}
+\end{table}
+
+Mit diesen Definitionen kann nun die Allgemeine Vorhersagegüte des erstellten Modells bewertet werden. In \autoref{tab:eval} sind die für das erstellte Modell berechneten Werte der jeweiligen Kennzahlen eingetragen. Zunächst sind die beiden Fehlermaße \ac{MAE} und \ac{RMSE} zu vergleichen. Für beide Fehlermaße gilt, dass niedrigere Werte besser sind. Desweiteren beschreiben beide Maße den durchschnittlichen Vorhersagefehler des Modells. Der Unterschied liegt in der Gewichtung der einzelnen Fehler. Beim \ac{RMSE} werden die Fehler vor der Mittelung quadriert. Dies ruft eine stärkere Gewichtung von Ausreißern hervor. Zu beachten ist, dass der \ac{RMSE} nicht mit der Varianz der Fehlerwerte steigt, sondern vielmehr mit der Varianz der Häufigkeitsverteilung der Fehlergrößen \cite{maermse}. Aus diesen Eigenschaften der Fehlermaße kann nun interpretiert werden, dass das erstellte Modell nicht für alle Tankstellen gleich gute Vorhersagen liefert. Dies ist daran zu erkennen, dass der \ac{RMSE} höher als der \ac{MAE} ist. Wenn für jede Vorhersage der gleiche Fehler entstünde, besäßen die beiden Fehlermaße den gleichen Wert. Eine Erklärung für die einzelnen Ausreißer ist, dass im Datensatz einige Tankstellen mit Lücken in den historischen Preisen existieren. Diese Lücken wurden durch das in Abschnitt \ref{feng} erläuterte Sampling der Preise auf eine stündliche Basis gefüllt. Dies ist ein Fehler, denn das Modell inhärent mitlernt. Es wäre zu untersuchen, ob eine Elimination dieser Tankstellen die Vorhersagegüte positiv beeinflusst. Jedoch bedeutet der Verzicht auf diese Tankstellen eine Verkleinerung des Datensatzes. \\
+\par 
+Der $R^2$-Wert von 78.12\% beschreibt eine gute Anpassung der Regression. Die gewählten erklärenden Variablen eignen sich also gut um die abhängige Variable zu beschreiben. Anders formuliert können durch das erstellte Modell 78.12\% der Varianz im Benzinpreis durch die gewählten erklärenden Variablen des Merkmalvektors beschrieben werden. \\
+\par 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/eval_rmse_per_trees}
+	\caption{RMSE pro Anzahl trainierter Entscheidungsbäume}
+	\label{fig:evalrmsepertrees}
+\end{figure}
+
+
+In \autoref{fig:evalrmsepertrees} wird der \ac{RMSE} während des Trainings der \acl{GBM} aufgezeichnet. Es ist zu sehen, wie der Fehler bei fortschreitendem Training, also der Hinzunahme weiterer Entscheidungsbäume immer kleiner wird. Mit 50 Entscheidungsbäumen ist der finale \ac{RMSE} aus \autoref{tab:eval} erreicht. \\
+\par 
+
+Allgemein kann gesagt werden, dass das erstellte Modell eine gute Vorhersagegüte besitzt. Es können ungefähr 78 \% der Varianz in der Ergebnisvorhersage erklärt werden. Da das erstellte Modell die Preise zu einem gegebenen Zeitpunkt direkt vorhersagen kann, also ohne direkte Abhängigkeit des in der Zeitreihe vorherigen Preises, wirkt der mittlere Fehler noch attraktiver. Das Modell kann somit nämlich auch Preise zuverlässig vorhersagen, die weiter als einen Monat in der Zukunft liegen. Für sehr weit in der Zukunft liegende Preisvorhersagen muss die letzte Aussage jedoch mit Vorsicht genossen werden, da der aktuelle Trend der Zeitreihe nicht garantiert die gleiche Steigung behält. Als Beispiel sei hier nochmals an den Preissturz im Jahr 2015 durch die Einführung des Frackings in den USA erinnert. Solche Ereignisse in der Zukunft können nur schwer vorhergesagt werden und erfordern deshalb eine regelmäßige Aktualisierung des Modells. Durch die direkte Vorhersage der Preise ergibt sich in diesem Modell ein Performance-Vorteil gegenüber schrittweisen Preisvorhersagen. Diese müssen nämlich für jede Preisvorhersage die aktuellsten Preise mit in die Berechnung einbeziehen, wohingegen das hier vorgestellte Modell direkt aus den gegeben Metadaten einen Preis für einen beliebigen Zeitpunkt berechnen kann. Der benötigte Aufwand zur regelmäßigen Aktualisierung des Modells wird hierbei in den Hintergrund verschoben, so dass der Endnutzer des Systems keine Verzögerungen in der Preisvorhersage erwarten muss. Zusammen mit den guten Ergebnissen des mittleren Fehlers von ca. 3 Cent/Liter kann von einer sehr guten Lösung der IntelliTank-Aufgabe gesprochen werden.
+
 
 \chapter{Ausblick}
 Die vorgestellte Lösung hat seinen größten praktischen Nutzen sicherlich im Fernverkehr, insbesondere im Güterfernverkehr. Bei letzterem werden Lastkraftfahrzeuge eingesetzt, deren Tankkapazität mehrere hundert Liter umfasst. Durch die Benzinpreis-optimierte Routenplanung können hier erhebliche Kosten gespart werden. Ähnliches gilt für den Personenfernverkehr mit Bussen. Durch die eingesparten Spritkosten können Fahrkarten günstiger verkauft werden, was wiederum eventuell neue Kundschaft anlockt und somit in einer verstärkten Nutzung von Reisebussen resultiert. Dies hätte zusätzlich einen positiven ökologischen Nebeneffekt im Hinblick auf den Klimawandel. \\
