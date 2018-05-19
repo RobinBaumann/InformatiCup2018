@@ -637,8 +637,9 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-    	\hline
-		\textbf{Typ} & Tankstrategie \\ 
+		\textbf{Typ} &\textbf{Tankstrategie} \\
+		\hline
+		\hline 
 		\textbf{Dateiname} & bertha\_bogus\_station.csv \\
         \textbf{Besonderheit} & enthält eine Tankstellen Id, die es nicht gibt \\
         \textbf{Verhalten} & Anwendung antwortet mit entsprechender ProblemResponse, kein Absturz \\
@@ -651,8 +652,9 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-    	\hline
-		\textbf{Typ} & Tankstrategie \\ 
+		\textbf{Typ} & \textbf{Tankstrategie} \\ 
+		\hline
+		\hline
 		\textbf{Dateiname} & bertha\_empty.csv \\
         \textbf{Besonderheit} & enthält nur die Kapazität \\
         \textbf{Verhalten} & Anwendung antwortet mit entsprechender ProblemResponse, kein Absturz \\
@@ -665,8 +667,9 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-    	\hline
-		\textbf{Typ} & Tankstrategie \\ 
+		\textbf{Typ} & \textbf{Tankstrategie} \\
+		\hline
+		\hline 
 		\textbf{Dateiname} & bertha\_negative\_capacity.csv \\
         \textbf{Besonderheit} & die Tankkapzität hat einen negativen Wert \\
         \textbf{Verhalten} & Anwendung antwortet mit entsprechender ProblemResponse, kein Absturz \\
@@ -679,8 +682,9 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-    	\hline
-		\textbf{Typ} & Tankstrategie \\ 
+		\textbf{Typ} & \textbf{Tankstrategie} \\
+		\hline
+		\hline
 		\textbf{Dateiname} & bertha\_out\_of\_order.csv \\
         \textbf{Besonderheit} & zwei Tankstops wurden vertauscht, die Reihenfolge in der CSV \\
         & entspricht nicht der zeitlichen Reihenfolge \\
@@ -694,8 +698,9 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-    	\hline
-		\textbf{Typ} & Tankstrategie \\ 
+		\textbf{Typ} & \textbf{Tankstrategie} \\ 
+		\hline
+		\hline
 		\textbf{Dateiname} & bertha\_stations\_without\_prices.csv \\
         \textbf{Besonderheit} & Es werden Tankstellen angefragt für die in den Originaldaten \\ 
         & keine Preise hinterlegt waren \\
@@ -708,9 +713,10 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{l l}
-    	\hline
-		\textbf{Typ} & Preisvorhersage \\ 
+	\begin{tabular}{l p{12cm}}
+		\textbf{Typ} & \textbf{Preisvorhersage} \\ 
+		\hline
+		\hline
 		\textbf{Dateiname} & price-prediction-historic.csv \\
         \textbf{Besonderheit} & Es wird ein Preis angefragt und es können Daten bis nach dem angefragten Zeitpunkt \\
         & verwendet werden \\
@@ -725,8 +731,9 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-    	\hline
-		\textbf{Typ} & Preisvorhersage \\ 
+		\textbf{Typ} & \textbf{Preisvorhersage} \\ 
+		\hline
+		\hline
 		\textbf{Dateiname} & price-prediction-very-close.csv \\
         \textbf{Besonderheit} & Es wird ein Preis angefragt und es können Daten bis kurz vor (1h) dem \\
         & angefragten Zeitpunkt verwendet werden \\
@@ -739,9 +746,10 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{l l}
-    	\hline
-		\textbf{Typ} & Tankstrategie \\ 
+	\begin{tabular}{l p{12cm}}
+		\textbf{Typ} & \textbf{Tankstrategie} \\ 
+		\hline
+		\hline
 		\textbf{Dateiname} & not-reachable.csv \\
         \textbf{Besonderheit} & An einer gewissen Position in der Route, ist der nächste Stopp selbst mit vollem Tank nicht erreichbar. \\
         \textbf{Verhalten} & Anwendung antwortet mit entsprechender ProblemResponse, kein Absturz \\
@@ -756,7 +764,7 @@ In diesem Abschnitt wird die allgemeine Vorhersagegüte des erstellten Modells z
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-		\textbf{Typ} & Tankstrategie \\ 
+		\textbf{Typ} & \textbf{Tankstrategie} \\ 
 		\hline
 		\hline
 		\textbf{Dateiname} & test1.csv \\
@@ -771,7 +779,7 @@ In diesem Abschnitt wird die allgemeine Vorhersagegüte des erstellten Modells z
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-		\textbf{Typ} & Tankstrategie \\ 
+		\textbf{Typ} & \textbf{Tankstrategie} \\ 
 		\hline
 		\hline
 		\textbf{Dateiname} & test2.csv \\
@@ -786,7 +794,7 @@ In diesem Abschnitt wird die allgemeine Vorhersagegüte des erstellten Modells z
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-		\textbf{Typ} & Tankstrategie \\ 
+		\textbf{Typ} & \textbf{Tankstrategie} \\ 
 		\hline
 		\hline
 		\textbf{Dateiname} & test3.csv \\
@@ -801,7 +809,7 @@ In diesem Abschnitt wird die allgemeine Vorhersagegüte des erstellten Modells z
 \begin{table}[H]
 	\centering
 	\begin{tabular}{l l}
-		\textbf{Typ} & Tankstrategie \\ 
+		\textbf{Typ} & \textbf{Tankstrategie} \\ 
 		\hline
 		\hline
 		\textbf{Dateiname} & test4.csv \\

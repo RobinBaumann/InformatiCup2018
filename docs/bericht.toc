@@ -79,7 +79,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.1.2}Leere Tankstrategie}{21}{subsection.4.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.3}Negative Tankkapazit\IeC {\"a}t}{21}{subsection.4.1.3}
+\contentsline {subsection}{\numberline {4.1.3}Negative Tankkapazit\IeC {\"a}t}{22}{subsection.4.1.3}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.1.4}Tankstops sind nicht in zeitlicher Reihenfolge}{22}{subsection.4.1.4}
 \defcounter {refsection}{0}\relax 
@@ -89,20 +89,20 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.1.7}Daten bis kurz vor angefragtem Zeitpunkt verf\IeC {\"u}gbar}{22}{subsection.4.1.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1.8}Routen Stops nicht erreichbar mit vollem Tank}{22}{subsection.4.1.8}
+\contentsline {subsection}{\numberline {4.1.8}Routen Stops nicht erreichbar mit vollem Tank}{23}{subsection.4.1.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Evaluation}{22}{section.4.2}
+\contentsline {section}{\numberline {4.2}Evaluation}{23}{section.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.1}Allgemeine Vorhersageg\IeC {\"u}te des Modells}{23}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.1}Allgemeine Vorhersageg\IeC {\"u}te des Modells}{24}{subsection.4.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Ausblick}{26}{chapter.5}
+\contentsline {chapter}{\numberline {5}Ausblick}{27}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {A}Anleitungen}{27}{appendix.A}
+\contentsline {chapter}{\numberline {A}Anleitungen}{28}{appendix.A}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Installationsanleitung}{27}{section*.45}
+\contentsline {section}{Installationsanleitung}{28}{section*.45}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Bedienungsanleitung}{27}{lstnumber.-4.1}
+\contentsline {section}{Bedienungsanleitung}{28}{lstnumber.-4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.0.1}Routen-Berechnung}{29}{subsection.A.0.1}
+\contentsline {subsection}{\numberline {A.0.1}Routen-Berechnung}{30}{subsection.A.0.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {A.0.2}Preisvorhersage}{30}{subsection.A.0.2}
+\contentsline {subsection}{\numberline {A.0.2}Preisvorhersage}{31}{subsection.A.0.2}
