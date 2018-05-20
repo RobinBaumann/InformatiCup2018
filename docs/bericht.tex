@@ -206,8 +206,15 @@ Ebenfalls benutzen wir eine naive Tankstrategie (immer volltanken) um sie mit un
 \item Falls $l_{i+1}$ nicht die End-Tankstelle ist, wiederhole Punkt $3$
 \end{enumerate}
 
-Die Distanz zwischen zwei Tankstellen wird mittels der Haversine-Formel zwischen zwei Geo-Punkten berechnet \cite{haversine}.
-
+Die Distanz zwischen zwei Tankstellen wird mittels der Haversine-Formel zwischen zwei Geo-Punkten berechnet \cite{haversine}.\\
+Die Berechnung der Haversine-Formel ist gegeben durch
+$$ \Delta longitude = longitude_b - longitude_a $$
+$$ \Delta latitude = latitude_b - latitude_a $$
+$$ a = (\frac{\sin \Delta latitude}{2})^2 + \cos latitude_a * \cos latitude_b * (\frac{\sin \Delta longitude}{2}^2)$$
+$$ c = 2 * \arcsin \min(1,\sqrt{a})$$
+$$ d = R * c $$
+Wobei $R$ dem Erdradius entspricht.\\
+Die Haversine-Formel ermöglicht die Berechung der Distanz zweier Geokoordinate auf einer Kugel-Oberfläche (sogenannte Orhodrome).
 \section{Zeitreihenanalyse}
 Bei einer Zeitreihe handelt es sich um eine zeitlich geordnete Sequenz von Messungen eines Systems \cite[145]{thinkstats}. Das in dieser Arbeit behandelte Problem kann als eine Zeitreihenanalyse betrachtet werden. Viele Algorithmen zur Analyse von Zeitreihen funktionieren stabiler, wenn die zu untersuchende Zeitreihe mit einer gleichmäßigen Frequenz vorliegt \cite[146]{thinkstats}. Dies ist nicht immer gegeben. In dem verwendeten Datensatz sind die Benzinpreise zu den jeweiligen Änderungszeitpunkten in der Datenbank gespeichert. Aus diesem Grund wechseln die Abstände zwischen zwei aufeinanderfolgenden Messungen von wenigen Minuten bis zu mehreren Stunden. Manche Tankstellen weisen sogar Lücken von mehreren Tagen auf. Aus diesem Grund ist eine Vorverarbeitung des Datensatzes notwendig, um die Messungen auf eine einheitliche Frequenz zu bringen. Genaueres hierzu wird in Abschnitt \ref{feng} erläutert. Auf den vorbereiteten Daten lassen sich nun unterschiedliche Methoden zur Analyse der Zeitreihe anwenden, welche nachfolgend beschrieben werden.
 
@@ -878,7 +885,6 @@ In \autoref{fig:evalrmsepertrees} wird der \ac{RMSE} während des Trainings der 
 \par 
 
 Allgemein kann gesagt werden, dass das erstellte Modell eine gute Vorhersagegüte besitzt. Es können ungefähr 78 \% der Varianz in der Ergebnisvorhersage erklärt werden. Da das erstellte Modell die Preise zu einem gegebenen Zeitpunkt direkt vorhersagen kann, also ohne direkte Abhängigkeit des in der Zeitreihe vorherigen Preises, wirkt der mittlere Fehler noch attraktiver. Das Modell kann somit nämlich auch Preise zuverlässig vorhersagen, die weiter als einen Monat in der Zukunft liegen. Für sehr weit in der Zukunft liegende Preisvorhersagen muss die letzte Aussage jedoch mit Vorsicht genossen werden, da der aktuelle Trend der Zeitreihe nicht garantiert die gleiche Steigung behält. Als Beispiel sei hier nochmals an den Preissturz im Jahr 2015 durch die Einführung des Frackings in den USA erinnert. Solche Ereignisse in der Zukunft können nur schwer vorhergesagt werden und erfordern deshalb eine regelmäßige Aktualisierung des Modells. Durch die direkte Vorhersage der Preise ergibt sich in diesem Modell ein Performance-Vorteil gegenüber schrittweisen Preisvorhersagen. Diese müssen nämlich für jede Preisvorhersage die aktuellsten Preise mit in die Berechnung einbeziehen, wohingegen das hier vorgestellte Modell direkt aus den gegeben Metadaten einen Preis für einen beliebigen Zeitpunkt berechnen kann. Der benötigte Aufwand zur regelmäßigen Aktualisierung des Modells wird hierbei in den Hintergrund verschoben, so dass der Endnutzer des Systems keine Verzögerungen in der Preisvorhersage erwarten muss. Zusammen mit den guten Ergebnissen des mittleren Fehlers von ca. 3 Cent/Liter kann von einer sehr guten Lösung der IntelliTank-Aufgabe gesprochen werden.
-
 
 \chapter{Ausblick}
 Die vorgestellte Lösung hat seinen größten praktischen Nutzen sicherlich im Fernverkehr, insbesondere im Güterfernverkehr. Bei letzterem werden Lastkraftfahrzeuge eingesetzt, deren Tankkapazität mehrere hundert Liter umfasst. Durch die Benzinpreis-optimierte Routenplanung können hier erhebliche Kosten gespart werden. Ähnliches gilt für den Personenfernverkehr mit Bussen. Durch die eingesparten Spritkosten können Fahrkarten günstiger verkauft werden, was wiederum eventuell neue Kundschaft anlockt und somit in einer verstärkten Nutzung von Reisebussen resultiert. Dies hätte zusätzlich einen positiven ökologischen Nebeneffekt im Hinblick auf den Klimawandel. \\
