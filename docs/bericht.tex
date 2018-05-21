@@ -163,7 +163,7 @@ ngerman          % neue deutsche Rechtschreibung
 \section{InformatiCup}
 
 Die hier beschriebene Arbeit behandelt die Lösung der Aufgabe IntelliTank. Diese ist Bestandteil des 13. InformatiCup-Wettbewerbs, welcher von der Gesellschaft für Informatik e.V. jährlich organisiert wird.
-Anlässlich des InformatiCups treten Teams aus verschiedenen Universitäten gegeneinander an, um Ihre Lösungen vorzustellen. Die besten vier werden durch eine Jury gekürt und erhalten einen Preis, sowie eine Einladung zu einer Fachtagung der Gesellschaft für Informatik, auf welcher sie ihre Lösung einem Publikum präsentieren dürfen.
+Anlässlich des InformatiCups treten Teams aus verschiedenen Universitäten und Hochschulen gegeneinander an, um Ihre Lösungen vorzustellen. Die besten vier werden durch eine Jury gekürt und erhalten einen Preis, sowie eine Einladung zu einer Fachtagung der Gesellschaft für Informatik, auf welcher sie ihre Lösung einem Publikum präsentieren dürfen.
 
 \section{Aufgabenstellung}
 
@@ -171,7 +171,7 @@ Die diesjährige Problemstellung trägt den Namen IntelliTank. Aufgabe ist es, e
 
 %TODO: Bitte nochmal umformulieren. Sonst einfach Copy Paste aus der Aufgabenstellung der GI.
 Abhängig davon soll eine Anwendung entworfen werden, welche auf Basis des Vorhersagemodells zu einer gegebenen Route eine optimale Tankstrategie liefert.
-Zur Einfachheit wird eine Route definiert durch verschiedene Stopps an Tankstellen und dem jeweiligen Zeitpunkt an den man ihn erreicht. Die Anwendung soll also zu diesen Zeitpunkten der jeweiligen Tankstelle einen vorhergesagten Preis festlegen und als Ergebnis zu jeder Tankstelle eine optimale Menge Benzin ermitteln.
+Zur Einfachheit wird eine Route definiert, durch verschiedene Stopps an Tankstellen und dem jeweiligen Zeitpunkt an den man ihn erreicht. Die Anwendung soll also zu diesen Zeitpunkten der jeweiligen Tankstelle einen vorhergesagten Preis festlegen und als Ergebnis zu jeder Tankstelle eine optimale Menge Benzin ermitteln.
 
 \section{Motivation}
 Das Auto ist in Deutschland das Fortbewegungsmittel Nummer 1. Einer Umfrage des Umweltbundesamtes (UBA) zufolge sind 37 Prozent der Menschen in Deutschland (ab 14 Jahre) täglich mit dem Kfz unterwegs \cite{fortbewegung}. Außerdem gibt ein Privathaushalt in Deutschland jeden Monat rund 100 Euro für Autokraftstoff aus. Auch wenn die Elektromobilität stark auf dem Vormarsch ist, besitzen die meisten Deutschen noch ein Fahrzeug mit einem Verbrennungsmotor. Durch eine intelligente, vorausschauende Tankstrategie lässt sich bares Geld sparen. 
@@ -179,7 +179,7 @@ Das Auto ist in Deutschland das Fortbewegungsmittel Nummer 1. Einer Umfrage des 
 
 \chapter{Theoretische Grundlagen}
 
-In diesem Kapitel werden die Theoretischen Grundlagen zur in dieser Arbeit vorgestellten Lösung zum 13. InformatiCup der Gesellschaft für Informatik e.V. vorgestellt. Zunächst wird das Fixed-Path-Gas-Station Problem erklärt, welches die Basis des zu entwerfenden Routing-Algorithmus darstellt. Anschließend werden die Grundlagen der Zeitreihenanalyse und Regressionsanalyse vorgestellt.
+In diesem Kapitel werden die theoretischen Grundlagen zur in dieser Arbeit vorgestellten Lösung zum 13. InformatiCup der Gesellschaft für Informatik e.V. vorgestellt. Zunächst wird das Fixed-Path-Gas-Station Problem erklärt, welches die Basis des zu entwerfenden Routing-Algorithmus darstellt. Anschließend werden die Grundlagen der Zeitreihenanalyse und Regressionsanalyse vorgestellt.
 
 \section{Fixed-Path-Gas-Station Problem}
 
@@ -773,40 +773,50 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 \end{table} 
 \section{Fehlversuche}
 
-Bevor wir unser hinreichend gutes Ergebnis mittels der 'Gradient Boosting Machine' auf dem Framework 'h2o' erarbeiteten, wurden verschiedene Verfahren evaluiert um ein Vorhersagemodell zu entwerfen. Unsere Vorgehensweise war allgemein wie folgt:
+Unser hinreichend gutes Ergebnis mittels der 'Gradient Boosting Machine' auf dem Framework 'h2o' ist Ergebnis einer umfangreichen 'Data-Exploration: Es wurden verschiedene Modelle und Algorithmen verglichen um ein Vorhersagemodell zu entwerfen. Unsere Vorgehensweise war allgemein wie folgt:
 
 \begin{description}
 	\item[Daten-Präparation]
 Die Angleichung und Vorverarbeitung von den Features (auch Feature-Engineering genannt).
-	\item[Modell erstellung] 
-	Wir erstellten und bewerteten verschiedene Modelle und Algorithmen gegen unsere Domäne.
+	\item[Modellerstellung] 
+	Wir erstellten und bewerteten verschiedene Modelle und Algorithmen für unsere Domäne.
 \end{description}
 
-Während dieses Prozesses, wurden häufig Modelle und Algorithmen verworfen. Einige werden in diesem Kapitel dargelegt und begründet wieso sie nicht zu unserem Problem passten.
+Während dieses Prozesses, wurden häufig Modelle und Algorithmen verworfen. Einige werden in diesem Kapitel dargelegt und begründet, wieso sie nicht zu unserem Problem passten.
 
 \subsection{Daten-Präparation}
 
-Während der Daten-Präparation zum testen einiger kleiner Modelle, genügte es häufig ein Bruchteil des gesamten Datensatzes zum trainieren zu verwenden und wiederum ein Bruchteil dieses um es zu testen.
-Viele Modelle benötigten eine Stationäre Zeitserie an Daten.
+Während der Daten-Präparation zum Testen einiger kleiner Modelle, genügte es häufig ein Bruchteil des gesamten Datensatzes zum Trainieren zu verwenden und wiederum ein Bruchteil dessen, um es zu testen.
+Viele Modelle benötigten eine stationäre Zeitserie an Daten.
 Damit ist gemeint, dass jeglicher Datenpunkt in der Serie unabhängig von der Zeit ist.\\
-Anfänglich lagen unsere Daten von unterschiedlichsten Tankstellen zu unterschiedlichen Messzeitpunkten vor. Modelle wie 'ARIMA' benötigen eine gleichbleibende Frequenz der Daten-Zeitpunkten. Also wurden die Daten in eine einheitliche Frequenz abgetastet. Mithilfe von PostGreSQL konnten wir die Daten nun zu stündlichen Messpunkten vorlegen. 
+Anfänglich lagen unsere Daten von unterschiedlichsten Tankstellen zu unterschiedlichen Messzeiten vor. Modelle wie 'ARIMA' benötigen eine gleichbleibende Frequenz der Daten-Zeitpunkte. Also wurden die Daten in eine einheitliche Frequenz abgetastet. Mit Hilfe von PostGreSQL konnten wir die Daten nun zu stündlichen Messpunkten vorlegen. 
 Üblicherweise werden diese Daten von einem 'Trend' und 'Saisonalität' bereinigt.\\
 Um die Stationärität eines Datensatzes zu bewerten wird häufig der 'Augmented Dickey–Fuller test' \cite{stationarity} und zur Bereinigung der Daten hierfür verschiedene Methoden wie die Daten zu logarithmieren oder mittels 'First order Difference' (Differenz der Zeitserie mit nach der um $t$ Zeitpunkten verschobenen Zeitserie) angewendet. 
-Mittels unseres anfänglichen bereinigten Datensatzes, war es uns nun möglich eine 'Partial Autocorrelation'\cite{pacf} (ähnlich wie bei ARIMA) durchzuführen. Dadurch wird ein Korrelationskoeffizient berechnet, welcher darüber aussagt, wie sehr eine um $t$ Zeitpunkten verschobene Zeitreihe verglichen zu sich selbst korreliert.\\
-Als Ergebnis für verschiedene 'Time-Lags' schlossen wir dass die Zeitreihe nach einem 'lag' am meisten mit sich selbst korreliert, also, der Benzinpreis einer Stunde vorher am meisten darüber aussagen kann, wie sich der Benzinpreis in einer Stunde entwickeln wird.
-Dadurch, dass wir die Benzinpreise stündlich abtasteten, lag es Nahe, dass der vorhergehende Preis nicht nur ähnlich ist, sogar sehr wahrscheinlich derselbe. Denn falls zu einem Zeitpunkt $t_k$ kein neuer Preis vorliegt dann wird der von $t_{k-1}$ übernommen.
+Mittels unseres anfänglichen bereinigten Datensatzes, war es uns nun möglich eine 'Partial Autocorrelation'\cite{pacf} (ähnlich wie bei ARIMA) durchzuführen. Dadurch wird ein Korrelationskoeffizient berechnet, welcher aussagt, wie sehr eine um $t$ Zeitpunkten verschobene Zeitreihe verglichen zu sich selbst, korreliert.\\
+Als Ergebnis für verschiedene 'Time-Lags' schlossen wir dass die Zeitreihe nach einem 'lag' am meisten mit sich selbst korreliert, also der Benzinpreis einer Stunde vorher am meisten darüber aussagen kann, wie sich der Benzinpreis in einer Stunde entwickeln wird.
+Dadurch, dass wir die Benzinpreise stündlich abtasteten lag es Nahe, dass der vorhergehende Preis nicht nur ähnlich ist, sogar sehr wahrscheinlich derselbe. Denn falls zu einem Zeitpunkt $t_k$ kein neuer Preis vorliegt, wird der von $t_{k-1}$ übernommen.
 
 \subsection{Modellerstellung}
 
-Durch unsere fälschliche Annahme durch die Partielle Autokorrelation, entworfen wir ein Modell mithilfe der 'Linearen Regression'.
+Durch unsere fälschliche Annahme durch die partielle Autokorrelation, entwarfen wir ein Modell mit Hilfe der 'Linearen Regression'.
 Das erste Modell wies eine vorhergesagte Zeitreihe mit einem extremen Trend und starker Abweichung der tatsächlichen Daten vor. Somit wurde das Modell modifiziert und zur 'Lasso-Regression' überführt.
 
 $$ \sum_{i}^{n}(y_i - \sum_{j}^{m} x_{ij}\beta_j)^2 + \lambda \sum_{1}^{p} |\beta_j| $$
 
 Die oben genannte Formel gilt es zu minimieren.
-Durch die Lasso-Regression wird eine sogenannte L1-Regulation angewendet. Durch zu große Gewichtungsfaktoren $\beta_k$ wird das Ergebnis insgesamt größer. Da $\beta$ zusätzlich als 'Strafwert' dazu addiert wird. Dadurch werden beim Trainieren automatisch die Features stärker gewichtet, welche größeren Einfluss auf das gesamt Ergebnis haben.\\
+Durch die Lasso-Regression wird eine sogenannte L1-Regulation angewendet. Durch zu große Gewichtungsfaktoren $\beta_k$ wird das Ergebnis insgesamt größer, da $\beta$ zusätzlich als 'Strafwert' dazu addiert wird. Dadurch werden beim Trainieren automatisch die Features stärker gewichtet, welche größeren Einfluss auf das gesamt Ergebnis haben.\\
 Das Ergebnis der Lasso-Regression war überraschend gut, jedoch war es uns nur möglich Preise eine Stunde vorauszusagen (One-Step-Ahead-Forecast). Die Aufgabenstellung erwartete jedoch eine Vorhersage für bis zu einem Monat. Es wäre zwar möglich gewesen das Modell mehrmals auf sich selbst anzuwenden ( $f(x) \circ f(x) \circ f(x) $ Multi-Step-Forecast), dadurch würde jedoch jeder Fehler, je öfter das Modell mit sich selbst angewendet wird, stärker gewichtet.\\
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/fehlversuch}
+	\caption{RMSE pro Anzahl trainierter Entscheidungsbäume}
+	\label{fig:fehlversuch}
+\end{figure}
+In Abbildung \ref{fig:fehlversuch} ist die die Bewertung der Lasso-Regression zu sehen. Die orangefarbenen Werte sind die tatsächlichen Werten der Tankstellen. Es wurden 100.000 Datenpunkte zum Testen verwendet. Auf der Y-Achse sind die Preise von $1,25$ Euro bis $1,6$ Euro pro Liter zu sehen. Die orangefarbene Kurve verdeckt die vorhergesagten blauen Werte, welche nur teilweise ein höheres bzw. niedrigeres Ergebnis lieferten. Das Framework 'sklearn' bewertet das Modell mit 77 \%.
+Dieser Score setzt sich aus den summierten Differenzen der tatsächlichen Preisen und den vorhergesagten Preisen, geteilt durch die Anzahl der Beobachtungspunkte zusammen.\\
+
 Neben der Lasso-Regression wurde auch ARIMA getestet, da wir in diesem Modell aber keine zusätzlichen Features außer Zeitpunkt und Benzinpreis (zwei dimensional) einbringen konnten, wurde dies sehr schnell verworfen.
+
 
 \section{Evaluation}
 In diesem Abschnitt wird die allgemeine Vorhersagegüte des erstellten Modells zur Benzinpreisvorhersage diskutiert. Zusätzlich zu den im vorherigen Abschnitt genannten Routen wurden noch vier weitere zur Evaluierung der hier implementierten Tankstrategie gegen die oben definierte naive Tankstrategie erstellt. Es werden nun vier Routen verglichen anhand der tatsächlichen Kosten, die nach den zwei Tankstrategien jeweils anfallen würden. Die Euro-Beträge sind auf die zweite Dezimalstelle und die Prozentwerte auf eine ganze Zahl gerundet.
