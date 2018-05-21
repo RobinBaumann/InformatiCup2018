@@ -462,6 +462,56 @@ Um den verwendeten Algorithmus gegen die naive Tankstrategie zu benchmarken kann
 
 Das Frontend stellt die Schnittstelle der Anwendung zum Benutzer dar. Ein Benutzer kann über das Frontend die verschiedenen \ac{CSV} Dateien einlesen. Die Daten werden anschließend zur Bearbeitung an das Backend gesendet. Das Ergebnis wird schließlich im Frontend dargestellt.
 
+\subsection{Beschreibung der CSV Dateien}
+
+Die Anwendung verarbeitet \ac{CSV} Dateien und bietet die Möglichkeit die Ergebnisse als \ac{CSV}-Datei zu exportieren. Die Anwendung kann sowohl Preis- als auch Routenanfragen verarbeiten, die jeweils durch ihre eigene \ac{CSV}-Datei repräsentiert werden. \ref{lst:pricerequest} zeigt eine Datei für die Anfrage von Preisen. In jeder Zeile ist eine einzelne Anfrage für eine Tankstelle gegeben. Eine Zeile besteht aus drei Informationen:
+
+\begin{enumerate}
+    \item Zeitpunkt bis zu dem die Preise als gegeben angenommen werden dürfen.
+    \item Zeitpunkt für den der Preis vorhergesagt werden soll.
+    \item Id der Tankstelle für die der Preis vorhergesagt werden soll.
+\end{enumerate}
+
+\begin{lstlisting}[caption={CSV einer Preisanfrage}, label={lst:pricerequest}]
+2015-02-10 12:18:01+01;2015-02-15 21:18:01+01;24
+2016-03-22 10:42:01+01;2016-03-22 10:43:01+01;46
+2016-01-27 03:06:01+01;2016-02-26 18:06:01+01;14038
+2015-06-11 14:30:02+02;2015-06-12 07:50:02+02;4160
+\end{lstlisting}
+
+Die Antwort auf solch eine Anfrage wird in \ref{lst:priceresponse} gezeigt. Die einzelnen Zeilen wurden jeweils um einen vierten Wert ergänzt. Dieser Wert ist der Benzinpreis in Zehntel-Cent.
+
+\begin{lstlisting}[caption={CSV einer Preisantwort}, label={lst:priceresponse}]
+2015-02-10 12:18:01+01;2015-02-15 21:18:01+01;24;1153
+2016-03-22 10:42:01+01;2016-03-22 10:43:01+01;46;1533
+2016-01-27 03:06:01+01;2016-02-26 18:06:01+01;14038;1507
+2015-06-11 14:30:02+02;2015-06-12 07:50:02+02;4160;139
+\end{lstlisting}
+
+Die Datei für die Anfrage einer optimalen Tankstrategie wird in \ref{lst:routerequest} gezeigt. Die erste Zeile enthält die Tankkapazität des Fahrzeugs in Litern. Jede weitere Zeile enthält einen Zeitpunkt und die Id einer Tankstelle. Diese Zeilen geben die erwartete Ankunftszeit an der jeweiligen Tankstelle an.
+
+\begin{lstlisting}[caption={CSV einer Routenanfrage}, label={lst:routerequest}]
+3
+2015-08-01 08:00:00+02;10957
+2015-08-01 09:55:31+02;11108
+2015-08-01 10:27:25+02;11172
+2015-08-01 11:02:43+02;11150
+2015-08-01 11:48:16+02;11152
+\end{lstlisting}
+
+Die entsprechende Antwort wird in \ref{lst:routeresponse} gezeigt. Die Zeile mit der Tankkapazität wird nicht mehr aufgeführt. Jede Zeile wurde um zwei weitere Werte erweitert. Dabei handelt es sich um den vorhergesagten Preis in Zehntel-Cent und der Menge, die an der Tanktelle getankt wurde in Litern. Dabei handelt es sich um eine Fließkommazahl.
+
+\begin{lstlisting}[caption={CSV einer Routenantwort}, label={lst:routeresponse}]
+2015-08-01 08:00:00+02;10957;1451;1.838860165385679
+2015-08-01 09:55:31+02;11108;1468;0
+2015-08-01 10:27:25+02;11172;1441;0
+2015-08-01 11:02:43+02;11150;1447;0
+2015-08-01 11:48:16+02;11152;1448;0
+\end{lstlisting}
+
+Die \ac{CSV}-Dateien geben Zeitpunkte im Format \texttt{YYYY-MM-DD HH:MM:SS+HH} an. Bei Ids der Tankstellen handelt es sich um Ganzzahlen.
+
+
 \subsection{Design}
 
 Abbildung \ref{fig:startview} zeigt die Ansicht, die der Benutzer beim ersten Aufruf der Anwendung sieht. Der Bereich ist in zwei Teile aufgeteilt. Oben wird der Titel des Programms angezeigt, sowie ein Button \texttt{Menu} angeboten, um das seitliche Menü auszuklappen. In diesem Zustand ist das Menü leer. Der zweite Bereich besteht aus einer Kartenansicht und einem Button \texttt{Actions}. Die Karte soll beim Start auf die aktuelle Position des Benutzers, falls vorhanden, zentriert werden. Ansonsten erfolgt eine Zentrierung auf Karlsruhe. Der Button \texttt{Actions} ist der zentrale Anlaufpunkt für den Benutzer, um die Anwendung zu verwenden. Ein Click auf den Button lässt zwei weitere Buttons erscheinen, um Dateien zur Ermittlung einer optimalen Route bzw. einer Preisvorhersage an die Anwendung zu übermitteln. Dieser Zustand wird in Abbildung \ref{fig:draweropen} gezeigt.
@@ -951,7 +1001,7 @@ In \autoref{fig:evalrmsepertrees} wird der \ac{RMSE} während des Trainings der 
 Allgemein kann gesagt werden, dass das erstellte Modell eine gute Vorhersagegüte besitzt. Es können ungefähr 78 \% der Varianz in der Ergebnisvorhersage erklärt werden. Da das erstellte Modell die Preise zu einem gegebenen Zeitpunkt direkt vorhersagen kann, also ohne direkte Abhängigkeit des in der Zeitreihe vorherigen Preises, wirkt der mittlere Fehler noch attraktiver. Das Modell kann somit nämlich auch Preise zuverlässig vorhersagen, die weiter als einen Monat in der Zukunft liegen. Für sehr weit in der Zukunft liegende Preisvorhersagen muss die letzte Aussage jedoch mit Vorsicht genossen werden, da der aktuelle Trend der Zeitreihe nicht garantiert die gleiche Steigung behält. Als Beispiel sei hier nochmals an den Preissturz im Jahr 2015 durch die Einführung des Frackings in den USA erinnert. Solche Ereignisse in der Zukunft können nur schwer vorhergesagt werden und erfordern deshalb eine regelmäßige Aktualisierung des Modells. Durch die direkte Vorhersage der Preise ergibt sich in diesem Modell ein Performance-Vorteil gegenüber schrittweisen Preisvorhersagen. Diese müssen nämlich für jede Preisvorhersage die aktuellsten Preise mit in die Berechnung einbeziehen, wohingegen das hier vorgestellte Modell direkt aus den gegeben Metadaten einen Preis für einen beliebigen Zeitpunkt berechnen kann. Der benötigte Aufwand zur regelmäßigen Aktualisierung des Modells wird hierbei in den Hintergrund verschoben, so dass der Endnutzer des Systems keine Verzögerungen in der Preisvorhersage erwarten muss. Zusammen mit den guten Ergebnissen des mittleren Fehlers von ca. 3 Cent/Liter kann von einer sehr guten Lösung der IntelliTank-Aufgabe gesprochen werden.
 
 
-\chapter{Anwendungsszenario}
+\chapter{Erweitertes Anwendungsszenario}
 \label{sec:orgeeaadfe}
 Die im Rahmen der Studienarbeit implementierte Anwendung stellt ein \ac{POC} dar. Es wurden einige Annahmen getroffen, die die Anwendung für den Einsatz unter realen Bedingungen ungeeignet machen. So erwartet die Anwendung eine Route als Eingabe, die aus einzelnen Tankstellen, sowie der Ankunftszeit an diesen Tankstellen besteht. Auch wurde keine Rücksicht darauf genommen, dass sich die Daten, die der Preisberechnung zugrunde liegen ständig ändern. Dieses Kapitel ist ein Gedankenexperiment, um die Schritte aufzuzeigen, die im Falle einer realen Verwendung der Anwendung nötig wären. Um dies zu erreichen wird zuerst ein reales Einsatzszenario definiert und anschließend werden die erforderlichen Schritte näher erläutert.
 
