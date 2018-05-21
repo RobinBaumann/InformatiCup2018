@@ -950,6 +950,111 @@ In \autoref{fig:evalrmsepertrees} wird der \ac{RMSE} während des Trainings der 
 
 Allgemein kann gesagt werden, dass das erstellte Modell eine gute Vorhersagegüte besitzt. Es können ungefähr 78 \% der Varianz in der Ergebnisvorhersage erklärt werden. Da das erstellte Modell die Preise zu einem gegebenen Zeitpunkt direkt vorhersagen kann, also ohne direkte Abhängigkeit des in der Zeitreihe vorherigen Preises, wirkt der mittlere Fehler noch attraktiver. Das Modell kann somit nämlich auch Preise zuverlässig vorhersagen, die weiter als einen Monat in der Zukunft liegen. Für sehr weit in der Zukunft liegende Preisvorhersagen muss die letzte Aussage jedoch mit Vorsicht genossen werden, da der aktuelle Trend der Zeitreihe nicht garantiert die gleiche Steigung behält. Als Beispiel sei hier nochmals an den Preissturz im Jahr 2015 durch die Einführung des Frackings in den USA erinnert. Solche Ereignisse in der Zukunft können nur schwer vorhergesagt werden und erfordern deshalb eine regelmäßige Aktualisierung des Modells. Durch die direkte Vorhersage der Preise ergibt sich in diesem Modell ein Performance-Vorteil gegenüber schrittweisen Preisvorhersagen. Diese müssen nämlich für jede Preisvorhersage die aktuellsten Preise mit in die Berechnung einbeziehen, wohingegen das hier vorgestellte Modell direkt aus den gegeben Metadaten einen Preis für einen beliebigen Zeitpunkt berechnen kann. Der benötigte Aufwand zur regelmäßigen Aktualisierung des Modells wird hierbei in den Hintergrund verschoben, so dass der Endnutzer des Systems keine Verzögerungen in der Preisvorhersage erwarten muss. Zusammen mit den guten Ergebnissen des mittleren Fehlers von ca. 3 Cent/Liter kann von einer sehr guten Lösung der IntelliTank-Aufgabe gesprochen werden.
 
+
+\chapter{Anwendungsszenario}
+\label{sec:orgeeaadfe}
+Die im Rahmen der Studienarbeit implementierte Anwendung stellt ein \ac{POC} dar. Es wurden einige Annahmen getroffen, die die Anwendung für den Einsatz unter realen Bedingungen ungeeignet machen. So erwartet die Anwendung eine Route als Eingabe, die aus einzelnen Tankstellen, sowie der Ankunftszeit an diesen Tankstellen besteht. Auch wurde keine Rücksicht darauf genommen, dass sich die Daten, die der Preisberechnung zugrunde liegen ständig ändern. Dieses Kapitel ist ein Gedankenexperiment, um die Schritte aufzuzeigen, die im Falle einer realen Verwendung der Anwendung nötig wären. Um dies zu erreichen wird zuerst ein reales Einsatzszenario definiert und anschließend werden die erforderlichen Schritte näher erläutert.
+
+\section{Definition des Szenarios}
+\label{sec:orge2ccbc7}
+Es ist recht unrealistisch, dass ein Benutzer Autoreisen plant indem er sämtliche Tankstellen entlang seiner Route ermittelt und die jeweilige Ankunftszeit an den Tankstellen berechnet. Eine bessere \ac{UX} wäre es die Kalenderdaten des Benutzers abzufragen. Auf Basis der Termine im Kalender kann eine optimale Route berechnet werden.
+
+Es wird die Annahme getroffen, dass die Termine im Kalender jeweils mit einer Adresse versehen sind und dass die Strecke von Termin zu Termin jeweils mit dem Auto bewältigt wird. Die Anwendung könnte so die optimale Route und Tankstrategie für einen gewissen Planungshorizont berechnen.
+
+Dieser Anwendungsfall könnte auch von Privatpersonen auf Speditionen übertragen werden, um die Treibstoffkosten im Güterverkehr zu senken.
+
+\section{Anpassung des Algorithmus}
+\label{sec:org182565e}
+Damit die Anwendung für dieses Szenario geeignet ist, müssen mehrere Teile angepasst werden. Die Anwendung verwendet bereits \ac{OSM} Daten, um weitere Features für die einzelnen Tankstellen zu ermitteln. Momentan werden hierfür lediglich Daten für Autobahnen, Schnell- und Bundesstraßen, Landes- und Kreisgrenzen verwendet. Diese Daten reichen für die erweiterten Anforderungen des Szenarios nicht aus.
+
+Um die Routen zwischen den einzelnen Terminen zu ermitteln kann \emph{PostgreSQL/PostGIS} durch \emph{pgRouting} \footnote{\url{http://www.pgrouting.org}} erweitert werden. Diese Erweiterung benötigt als Grundlage einen gewichteten Graphen. Dieser Graph kann aus \ac{OSM}-Daten erstellt werden.
+
+Um eine Route zu ermitteln benötigt \emph{pgRouting} jeweils die Id des Start- und Endknoten des Graphen. Deshalb muss es möglich sein von \ac{OSM}-Geometrien auf die entsprechende Id des Knoten zu schließen. Da der Benutzer seine Route anhand von Adressen in das System eingibt müssen diese zuerst in Geokoordinaten umgewandelt werden. Dieser Vorgang nennt sich \emph{reverse geocoding} und ist auch auf Basis von \ac{OSM}-Daten möglich. Dazu kann die Software \emph{Nominatim} \footnote{\url{http://www.nominatim.org}} verwendet werden. Die Geokoordinaten der Adresse genügen zur Ermittlung der Ids jedoch noch nicht. In einem weiteren Schritt muss die nächste Geometrie, die eine Repräsentierung im Graphen besitzt, ermittelt werden. Zur Beschleunigung dieser Query empfiehlt sich der Einsatz eines spatial index.
+
+Um den Suchraum für die Route einzuschränken, empfiehlt es sich nur einen Teil des Graphen auszuwerten. Dies kann erreicht werden indem nur Knoten und Kanten verwendet werden, deren Geometrie innerhalb einer Bounding Box liegen. Eine einfache Lösung zur Ermittlung der Bounding Box wäre es die Koordinaten des Start- und Endpunktes zu ermitteln und ein Rechteck um diese zu legen und anschließend um einen Puffer zu erweitern.
+
+Nachdem die optimale Route zwischen den Terminen ermittelt wurde geht es im nächsten Schritt darum Tankstellen entlang dieser Route zu finden. Die Route besteht aus Kanten des gewichteten Graphen und muss zuerst wieder in eine Geometrie übersetzt werden. Mit dieser Geometrie ist es möglich Tankstellen in einer gewissen Entfernung über einen Join der Tankstellen Tabelle zu ermitteln. Die gewünschte maximale Entfernung kann dabei im Join-Prädikat angegeben werden.
+
+Im nächsten Schritt werden für die Tankstellen die entsprechenden Knoten der Routing-Datenbasis ermittelt. Es kann sein, dass diese Knoten noch nicht im Subgraphen, der für die Ermittlung der Route verwendet wurde enthalten sind. In diesem Fall muss der Subgraph erweitert werden. Mit diesen Daten kann nun die zu erwartende Ankunftszeit an den Tankstellen ermittelt werden. Über die Ankunftszeit kann anschließend der Preis vorhergesagt werden.
+
+Der Graph mit der Route, Tankstellen und Preisen kann anschließend ausgewertet werden, um eine optimale Tankstrategie zu ermitteln. Dazu kann der Algorithmus von Lin \cite{transnet} verwendet werden. Der Algorithmus weist eine Zeitkomplexität von \(O(n^3)\) auf, wobei \(n\) die Anzahl an Knoten im Graphen bezeichnet. Dies kann bei langen Routen zu einer sehr hohen Laufzeit führen. Es wäre zu prüfen, ob eine Optimierung durch die Verwendung von evolutionären Algorithmen zu schnelleren Ergebnissen ähnlicher Güte führt.
+
+Im nächsten Abschnitt wird aufgezeigt welche Daten für den angepassten Algorithmus verwendet werden und wie diese aktuell gehalten werden können
+
+\section{Neuberechnung des Routing Graphen}
+\label{sec:org520d5e2}
+Zur Berechnung der optimalen Route werden die \ac{OSM}-Daten Deutschlands benötigt. Damit \emph{pgRouting} mit den Daten umgehen kann müssen sie in einen gewichteten Graphen umgewandelt werden. Dies kann mit der Funktion \texttt{pgr\_createTopology} erledigt werden. Abbildung \ref{fig:osminitial} veranschaulicht diesen Vorgang.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{osm-data-initial.png}
+\caption{\label{fig:orgfade148}
+Initiales Laden von OSM Daten in die Datenbank und Erstellung eines gewichteten Graphen zur Routenberechnung}
+\end{figure}
+
+Die \ac{OSM}-Daten können inkrementell geupdatet werden. Hierzu stellt \ac{OSM} sogenannte \emph{change sets} zur Verfügung. Diese \emph{changesets} können mit einem Werkzeug wie \emph{osmosis} \footnote{\url{https://wiki.openstreetmap.org/wiki/Osmosis}} in die Datenbank eingelesen werden. Der gewichtete Graph muss bei jeder Änderung der Ursprungsdaten komplett neu berechnet werden.
+
+Die \emph{changesets} sind zum Beispiel als \ac{XML}-Dateien mit einer minütlichen Auflösung erhältlich. Da eine minütliche Neuberechnung des gewichteten Graphen nicht praktikabel erscheint, können die \emph{changesets} gesammelt und in einem täglichen oder wöchentlichen Intervall aufgespielt werden. Dieser Vorgang wird in Abbildung \ref{fig:osmdata} gezeigt. Die \emph{changesets} werden im \emph{changeset buffer} zwischengespeichert. Täglich oder wöchentlich werden sie mit \emph{Osmosis} in die Geometrie-Tabelle übernommen. Daraufhin wird der \emph{changeset buffer} geleert und der gewichtete Graph wird durch \texttt{pgr\_createTopology} neu erstellt. Der Parameter \texttt{clean} sorgt dafür, dass die entsprechende Tabelle davor geleert wird.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{osm-data-update.png}
+\caption{\label{fig:orgbb24e88}
+Update der OSM Geometrien und Neuberechnung des gewichteten Graphen}
+\end{figure}
+
+Neben den Daten für die Berechnung der Route werden noch die Preise für die Ermittlung der Tankstrategie benötigt. Der nächste Abschnitt bestimmt welche Daten dies betrifft und wie mit Änderungen an diesen Daten umgegangen wird.
+\section{Neuberechnung des Modells zur Preisvorhersage}
+\label{sec:org2499f4b}
+Die historischen Benzinpreise der Tankstellen wurden mit Informationen zu Feiertagen, Schulferien Bundesland, Landkreis und den nächsten Hauptverkehrsstraßen erweitert. Mit diesen erweiterten Daten benötigte das Training der \ac{GBM} über die historischen Daten in etwa 3 Stunden. Zum Training wurde ein Rechner mit einem AMD Threadripper 1950x, 64GB Arbeitsspeicher und einem SSD-Hintergrundspeicher verwendet.
+
+Nach dem Training kann das Modell in Form einer Zip-Datei aus H2O extrahiert werden. Diese Zip-Datei wird zur Laufzeit in die Anwendung geladen und zur Vorhersage der Benzinpreise verwendet. Um immer die aktuellsten Entwicklungen auf dem Benzinmarkt zu berücksichtigen, sollte das Modell in regelmäßigen Zeitabständen neu trainiert werden. Dieser Vorgang kann losgelöst von der eigentlichen Anwendung ablaufen.
+
+Die historischen Benzinpreise bestehen aus zwei Tabellen. Den Preisen an sich und Informationen zu den einzelnen Tankstellen. Dabei sind nicht alle Spalten der Tabellen für die Vorhersage relevant. Aus der Tabelle Preise wird das Datum, der Preis und die Id der Tankstelle benötigt. Über die Id wird die Tabelle Tankstellen mit den Preisen verbunden. Hier sind neben der Marke noch die Koordinaten der Tankstelle, also Latitude und Longitude, relevant.
+
+Im nächsten Schritt wird das Datum der Preise in die Komponenten Jahr, Monat, Tag der Woche, Stunde und Tag des Monats zerlegt. Auf Basis der Koordinaten wird jeweils für die unterschiedlichen Arten an Hauptverkehrsstraßen ermittelt welche Hauptverkehrsstraße den geringsten Abstand zur Tankstelle hat. Dabei werden nur Hauptverkehrsstraßen innerhalb von 5 Km betrachtet. Auch auf Basis der Koordinaten wird das Bundesland und der Landkreis der Tankstelle ermittelt.
+
+Nach der Aufbereitung der Daten kann letztendlich das Modell trainiert werden. Beim Erhalt von neuen Benzinpreisen muss nur das Datum zerlegt werden, da die Informationen zu den Tankstellen bereits vorliegen. Falls eine unbekannte Tankstelle in den Daten erscheint, werden die dazugehörigen Informationen für die Tankstelle berechnet und gespeichert.
+
+Nach der Identifikation der sich ändernden und benötigten Daten kann eine Strategie entwickelt werden um die Anwendung für die Verwendung durch viele Benutzer zu skalieren. Diese Strategie wird im nächsten Abschnitt behandelt.
+\section{Entwicklung einer Architektur zur Skalierung der Anwendung}
+\label{sec:orgcd082c3}
+Bereits bei der Entwicklung der \ac{POC} Version der Anwendung wurde darauf geachtet, dass die einzelnen Anfragen keine Nebeneffekte verursachen. In der Praxis bedeutet dies, dass eine Anfrage nicht den Zustand der Anwendung verändert. Das wird dadurch erreicht, dass die Anwendung nur lesend auf die Daten zugreift.
+
+Dadurch ist es möglich die Anwendung horizontal zu skalieren. Horizontale Skalierung bedeutet, dass die maximale Anzahl gleichzeitiger Anfragen gesteigert werden kann, indem mehr Rechner dem System hinzugefügt werden.
+
+Abbildung \ref{fig:scaling} zeigt eine mögliche Architektur, die diesen Sachverhalt ausnutzt, um die Anwendung für viele Anwender gleichzeitig nutzbar zu machen. Das System wird in die zwei Zonen "blue" und "green" unterteilt. Es ist jeweils nur eine der Zonen gleichzeitig aktiv. Eine Anfrage eines Benutzers zur Berechnung einer optimalen Route (\texttt{RoutingRequest}) wird von einem Load Balancer entgegen genommen. Der Load Balancer leitet die Anfrage an die momentan aktive Zone weiter.
+
+Jede Zone besteht aus mehreren Application Servern, die jeweils die identische Version der Anwendung ausführen. Der Load Balancer entscheidet dabei an welchen der Application Server die Anfrage weitergeleitet wird und zieht dabei die momentane Auslastung der Application Server in Betracht. Zur Beantwortung der Anfrage benötigt ein Application Server die vorberechneten Daten wie zum Beispiel den gewichteten Routing Graphen. Diese Daten werden in PostgreSQL gespeichert.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{arch.png}
+\caption{\label{fig:scaling}
+Horizontal skalierbare Architektur der Anwendung}
+\end{figure}
+
+Jede der Zonen beinhaltet einen PostgreSQL Cluster. Ein PostgreSQL Cluster besteht aus mehreren Rechnern, die jeweils eine Instanz der Datenbank beherbergen. Einer dieser Rechner wird als \texttt{Primary} bezeichnet. Sämtliche Änderungen an den Daten erfolgen auf diesem Rechner. Die Änderungen werden anschließend auf die anderen Rechner übertragen. Die anderen Rechner werden als \texttt{Replica} bezeichnet. Auf sie kann nur lesend zugegriffen werden.
+
+Die Replikation der Daten kann zum Beispiel über die Replikation des \ac{WAL} sichergestellt werden. Dieser Vorgang wird in im PostgreSQL Wiki beschrieben \cite{pgwiki}. Das \ac{WAL} beinhaltet alle Änderungen am Datenbestand. Bei einer Änderung wird die entsprechende Anweisung im \ac{WAL} protokolliert. Erst bei Ausführung des Commits einer Datenbanktransaktion werden die geänderten Daten als sichtbar angesehen. Jede Änderung besteht aus einem oder mehreren Einträgen im \ac{WAL}. Diese Einträge werden nicht geändert und es werden immer nur neue Einträge am Ende des Logs hinzugefügt.
+
+Um den Datenbestand zu replizieren kann also das \ac{WAL} des \texttt{Primary} Rechners an die \texttt{Replica} Rechner übertragen werden. Da das Log nur erweitert und nie geändert wird, kann dies sehr effizient umgesetzt werden.
+
+Dieser Aufbau ermöglicht die horizontale Skalierung des Systems. Bei Einsatz entsprechender Monitoring-Werkzeuge können während des Betriebs Flaschenhälse identifiziert werden. Je nachdem, ob der Flaschenhalts im Bereich der Application Server oder des PostgreSQL Clusters auftritt, können im entsprechenden Bereich mehr Rechner hinzugefügt werden. Durch die neuen Rechner kann der Flaschenhals beseitigt werden.
+
+Die Aufteilung des Systems in die zwei Zonen hat den Vorteil, dass Änderungen am System immer in der gerade nicht aktiven Zone durchgeführt werden können. Bei Änderungen an den \ac{OSM} Daten oder dem Erhalt neuer historischer Preisdaten, kann so die Neuberechnung der Daten erfolgen ohne, dass das laufende System beeinträchtigt wird. Sobald die Berechnung fertig ist, kann der Load Balancer die aktuell aktive Zone wechseln und den Benutzern stehen aktuelle Daten zur Verfügung.
+
+Mit dem hier beschriebenen System wäre es möglich das Anwendungszenario zu erfüllen und die Funktionalität der Anwendung vielen simultanen Benutzern zur Verfügung zu stellen. Die Aufgabenstellung lässt jedoch noch viele weitere sinnvolle Erweiterungen zu. Diese Erweiterungen werden im Folgenden beschrieben.
+
+\section{Weitere Ansatzpunkte zur Erweiterung des Systems}
+\label{sec:org85ddd52}
+
+Dieser Abschnitt beschreibt weitere Ansatzpunkte, um das System zu erweitern und den Nutzen für die Benutzer dadurch zu erweitern. Die heutige Allgegenwärtigkeit von Smartphones erlaubt kontinuierliche Rückmeldungen an das System. Der Benutzer könnte sowohl den realen Verbrauch seines Fahrzeugs, als auch die tatsächlichen Benzinpreise an das System übermitteln.
+
+Mit diesen Daten kann die Routenplanung und die Preisvorhersage verbessert werden. Diese Daten erlauben nicht nur eine Verbesserung der allgemeinen Vorhersagegüte, sondern erlauben auch eine individuelle Anpassung an den Benutzer. 
+
+Die hier vorgestellte Architektur berücksichtigt dies nicht und wäre bei der Implementierung dieser Features erneut zu evaluieren.
+
 \chapter{Ausblick}
 Die vorgestellte Lösung hat seinen größten praktischen Nutzen sicherlich im Fernverkehr, insbesondere im Güterfernverkehr. Bei letzterem werden Lastkraftfahrzeuge eingesetzt, deren Tankkapazität mehrere hundert Liter umfasst. Durch die Benzinpreis-optimierte Routenplanung können hier erhebliche Kosten gespart werden. Ähnliches gilt für den Personenfernverkehr mit Bussen. Durch die eingesparten Spritkosten können Fahrkarten günstiger verkauft werden, was wiederum eventuell neue Kundschaft anlockt und somit in einer verstärkten Nutzung von Reisebussen resultiert. Dies hätte zusätzlich einen positiven ökologischen Nebeneffekt im Hinblick auf den Klimawandel. \\
 \par
