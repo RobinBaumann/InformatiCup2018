@@ -35,7 +35,7 @@ ngerman          % neue deutsche Rechtschreibung
 %% Angaben zur Arbeit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\Autor}{Robin Baumann, Carlo Götz, Tom Ganz}
+\newcommand{\Autor}{Robin Baumann, Tom Ganz, Carlo Götz}
 \newcommand{\MatrikelNummer}{}
 \newcommand{\Kursbezeichnung}{TINF15B5}
 
@@ -185,7 +185,7 @@ In diesem Kapitel werden die Theoretischen Grundlagen zur in dieser Arbeit vorge
 
 Die hier verwendete Tankstrategie wurde implementiert nach dem Algorithmus aus der Publikation 'To Fill or Not To Fill'\cite{fixedgas}.
 Gegeben sei eine Route, welche definiert ist durch eine Menge von Tankstellen und eine maximale Tankkapazität des Fahrzeuges.
-Jede Tankstelle ist abzufahren, wobei die erste Tankstelle dem Startpunkt der Route entspricht.
+Jede Tankstelle ist abzufahren, wobei die erste Tankstelle dem Startpunkt der Route entspricht. In bild \ref{fig:fixedgas} ist eine Visualisierung des Problems zu erkennen. In unserer Problemstellung ist der Pfad jedoch festgelegt und kann nicht geändert werden, somit ist das Problem des 'Shortest-Path' zu vernachlässigen. 
 Dadurch ergibt sich folgender Algorithmus:
 \begin{enumerate}
 \item Sei $b$ die aktuelle Position gegeben durch eine Tankstelle
@@ -197,10 +197,12 @@ Dadurch ergibt sich folgender Algorithmus:
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.7\linewidth]{images/fixedgas}
-	\caption[Beispiel Ablauf]{\textit{Beispiellhafter Ablauf des Fixed Path Gasstation Algorithmus  \cite{fixedgasimage}}} 
+	\includegraphics[width=0.8\linewidth]{images/fixedgas}
+	\caption[Beispiel Ablauf]{\textit{Visualisierung des Problems \cite{fixedgasimage}}} 
 	\label{fig:fixedgas}
 \end{figure}
+
+
 
 Ebenfalls benutzen wir eine naive Tankstrategie (immer volltanken) um sie mit unserer zu vergleichen. Der Algorithmus wird beschrieben durch:
 
@@ -769,7 +771,42 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 		\hline 
 	\end{tabular}
 \end{table} 
+\section{Fehlversuche}
 
+Bevor wir unser hinreichend gutes Ergebnis mittels der 'Gradient Boosting Machine' auf dem Framework 'h2o' erarbeiteten, wurden verschiedene Verfahren evaluiert um ein Vorhersagemodell zu entwerfen. Unsere Vorgehensweise war allgemein wie folgt:
+
+\begin{description}
+	\item[Daten-Präparation]
+Die Angleichung und Vorverarbeitung von den Features (auch Feature-Engineering genannt).
+	\item[Modell erstellung] 
+	Wir erstellten und bewerteten verschiedene Modelle und Algorithmen gegen unsere Domäne.
+\end{description}
+
+Während dieses Prozesses, wurden häufig Modelle und Algorithmen verworfen. Einige werden in diesem Kapitel dargelegt und begründet wieso sie nicht zu unserem Problem passten.
+
+\subsection{Daten-Präparation}
+
+Während der Daten-Präparation zum testen einiger kleiner Modelle, genügte es häufig ein Bruchteil des gesamten Datensatzes zum trainieren zu verwenden und wiederum ein Bruchteil dieses um es zu testen.
+Viele Modelle benötigten eine Stationäre Zeitserie an Daten.
+Damit ist gemeint, dass jeglicher Datenpunkt in der Serie unabhängig von der Zeit ist.\\
+Anfänglich lagen unsere Daten von unterschiedlichsten Tankstellen zu unterschiedlichen Messzeitpunkten vor. Modelle wie 'ARIMA' benötigen eine gleichbleibende Frequenz der Daten-Zeitpunkten. Also wurden die Daten in eine einheitliche Frequenz abgetastet. Mithilfe von PostGreSQL konnten wir die Daten nun zu stündlichen Messpunkten vorlegen. 
+Üblicherweise werden diese Daten von einem 'Trend' und 'Saisonalität' bereinigt.\\
+Um die Stationärität eines Datensatzes zu bewerten wird häufig der 'Augmented Dickey–Fuller test' \cite{stationarity} und zur Bereinigung der Daten hierfür verschiedene Methoden wie die Daten zu logarithmieren oder mittels 'First order Difference' (Differenz der Zeitserie mit nach der um $t$ Zeitpunkten verschobenen Zeitserie) angewendet. 
+Mittels unseres anfänglichen bereinigten Datensatzes, war es uns nun möglich eine 'Partial Autocorrelation'\cite{pacf} (ähnlich wie bei ARIMA) durchzuführen. Dadurch wird ein Korrelationskoeffizient berechnet, welcher darüber aussagt, wie sehr eine um $t$ Zeitpunkten verschobene Zeitreihe verglichen zu sich selbst korreliert.\\
+Als Ergebnis für verschiedene 'Time-Lags' schlossen wir dass die Zeitreihe nach einem 'lag' am meisten mit sich selbst korreliert, also, der Benzinpreis einer Stunde vorher am meisten darüber aussagen kann, wie sich der Benzinpreis in einer Stunde entwickeln wird.
+Dadurch, dass wir die Benzinpreise stündlich abtasteten, lag es Nahe, dass der vorhergehende Preis nicht nur ähnlich ist, sogar sehr wahrscheinlich derselbe. Denn falls zu einem Zeitpunkt $t_k$ kein neuer Preis vorliegt dann wird der von $t_{k-1}$ übernommen.
+
+\subsection{Modellerstellung}
+
+Durch unsere fälschliche Annahme durch die Partielle Autokorrelation, entworfen wir ein Modell mithilfe der 'Linearen Regression'.
+Das erste Modell wies eine vorhergesagte Zeitreihe mit einem extremen Trend und starker Abweichung der tatsächlichen Daten vor. Somit wurde das Modell modifiziert und zur 'Lasso-Regression' überführt.
+
+$$ \sum_{i}^{n}(y_i - \sum_{j}^{m} x_{ij}\beta_j)^2 + \lambda \sum_{1}^{p} |\beta_j| $$
+
+Die oben genannte Formel gilt es zu minimieren.
+Durch die Lasso-Regression wird eine sogenannte L1-Regulation angewendet. Durch zu große Gewichtungsfaktoren $\beta_k$ wird das Ergebnis insgesamt größer. Da $\beta$ zusätzlich als 'Strafwert' dazu addiert wird. Dadurch werden beim Trainieren automatisch die Features stärker gewichtet, welche größeren Einfluss auf das gesamt Ergebnis haben.\\
+Das Ergebnis der Lasso-Regression war überraschend gut, jedoch war es uns nur möglich Preise eine Stunde vorauszusagen (One-Step-Ahead-Forecast). Die Aufgabenstellung erwartete jedoch eine Vorhersage für bis zu einem Monat. Es wäre zwar möglich gewesen das Modell mehrmals auf sich selbst anzuwenden ( $f(x) \circ f(x) \circ f(x) $ Multi-Step-Forecast), dadurch würde jedoch jeder Fehler, je öfter das Modell mit sich selbst angewendet wird, stärker gewichtet.\\
+Neben der Lasso-Regression wurde auch ARIMA getestet, da wir in diesem Modell aber keine zusätzlichen Features außer Zeitpunkt und Benzinpreis (zwei dimensional) einbringen konnten, wurde dies sehr schnell verworfen.
 
 \section{Evaluation}
 In diesem Abschnitt wird die allgemeine Vorhersagegüte des erstellten Modells zur Benzinpreisvorhersage diskutiert. Zusätzlich zu den im vorherigen Abschnitt genannten Routen wurden noch vier weitere zur Evaluierung der hier implementierten Tankstrategie gegen die oben definierte naive Tankstrategie erstellt. Es werden nun vier Routen verglichen anhand der tatsächlichen Kosten, die nach den zwei Tankstrategien jeweils anfallen würden. Die Euro-Beträge sind auf die zweite Dezimalstelle und die Prozentwerte auf eine ganze Zahl gerundet.
