@@ -229,7 +229,7 @@ Die Haversine-Formel ermöglicht die Berechung der Distanz zweier Geokoordinate 
 Unsere Lösung für das Fixed-Path-Gas-Station Problem lässt sich in einem Algorithmus implementieren der eine Zeitkomplexität von $O(n*log (n))$ benötigt\cite{fixedgas}. Hierzu wird eine Priority-Queue mit den Stationen bereitgestellt die man mit einem vollen Tank von einer Station $l_0$ aus erreichen kann.
 Diese Priority-Queue wird ähnlich einem 'Moving Window' von Station zu Station in Richtung Ziel-Tankstelle 'geschoben'.
 Die Priority-Queue ermittelt zu jeder Tankstelle die Position abhängig ihres Preises und ihrer Nähe zum Ziel.
-Die nächste Tankstelle von unserer Start-Tankstelle $l_0$ ermitteln wir durch die Operation 'Enqueue'.
+Die nächste Tankstelle von unserer Start-Tankstelle $l_0$ ermitteln wir durch die Operation 'Dequeue'.
 Jedes mal wenn wir das Fenster um eine Tankstelle verschieben wird die Start-Tankstelle entfernt und eine näher zum Ziel hinzugefügt. Da das Entfernen und Hinzufügen in $O(log (n))$ verrichtet werden kann\cite{queue}, entspricht der Aufwand das Problem zu lösen $O(n*log (n))$. Um zu beweisen, dass die Lösung optimal ist, muss nach dem Bellman'schen Optimalitätsprinzip\cite{bellman} nur bewiesen werden, dass jedes Subproblem (Zwischenroute) $l_i$ zu $l_{i+1}$ optimal ist. Diese ist es, falls der Tank $l_i$ genau dem entspricht, was zum Erreichen von $l_{i+1}$ notwendig ist, also wenn am ende der Tank leer ist.
 
 \section{Zeitreihenanalyse}
