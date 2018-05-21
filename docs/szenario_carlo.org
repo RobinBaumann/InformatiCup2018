@@ -25,7 +25,7 @@ Der Graph mit der Route, Tankstellen und Preisen kann anschließend ausgewertet 
 
 Im nächsten Abschnitt wird aufgezeigt welche Daten für den angepassten Algorithmus verwendet werden und wie diese aktuell gehalten werden können
 
-** Daten und ihre Änderungen
+** Neuberechnung des Routing Graphen
 Zur Berechnung der optimalen Route werden die \ac{OSM}-Daten Deutschlands benötigt. Damit /pgRouting/ mit den Daten umgehen kann müssen sie in einen gewichteten Graphen umgewandelt werden. Dies kann mit der Funktion =pgr_createTopology= erledigt werden. Abbildung \ref{fig:osminitial} veranschaulicht diesen Vorgang.
 
 #+CAPTION: Initiales Laden von OSM Daten in die Datenbank und Erstellung eines gewichteten Graphen zur Routenberechnung
@@ -40,6 +40,51 @@ Die /changesets/ sind zum Beispiel als \ac{XML}-Dateien mit einer minütlichen A
 #+NAME: fig:osmdata
 [[file:osm-data-update.png]]
 
+Neben den Daten für die Berechnung der Route werden noch die Preise für die Ermittlung der Tankstrategie benötigt. Der nächste Abschnitt bestimmt welche Daten dies betrifft und wie mit Änderungen an diesen Daten umgegangen wird.
+** Neuberechnung des Modells zur Preisvorhersage
+Die historischen Benzinpreise der Tankstellen wurden mit Informationen zu Feiertagen, Schulferien Bundesland, Landkreis und den nächsten Hauptverkehrsstraßen erweitert. Mit diesen erweiterten Daten benötigte das Training der \ac{GBM} über die historischen Daten in etwa 3 Stunden. Zum Training wurde ein Rechner mit einem AMD Threadripper 1950x, 64GB Arbeitsspeicher und einem SSD-Hintergrundspeicher verwendet.
+
+Nach dem Training kann das Modell in Form einer Zip-Datei aus H2O extrahiert werden. Diese Zip-Datei wird zur Laufzeit in die Anwendung geladen und zur Vorhersage der Benzinpreise verwendet. Um immer die aktuellsten Entwicklungen auf dem Benzinmarkt zu berücksichtigen, sollte das Modell in regelmäßigen Zeitabständen neu trainiert werden. Dieser Vorgang kann losgelöst von der eigentlichen Anwendung ablaufen.
+
+Die historischen Benzinpreise bestehen aus zwei Tabellen. Den Preisen an sich und Informationen zu den einzelnen Tankstellen. Dabei sind nicht alle Spalten der Tabellen für die Vorhersage relevant. Aus der Tabelle Preise wird das Datum, der Preis und die Id der Tankstelle benötigt. Über die Id wird die Tabelle Tankstellen mit den Preisen verbunden. Hier sind neben der Marke noch die Koordinaten der Tankstelle, also Latitude und Longitude, relevant.
+
+Im nächsten Schritt wird das Datum der Preise in die Komponenten Jahr, Monat, Tag der Woche, Stunde und Tag des Monats zerlegt. Auf Basis der Koordinaten wird jeweils für die unterschiedlichen Arten an Hauptverkehrsstraßen ermittelt welche Hauptverkehrsstraße den geringsten Abstand zur Tankstelle hat. Dabei werden nur Hauptverkehrsstraßen innerhalb von 5 Km betrachtet. Auch auf Basis der Koordinaten wird das Bundesland und der Landkreis der Tankstelle ermittelt.
+
+Nach der Aufbereitung der Daten kann letztendlich das Modell trainiert werden. Beim Erhalt von neuen Benzinpreisen muss nur das Datum zerlegt werden, da die Informationen zu den Tankstellen bereits vorliegen. Falls eine unbekannte Tankstelle in den Daten erscheint, werden die dazugehörigen Informationen für die Tankstelle berechnet und gespeichert.
+
+Nach der Identifikation der sich ändernden und benötigten Daten kann eine Strategie entwickelt werden um die Anwendung für die Verwendung durch viele Benutzer zu skalieren. Diese Strategie wird im nächsten Abschnitt behandelt.
+** Entwicklung einer Architektur zur Skalierung der Anwendung
+Bereits bei der Entwicklung der \ac{POC} Version der Anwendung wurde darauf geachtet, dass die einzelnen Anfragen keine Nebeneffekte verursachen. In der Praxis bedeutet dies, dass eine Anfrage nicht den Zustand der Anwendung verändert. Das wird dadurch erreicht, dass die Anwendung nur lesend auf die Daten zugreift.
+
+Dadurch ist es möglich die Anwendung horizontal zu skalieren. Horizontale Skalierung bedeutet, dass die maximale Anzahl gleichzeitiger Anfragen gesteigert werden kann, indem mehr Rechner dem System hinzugefügt werden.
+
+Abbildung \ref{fig:scaling} zeigt eine mögliche Architektur, die diesen Sachverhalt ausnutzt, um die Anwendung für viele Anwender gleichzeitig nutzbar zu machen. Das System wird in die zwei Zonen "blue" und "green" unterteilt. Es ist jeweils nur eine der Zonen gleichzeitig aktiv. Eine Anfrage eines Benutzers zur Berechnung einer optimalen Route (=RoutingRequest=) wird von einem Load Balancer entgegen genommen. Der Load Balancer leitet die Anfrage an die momentan aktive Zone weiter.
+
+Jede Zone besteht aus mehreren Application Servern, die jeweils die identische Version der Anwendung ausführen. Der Load Balancer entscheidet dabei an welchen der Application Server die Anfrage weitergeleitet wird und zieht dabei die momentane Auslastung der Application Server in Betracht. Zur Beantwortung der Anfrage benötigt ein Application Server die vorberechneten Daten wie zum Beispiel den gewichteten Routing Graphen. Diese Daten werden in PostgeSQL gespeichert.
+
+#+DESCRIPTION: Horizontal skalierbare Architektur der Anwendung
+#+NAME: fig:scaling
+[[file:arch.png]]
+
+Jede der Zonen beinhaltet einen PostgreSQL Cluster. Ein PostgreSQL Cluster besteht aus mehreren Rechnern, die jeweils eine Instanz der Datenbank beherbergen. Einer dieser Rechner wird als =Primary= bezeichnet. Sämtliche Änderungen an den Daten erfolgen auf diesem Rechner. Die Änderungen werden anschließend auf die anderen Rechner übertragen. Die anderen Rechner werden als =Replica= bezeichnet. Auf sie kann nur lesend zugegriffen werden.
+
+Die Replikation der Daten kann zum Beispiel über die Replikation des \ac{WAL} sichergestellt werden. Dieser Vorgang wird in im PostgreSQL Wiki beschrieben \cite{pgwiki}. Das \ac{WAL} beinhaltet alle Änderungen am Datenbestand. Bei einer Änderung wird die entsprechende Anweisung im \ac{WAL} protokolliert. Erst bei Ausführung des Commits einer Datenbanktransaktion werden die geänderten Daten als sichtbar angesehen. Jede Änderung besteht aus einem oder mehreren Einträgen im \ac{WAL}. Diese Einträge werden nicht geändert und es werden immer nur neue Einträge am Ende des Logs hinzugefügt.
+
+Um den Datenbestand zu replizieren kann also das \ac{WAL} des =Primary= Rechners an die =Replica= Rechner übertragen werden. Da das Log nur erweitert und nie geändert wird, kann dies sehr effizient umgesetzt werden.
+
+Dieser Aufbau ermöglicht die horizontale Skalierung des Systems. Bei Einsatz entsprechender Monitoring-Werkzeuge können während des Betriebs Flaschenhälse identifiziert werden. Je nachdem, ob der Flaschenhalts im Bereich der Application Server oder des PostgreSQL Clusters auftritt, können im entsprechenden Bereich mehr Rechner hinzugefügt werden. Durch die neuen Rechner kann der Flaschenhals beseitigt werden.
+
+Die Aufteilung des Systems in die zwei Zonen hat den Vorteil, dass Änderungen am System immer in der gerade nicht aktiven Zone durchgeführt werden können. Bei Änderungen an den \ac{OSM} Daten oder dem Erhalt neuer historischer Preisdaten, kann so die Neuberechnung der Daten erfolgen ohne, dass das laufende System beeinträchtigt wird. Sobald die Berechnung fertig ist, kann der Load Balancer die aktuell aktive Zone wechseln und den Benutzern stehen aktuelle Daten zur Verfügung.
+
+Mit dem hier beschriebenen System wäre es möglich das Anwendungszenarion zu erfüllen und die Funktionalität der Anwendung vielen simultanen Benutzern zur Verfügung zu stellen. Die Aufgabenstellung lässt jedoch noch viele weitere sinnvolle Erweiterungen zu. Diese Erweiterungen werden im Folgenden beschrieben.
+
+** Weitere Ansatzpunkte zur Erweiterung des Systems
+
+Dieser Abschnitt beschreibt weitere Ansatzpunkte, um das System zu erweitern und den Nutzen für die Benutzer dadurch zu erweitern. Die heutige Allgegenwärtigkeit von Smartphones erlaubt kontinuierliche Rückmeldungen an das System. Der Benutzer könnte sowohl den realen Verbrauch seines Fahrzeugs, als auch die tatsächlichen Benzinpreise an das System übermitteln.
+
+Mit diesen Daten kann die Routenplanung und die Preisvorhersage verbessert werden. Diese Daten erlauben nicht nur eine Verbeserung der allgemeinen Vorhersagegüte, sondern erlauben auch eine individuelle Anpassung an den Benutzer. 
+
+Die hier vorgestellte Architektur berücksichtigt dies nicht und wäre bei der Implementierung dieser Features erneut zu evaluieren.
 
 * outline todo remove
 - Einleitung/Motivation für Kapitel
