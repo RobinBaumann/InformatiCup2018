@@ -814,7 +814,7 @@ $$ \sum_{i}^{n}(y_i - \sum_{j}^{m} x_{ij}\beta_j)^2 + \lambda \sum_{1}^{p} |\bet
 
 Die oben genannte Formel gilt es zu minimieren.
 Durch die Lasso-Regression wird eine sogenannte L1-Regulation angewendet. Durch zu große Gewichtungsfaktoren $\beta_k$ wird das Ergebnis insgesamt größer, da $\beta$ zusätzlich als 'Strafwert' dazu addiert wird. Dadurch werden beim Trainieren automatisch die Features stärker gewichtet, welche größeren Einfluss auf das gesamt Ergebnis haben (vice versa gilt: Features die wenig oder keinen Einfluss haben werden vernachlässigt).\\
-Das Ergebnis der Lasso-Regression war überraschend gut, jedoch war es uns nur möglich Preise eine Stunde vorauszusagen (One-Step-Ahead-Forecast). Die Aufgabenstellung erwartete jedoch eine Vorhersage für bis zu einem Monat. Es wäre zwar möglich gewesen das Modell mehrmals auf sich selbst anzuwenden ( $f(x) \circ f(x) \circ f(x) \circ ... $ (Multi-Step-Forecast)), dadurch würde jedoch jeder Fehler, je öfter das Modell mit sich selbst angewendet wird, stärker gewichtet.\\
+Das Ergebnis der Lasso-Regression war überraschend gut, jedoch war es uns nur möglich Preise eine Stunde vorauszusagen (One-Step-Ahead-Forecast). Die Aufgabenstellung erwartete jedoch eine Vorhersage für bis zu einem Monat. Es wäre zwar möglich gewesen das Modell mehrmals auf sich selbst anzuwenden ( $f(x_0) \circ f(x_1) \circ f(x_2) \circ ... $ (Multi-Step-Forecast)), dadurch würde jedoch jeder Fehler, je öfter das Modell mit sich selbst angewendet wird, stärker gewichtet.\\
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{images/fehlversuch}
