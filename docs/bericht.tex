@@ -185,7 +185,7 @@ In diesem Kapitel werden die theoretischen Grundlagen zur in dieser Arbeit vorge
 
 Die hier verwendete Tankstrategie wurde implementiert nach dem Algorithmus aus der Publikation 'To Fill or Not To Fill'\cite{fixedgas}.
 Gegeben sei eine Route, welche definiert ist durch eine Menge von Tankstellen und eine maximale Tankkapazität des Fahrzeuges.
-Jede Tankstelle ist abzufahren, wobei die erste Tankstelle dem Startpunkt der Route entspricht. In bild \ref{fig:fixedgas} ist eine Visualisierung des Problems zu erkennen. In unserer Problemstellung ist der Pfad jedoch festgelegt und kann nicht geändert werden, somit ist das Problem des 'Shortest-Path' zu vernachlässigen. 
+Jede Tankstelle ist abzufahren, wobei die erste Tankstelle dem Startpunkt der Route entspricht. In Abbildung \ref{fig:fixedgas} ist eine Visualisierung des Problems zu erkennen. In unserer Problemstellung ist der Pfad jedoch festgelegt und kann nicht geändert werden, somit ist das Problem des 'Shortest-Path' zu vernachlässigen. 
 Dadurch ergibt sich folgender Algorithmus:
 \begin{enumerate}
 \item Sei $b$ die aktuelle Position gegeben durch eine Tankstelle
@@ -223,6 +223,15 @@ $$ c = 2 * \arcsin \min(1,\sqrt{a})$$
 $$ d = R * c $$
 Wobei $R$ dem Erdradius entspricht.\\
 Die Haversine-Formel ermöglicht die Berechung der Distanz zweier Geokoordinate auf einer Kugel-Oberfläche (sogenannte Orhodrome).
+
+\subsection{Implementierung}
+
+Unsere Lösung für das Fixed-Path-Gas-Station Problem lässt sich in einem Algorithmus implementieren der eine Zeitkomplexität von $O(n*log (n))$ benötigt\cite{fixedgas}. Hierzu wird eine Priority-Queue mit den Stationen bereitgestellt die man mit einem vollen Tank von einer Station $l_0$ aus erreichen kann.
+Diese Priority-Queue wird ähnlich einem 'Moving Window' von Station zu Station in Richtung Ziel-Tankstelle 'geschoben'.
+Die Priority-Queue ermittelt zu jeder Tankstelle die Position abhängig ihres Preises und ihrer Nähe zum Ziel.
+Die nächste Tankstelle von unserer Start-Tankstelle $l_0$ ermitteln wir durch die Operation 'Enqueue'.
+Jedes mal wenn wir das Fenster um eine Tankstelle verschieben wird die Start-Tankstelle entfernt und eine näher zum Ziel hinzugefügt. Da das Entfernen und Hinzufügen in $O(log (n))$ verrichtet werden kann, entspricht der Aufwand das Problem zu lösen $O(n*log (n))$. Um zu beweisen, dass die Lösung optimal ist, muss nach dem Bellman'schen Optimalitätsprinzip\cite{bellman} nur bewiesen werden, dass jedes Subproblem (Zwischenroute) $l_i$ zu $l_{i+1}$ optimal ist. Diese ist es, falls der Tank $l_i$ genau dem entspricht, was zum Erreichen von $l_{i+1}$ notwendig ist, also wenn am ende der Tank leer ist.
+
 \section{Zeitreihenanalyse}
 Bei einer Zeitreihe handelt es sich um eine zeitlich geordnete Sequenz von Messungen eines Systems \cite[145]{thinkstats}. Das in dieser Arbeit behandelte Problem kann als eine Zeitreihenanalyse betrachtet werden. Viele Algorithmen zur Analyse von Zeitreihen funktionieren stabiler, wenn die zu untersuchende Zeitreihe mit einer gleichmäßigen Frequenz vorliegt \cite[146]{thinkstats}. Dies ist nicht immer gegeben. In dem verwendeten Datensatz sind die Benzinpreise zu den jeweiligen Änderungszeitpunkten in der Datenbank gespeichert. Aus diesem Grund wechseln die Abstände zwischen zwei aufeinanderfolgenden Messungen von wenigen Minuten bis zu mehreren Stunden. Manche Tankstellen weisen sogar Lücken von mehreren Tagen auf. Aus diesem Grund ist eine Vorverarbeitung des Datensatzes notwendig, um die Messungen auf eine einheitliche Frequenz zu bringen. Genaueres hierzu wird in Abschnitt \ref{feng} erläutert. Auf den vorbereiteten Daten lassen sich nun unterschiedliche Methoden zur Analyse der Zeitreihe anwenden, welche nachfolgend beschrieben werden.
 
@@ -789,7 +798,7 @@ Während dieses Prozesses, wurden häufig Modelle und Algorithmen verworfen. Ein
 Während der Daten-Präparation zum Testen einiger Modelle, genügte es häufig ein Bruchteil des gesamten Datensatzes zum Trainieren zu verwenden und wiederum ein Bruchteil dessen, um es zu testen.
 Viele Modelle benötigten eine stationäre Zeitserie an Daten.
 Damit ist gemeint, dass jeglicher Datenpunkt in der Serie unabhängig von der Zeit ist.\\
-Anfänglich lagen unsere Daten von unterschiedlichsten Tankstellen zu unterschiedlichen Messzeiten vor. Modelle wie 'ARIMA' benötigen eine gleichbleibende Frequenz der Daten-Zeitpunkte. Also wurden die Daten in eine einheitliche Frequenz abgetastet. Mit Hilfe von PostGreSQL konnten wir die Daten nun zu stündlichen Messpunkten vorlegen. 
+Anfänglich lagen unsere Daten von unterschiedlichen Tankstellen zu unterschiedlichsten Messzeiten vor. Modelle wie 'ARIMA' benötigen eine gleichbleibende Frequenz der Daten-Zeitpunkte. Also wurden die Daten in eine einheitliche Frequenz abgetastet. Mit Hilfe von PostGreSQL konnten wir die Daten nun zu stündlichen Messpunkten vorlegen. 
 Üblicherweise werden diese Daten von einem 'Trend' und 'Saisonalität' bereinigt.\\
 Um die Stationärität eines Datensatzes zu bewerten wird häufig der 'Augmented Dickey–Fuller test' \cite{stationarity} und zur Bereinigung der Daten hierfür verschiedene Methoden wie die Daten zu logarithmieren oder mittels 'First order Difference' (Differenz der Zeitserie mit nach der um $t$ Zeitpunkten verschobenen Zeitserie) angewendet. 
 Mittels unseres anfänglichen bereinigten Datensatzes, war es uns nun möglich eine 'Partial Autocorrelation'\cite{pacf} (ähnlich wie bei ARIMA) durchzuführen. Dadurch wird ein Korrelationskoeffizient berechnet, welcher aussagt, wie sehr eine um $t$ Zeitpunkten verschobene Zeitreihe verglichen zu sich selbst, korreliert.\\
@@ -804,15 +813,15 @@ Das erste Modell wies eine vorhergesagte Zeitreihe mit einem extremen Trend und 
 $$ \sum_{i}^{n}(y_i - \sum_{j}^{m} x_{ij}\beta_j)^2 + \lambda \sum_{1}^{p} |\beta_j| $$
 
 Die oben genannte Formel gilt es zu minimieren.
-Durch die Lasso-Regression wird eine sogenannte L1-Regulation angewendet. Durch zu große Gewichtungsfaktoren $\beta_k$ wird das Ergebnis insgesamt größer, da $\beta$ zusätzlich als 'Strafwert' dazu addiert wird. Dadurch werden beim Trainieren automatisch die Features stärker gewichtet, welche größeren Einfluss auf das gesamt Ergebnis haben.\\
-Das Ergebnis der Lasso-Regression war überraschend gut, jedoch war es uns nur möglich Preise eine Stunde vorauszusagen (One-Step-Ahead-Forecast). Die Aufgabenstellung erwartete jedoch eine Vorhersage für bis zu einem Monat. Es wäre zwar möglich gewesen das Modell mehrmals auf sich selbst anzuwenden ( $f(x) \circ f(x) \circ f(x) \circ ... $ Multi-Step-Forecast), dadurch würde jedoch jeder Fehler, je öfter das Modell mit sich selbst angewendet wird, stärker gewichtet.\\
+Durch die Lasso-Regression wird eine sogenannte L1-Regulation angewendet. Durch zu große Gewichtungsfaktoren $\beta_k$ wird das Ergebnis insgesamt größer, da $\beta$ zusätzlich als 'Strafwert' dazu addiert wird. Dadurch werden beim Trainieren automatisch die Features stärker gewichtet, welche größeren Einfluss auf das gesamt Ergebnis haben (vice versa gilt: Features die wenig oder keinen Einfluss haben werden vernachlässigt).\\
+Das Ergebnis der Lasso-Regression war überraschend gut, jedoch war es uns nur möglich Preise eine Stunde vorauszusagen (One-Step-Ahead-Forecast). Die Aufgabenstellung erwartete jedoch eine Vorhersage für bis zu einem Monat. Es wäre zwar möglich gewesen das Modell mehrmals auf sich selbst anzuwenden ( $f(x) \circ f(x) \circ f(x) \circ ... $ (Multi-Step-Forecast)), dadurch würde jedoch jeder Fehler, je öfter das Modell mit sich selbst angewendet wird, stärker gewichtet.\\
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{images/fehlversuch}
 	\caption{Die tatsächlichen Preise (orange) und die der Lasso-Regression vorhergesagten (blau und von der orangefarbenen Kurve verdeckt)}
 	\label{fig:fehlversuch}
 \end{figure}
-In Abbildung \ref{fig:fehlversuch} ist die Bewertung der Lasso-Regression zu sehen. Die orangefarbenen Werte sind die tatsächlichen Werte der Tankstellen. Es wurden 100.000 Datenpunkte zum Testen verwendet. Auf der Y-Achse sind die Preise von $1,25$ Euro bis $1,6$ Euro pro Liter zu sehen. Die orangefarbene Kurve verdeckt die vorhergesagten blauen Werte, welche nur teilweise ein höheres bzw. niedrigeres Ergebnis lieferten. Das Framework 'sklearn' bewertet das Modell mit 77 Prozent.
+In Abbildung \ref{fig:fehlversuch} ist die Bewertung der Lasso-Regression zu sehen. Die orangefarbenen Werte sind die tatsächlichen Werte der Tankstellen. Es wurden 100.000 Datenpunkte zum Testen verwendet. Auf der Y-Achse sind die Preise von $1,25$ Euro bis $1,60$ Euro pro Liter zu sehen. Die orangefarbene Kurve verdeckt die vorhergesagten blauen Werte, welche nur teilweise ein höheres bzw. niedrigeres Ergebnis lieferten, sich aber ansonsten deckten. Das Framework 'sklearn' bewertet das Modell mit 77 Prozent.
 Dieser Score setzt sich aus den summierten Differenzen der tatsächlichen Preisen und den vorhergesagten Preisen, geteilt durch die Anzahl der Beobachtungspunkte zusammen.\\
 Neben der Lasso-Regression wurde auch ARIMA getestet, da wir in diesem Modell aber keine zusätzlichen Features außer Zeitpunkt und Benzinpreis (zwei dimensional) einbringen konnten, wurde dies sehr schnell verworfen.
 
