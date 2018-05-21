@@ -78,7 +78,6 @@ ngerman          % neue deutsche Rechtschreibung
 % Wenn \includeonly{..} benutzt wird, werden nur diese Kaptitel ausgegeben.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % Benutzt man das "biblatex"-Paket, dann muß das hier stehen:
 % siehe auch die mit BIBLATEX markierten Zeilen in bericht.sty
 \addbibresource{bericht.bib}
@@ -195,6 +194,13 @@ Dadurch ergibt sich folgender Algorithmus:
 \item Tanke genau so viel, dass die günstigste (erste) Tankstelle $c$ aus $l$ erreicht wird
 \item Falls $c$ nicht die End-Tankstelle ist, wiederhole Punkt $1$
 \end{enumerate}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/fixedgas}
+	\caption[Beispiel Ablauf]{\textit{Beispiellhafter Ablauf des Fixed Path Gasstation Algorithmus  \cite{fixedgasimage}}} 
+	\label{fig:fixedgas}
+\end{figure}
 
 Ebenfalls benutzen wir eine naive Tankstrategie (immer volltanken) um sie mit unserer zu vergleichen. Der Algorithmus wird beschrieben durch:
 
