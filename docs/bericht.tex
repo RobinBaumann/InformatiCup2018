@@ -773,20 +773,20 @@ Sämtliche hier beschriebenen Datensätze werden in den Integration Tests verwen
 \end{table} 
 \section{Fehlversuche}
 
-Unser hinreichend gutes Ergebnis mittels der 'Gradient Boosting Machine' auf dem Framework 'h2o' ist Ergebnis einer umfangreichen 'Data-Exploration: Es wurden verschiedene Modelle und Algorithmen verglichen um ein Vorhersagemodell zu entwerfen. Unsere Vorgehensweise war allgemein wie folgt:
+Unser hinreichend gutes Ergebnis mittels der 'Gradient Boosting Machine' auf dem Framework 'h2o' ist Ergebnis einer umfangreichen 'Data-Exploration': Es wurden verschiedene Modelle und Algorithmen verglichen um ein Vorhersagemodell zu entwerfen. Unsere Vorgehensweise war allgemein wie folgt:
 
 \begin{description}
 	\item[Daten-Präparation]
 Die Angleichung und Vorverarbeitung von den Features (auch Feature-Engineering genannt).
 	\item[Modellerstellung] 
-	Wir erstellten und bewerteten verschiedene Modelle und Algorithmen für unsere Domäne.
+	Die Erstellung und Bewertung verschiedener Modelle und Algorithmen für unsere Domäne.
 \end{description}
 
 Während dieses Prozesses, wurden häufig Modelle und Algorithmen verworfen. Einige werden in diesem Kapitel dargelegt und begründet, wieso sie nicht zu unserem Problem passten.
 
 \subsection{Daten-Präparation}
 
-Während der Daten-Präparation zum Testen einiger kleiner Modelle, genügte es häufig ein Bruchteil des gesamten Datensatzes zum Trainieren zu verwenden und wiederum ein Bruchteil dessen, um es zu testen.
+Während der Daten-Präparation zum Testen einiger Modelle, genügte es häufig ein Bruchteil des gesamten Datensatzes zum Trainieren zu verwenden und wiederum ein Bruchteil dessen, um es zu testen.
 Viele Modelle benötigten eine stationäre Zeitserie an Daten.
 Damit ist gemeint, dass jeglicher Datenpunkt in der Serie unabhängig von der Zeit ist.\\
 Anfänglich lagen unsere Daten von unterschiedlichsten Tankstellen zu unterschiedlichen Messzeiten vor. Modelle wie 'ARIMA' benötigen eine gleichbleibende Frequenz der Daten-Zeitpunkte. Also wurden die Daten in eine einheitliche Frequenz abgetastet. Mit Hilfe von PostGreSQL konnten wir die Daten nun zu stündlichen Messpunkten vorlegen. 
@@ -799,22 +799,21 @@ Dadurch, dass wir die Benzinpreise stündlich abtasteten lag es Nahe, dass der v
 \subsection{Modellerstellung}
 
 Durch unsere fälschliche Annahme durch die partielle Autokorrelation, entwarfen wir ein Modell mit Hilfe der 'Linearen Regression'.
-Das erste Modell wies eine vorhergesagte Zeitreihe mit einem extremen Trend und starker Abweichung der tatsächlichen Daten vor. Somit wurde das Modell modifiziert und zur 'Lasso-Regression' überführt.
+Das erste Modell wies eine vorhergesagte Zeitreihe mit einem extremen Trend und starker Abweichung der tatsächlichen Daten vor (Underfitting). Somit wurde das Modell modifiziert und zur 'Lasso-Regression' überführt.
 
 $$ \sum_{i}^{n}(y_i - \sum_{j}^{m} x_{ij}\beta_j)^2 + \lambda \sum_{1}^{p} |\beta_j| $$
 
 Die oben genannte Formel gilt es zu minimieren.
 Durch die Lasso-Regression wird eine sogenannte L1-Regulation angewendet. Durch zu große Gewichtungsfaktoren $\beta_k$ wird das Ergebnis insgesamt größer, da $\beta$ zusätzlich als 'Strafwert' dazu addiert wird. Dadurch werden beim Trainieren automatisch die Features stärker gewichtet, welche größeren Einfluss auf das gesamt Ergebnis haben.\\
-Das Ergebnis der Lasso-Regression war überraschend gut, jedoch war es uns nur möglich Preise eine Stunde vorauszusagen (One-Step-Ahead-Forecast). Die Aufgabenstellung erwartete jedoch eine Vorhersage für bis zu einem Monat. Es wäre zwar möglich gewesen das Modell mehrmals auf sich selbst anzuwenden ( $f(x) \circ f(x) \circ f(x) $ Multi-Step-Forecast), dadurch würde jedoch jeder Fehler, je öfter das Modell mit sich selbst angewendet wird, stärker gewichtet.\\
+Das Ergebnis der Lasso-Regression war überraschend gut, jedoch war es uns nur möglich Preise eine Stunde vorauszusagen (One-Step-Ahead-Forecast). Die Aufgabenstellung erwartete jedoch eine Vorhersage für bis zu einem Monat. Es wäre zwar möglich gewesen das Modell mehrmals auf sich selbst anzuwenden ( $f(x) \circ f(x) \circ f(x) \circ ... $ Multi-Step-Forecast), dadurch würde jedoch jeder Fehler, je öfter das Modell mit sich selbst angewendet wird, stärker gewichtet.\\
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{images/fehlversuch}
-	\caption{RMSE pro Anzahl trainierter Entscheidungsbäume}
+	\caption{Die tatsächlichen Preise (orange) und die der Lasso-Regression vorhergesagten (blau und von der orangefarbenen Kurve verdeckt)}
 	\label{fig:fehlversuch}
 \end{figure}
-In Abbildung \ref{fig:fehlversuch} ist die die Bewertung der Lasso-Regression zu sehen. Die orangefarbenen Werte sind die tatsächlichen Werten der Tankstellen. Es wurden 100.000 Datenpunkte zum Testen verwendet. Auf der Y-Achse sind die Preise von $1,25$ Euro bis $1,6$ Euro pro Liter zu sehen. Die orangefarbene Kurve verdeckt die vorhergesagten blauen Werte, welche nur teilweise ein höheres bzw. niedrigeres Ergebnis lieferten. Das Framework 'sklearn' bewertet das Modell mit 77 \%.
+In Abbildung \ref{fig:fehlversuch} ist die Bewertung der Lasso-Regression zu sehen. Die orangefarbenen Werte sind die tatsächlichen Werte der Tankstellen. Es wurden 100.000 Datenpunkte zum Testen verwendet. Auf der Y-Achse sind die Preise von $1,25$ Euro bis $1,6$ Euro pro Liter zu sehen. Die orangefarbene Kurve verdeckt die vorhergesagten blauen Werte, welche nur teilweise ein höheres bzw. niedrigeres Ergebnis lieferten. Das Framework 'sklearn' bewertet das Modell mit 77 Prozent.
 Dieser Score setzt sich aus den summierten Differenzen der tatsächlichen Preisen und den vorhergesagten Preisen, geteilt durch die Anzahl der Beobachtungspunkte zusammen.\\
-
 Neben der Lasso-Regression wurde auch ARIMA getestet, da wir in diesem Modell aber keine zusätzlichen Features außer Zeitpunkt und Benzinpreis (zwei dimensional) einbringen konnten, wurde dies sehr schnell verworfen.
 
 
